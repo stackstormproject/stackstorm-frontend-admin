@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './components/layout/AdminLayout';
-import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
-import AdminRoute from './routes/AdminRoute';
-import DashboardPage from './pages/DashboardPage';
-import InventoryPage from './pages/InventoryPage';
-import OrdersFulfillmentPage from './pages/OrdersFulfillmentPage';
-import ReturnsReviewPage from './pages/ReturnsReviewPage';
-import LoyaltyConsolePage from './pages/LoyaltyConsolePage';
-import SupportConsolePage from './pages/SupportConsolePage';
 import './styles/admin-tokens.css';
 import './styles/admin-global.css';
 
-function AdminAppContent() {
+export default function App() {
   const [currentTab, setCurrentTab] = useState('dashboard');
   const [backendStatus, setBackendStatus] = useState({
     checked: false,
     healthy: false,
     message: 'Testing API Gateway...',
   });
-  const { user } = useAdminAuth();
 
-  // Poll backend health via Vite proxy on port 5000
   useEffect(() => {
     let isMounted = true;
     fetch('/api/v1/health')
@@ -52,46 +42,73 @@ function AdminAppContent() {
   }, []);
 
   return (
-    <AdminRoute>
-      <AdminLayout
-        currentTab={currentTab}
-        onSelectTab={setCurrentTab}
-        isBackendHealthy={backendStatus.healthy}
-        gatewayMessage={backendStatus.message}
-        operatorName={user?.name || 'Amarawickrama R.H.'}
-        operatorRole={user?.role === 'admin' ? 'Executive Store Owner' : 'Inventory Operations Manager'}
-      >
-        {/* View 1: Dashboard & KPIs */}
-        {currentTab === 'dashboard' && (
-          <DashboardPage
-            isBackendHealthy={backendStatus.healthy}
-            gatewayMessage={backendStatus.message}
-          />
-        )}
+    <AdminLayout
+      currentTab={currentTab}
+      onSelectTab={setCurrentTab}
+      isBackendHealthy={backendStatus.healthy}
+      gatewayMessage={backendStatus.message}
+    >
+      {/* Tab 1: Dashboard & KPIs */}
+      {currentTab === 'dashboard' && (
+        <section style={{ padding: '1.5rem' }}>
+          <h2>Executive Operations Dashboard</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '1rem' }}>
+            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+              <h3>Total Monthly Revenue</h3>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>LKR 845,200.00</p>
+            </div>
+            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+              <h3>Active Orders Fulfilled</h3>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>142</p>
+            </div>
+            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+              <h3>Low-Stock SKU Alerts</h3>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>6</p>
+            </div>
+            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+              <h3>Live Support Queue</h3>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>3</p>
+            </div>
+          </div>
+        </section>
+      )}
 
-        {/* View 2: Inventory & SKUs */}
-        {currentTab === 'inventory' && <InventoryPage />}
+      {/* Tab 2: Inventory & SKUs */}
+      {currentTab === 'inventory' && (
+        <section style={{ padding: '1.5rem' }}>
+          <h2>Inventory & SKU Restock Matrix</h2>
+          <p>Warehouse stock levels and threshold monitoring.</p>
+        </section>
+      )}
 
-        {/* View 3: Order Fulfillment */}
-        {currentTab === 'orders' && <OrdersFulfillmentPage />}
+      {/* Tab 3: Order Fulfillment */}
+      {currentTab === 'orders' && (
+        <section style={{ padding: '1.5rem' }}>
+          <h2>Order Fulfillment Console</h2>
+          <p>Manage order dispatches and delivery statuses.</p>
+        </section>
+      )}
 
-        {/* View 4: 30-Day Returns */}
-        {currentTab === 'returns' && <ReturnsReviewPage />}
+      {/* Tab 4: 30-Day Returns */}
+      {currentTab === 'returns' && (
+        <section style={{ padding: '1.5rem' }}>
+          <h2>30-Day Return Reviews</h2>
+        </section>
+      )}
 
-        {/* View 5: Loyalty Tiers & 2-Quarter Grace Period */}
-        {currentTab === 'loyalty' && <LoyaltyConsolePage />}
+      {/* Tab 5: Loyalty Tiers */}
+      {currentTab === 'loyalty' && (
+        <section style={{ padding: '1.5rem' }}>
+          <h2>Loyalty Tier Console</h2>
+        </section>
+      )}
 
-        {/* View 6: Live Support Chat & Agent Console (STORM-FE-022) */}
-        {currentTab === 'support' && <SupportConsolePage />}
-      </AdminLayout>
-    </AdminRoute>
-  );
-}
-
-export default function App() {
-  return (
-    <AdminAuthProvider>
-      <AdminAppContent />
-    </AdminAuthProvider>
+      {/* Tab 6: Live Support */}
+      {currentTab === 'support' && (
+        <section style={{ padding: '1.5rem' }}>
+          <h2>Live Support Chat Console</h2>
+        </section>
+      )}
+    </AdminLayout>
   );
 }
