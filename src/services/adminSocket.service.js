@@ -23,9 +23,7 @@ class AdminSocketService {
     }
 
     const authToken =
-      token ||
-      localStorage.getItem('stackstorm_admin_token') ||
-      localStorage.getItem('token');
+      token || localStorage.getItem('stackstorm_admin_token') || localStorage.getItem('token');
 
     this.socket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],

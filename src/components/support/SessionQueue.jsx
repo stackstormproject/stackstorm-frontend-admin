@@ -46,7 +46,11 @@ export default function SessionQueue({
   const pendingCount = sessions.filter((s) => s.status === 'pending').length;
 
   return (
-    <aside className="session-queue-panel" data-testid="session-queue-panel" aria-label="Customer Support Session Queue">
+    <aside
+      className="session-queue-panel"
+      data-testid="session-queue-panel"
+      aria-label="Customer Support Session Queue"
+    >
       {/* Queue Header */}
       <div className="queue-header">
         <div className="queue-header-top">
@@ -64,7 +68,11 @@ export default function SessionQueue({
             type="button"
             className={`chime-toggle-btn ${isChimeEnabled ? 'chime-active' : ''}`}
             onClick={onToggleChime}
-            aria-label={isChimeEnabled ? 'Disable audio notification chime' : 'Enable audio notification chime'}
+            aria-label={
+              isChimeEnabled
+                ? 'Disable audio notification chime'
+                : 'Enable audio notification chime'
+            }
             title={isChimeEnabled ? 'Notification Chime: Enabled' : 'Notification Chime: Muted'}
             data-testid="toggle-chime-btn"
           >
@@ -110,7 +118,8 @@ export default function SessionQueue({
             onClick={() => setFilterTab('active')}
             data-testid="queue-tab-active"
           >
-            Live ({sessions.filter((s) => s.status === 'agent_active' || s.status === 'active').length})
+            Live (
+            {sessions.filter((s) => s.status === 'agent_active' || s.status === 'active').length})
           </button>
           <button
             type="button"
@@ -126,9 +135,7 @@ export default function SessionQueue({
       {/* Queue List */}
       <div className="queue-list" role="list">
         {filteredSessions.length === 0 ? (
-          <div className="empty-queue-cell">
-            No support sessions match the selected filter.
-          </div>
+          <div className="empty-queue-cell">No support sessions match the selected filter.</div>
         ) : (
           filteredSessions.map((session) => {
             const isSelected = selectedSessionId === session.id;

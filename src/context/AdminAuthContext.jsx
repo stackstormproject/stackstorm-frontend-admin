@@ -10,7 +10,11 @@ export const DEFAULT_ADMIN_USER = {
   department: 'Executive Operations',
 };
 
-export function AdminAuthProvider({ children, initialUser = DEFAULT_ADMIN_USER, initialToken = 'jwt-admin-token-xyz' }) {
+export function AdminAuthProvider({
+  children,
+  initialUser = DEFAULT_ADMIN_USER,
+  initialToken = 'jwt-admin-token-xyz',
+}) {
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('stackstorm_admin_user');

@@ -15,7 +15,10 @@ describe('STORM-FE-019: Admin Order Fulfillment Console & 30-Day Return Approval
   beforeEach(() => {
     localStorage.clear();
     global.fetch = vi.fn().mockImplementation((url, opts) => {
-      if (url.includes('/api/v1/admin/orders/') && (opts?.method === 'PUT' || opts?.method === 'PATCH')) {
+      if (
+        url.includes('/api/v1/admin/orders/') &&
+        (opts?.method === 'PUT' || opts?.method === 'PATCH')
+      ) {
         const body = JSON.parse(opts.body || '{}');
         return Promise.resolve({
           ok: true,

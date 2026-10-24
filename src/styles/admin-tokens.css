@@ -6,40 +6,40 @@
 
 :root {
   /* Dark Control Room Surfaces */
-  --admin-bg: #0B0F19;
-  --admin-bg-alt: #0F172A;
-  --admin-card: #151D2F;
-  --admin-card-hover: #1E293B;
-  --admin-card-active: #24344D;
+  --admin-bg: #0b0f19;
+  --admin-bg-alt: #0f172a;
+  --admin-card: #151d2f;
+  --admin-card-hover: #1e293b;
+  --admin-card-active: #24344d;
   --admin-surface-elevated: #192338;
 
   /* Borders & Dividers */
-  --admin-border: #1E293B;
-  --admin-border-subtle: #24344D;
-  --admin-border-focus: #38BDF8;
+  --admin-border: #1e293b;
+  --admin-border-subtle: #24344d;
+  --admin-border-focus: #38bdf8;
 
   /* Brand Accents */
-  --admin-primary: #38BDF8;         /* High-visibility Sky Blue */
-  --admin-primary-hover: #0EA5E9;
+  --admin-primary: #38bdf8; /* High-visibility Sky Blue */
+  --admin-primary-hover: #0ea5e9;
   --admin-primary-subtle: rgba(56, 189, 248, 0.12);
-  --admin-accent: #D4AF37;          /* Ceylon Gold Brand Heritage */
+  --admin-accent: #d4af37; /* Ceylon Gold Brand Heritage */
   --admin-accent-subtle: rgba(212, 175, 55, 0.15);
 
   /* Typography & High-Contrast Colors */
-  --admin-text: #F8FAFC;
-  --admin-text-muted: #94A3B8;
-  --admin-text-subtle: #64748B;
+  --admin-text: #f8fafc;
+  --admin-text-muted: #94a3b8;
+  --admin-text-subtle: #64748b;
   --admin-text-disabled: #475569;
-  --admin-text-inverse: #0B0F19;
+  --admin-text-inverse: #0b0f19;
 
   /* Status Indicators */
-  --admin-success: #10B981;
+  --admin-success: #10b981;
   --admin-success-bg: rgba(16, 185, 129, 0.15);
-  --admin-warning: #F59E0B;
+  --admin-warning: #f59e0b;
   --admin-warning-bg: rgba(245, 158, 11, 0.15);
-  --admin-danger: #EF4444;
+  --admin-danger: #ef4444;
   --admin-danger-bg: rgba(239, 68, 68, 0.15);
-  --admin-info: #38BDF8;
+  --admin-info: #38bdf8;
   --admin-info-bg: rgba(56, 189, 248, 0.15);
 
   /* Typography Families */
@@ -81,6 +81,7 @@
   --admin-header-height: 64px;
 
   /* Border Radii */
+  --radius-xs: 3px;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;

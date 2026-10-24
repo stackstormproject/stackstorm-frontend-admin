@@ -181,7 +181,9 @@ describe('STORM-FE-018: Admin Inventory Restock Matrix, SKU Variant Stock Adjust
       fireEvent.click(submitBtn);
 
       expect(screen.getByTestId('stock-modal-error')).toBeInTheDocument();
-      expect(screen.getByTestId('stock-modal-error')).toHaveTextContent(/cannot be less than zero/i);
+      expect(screen.getByTestId('stock-modal-error')).toHaveTextContent(
+        /cannot be less than zero/i
+      );
     });
 
     it('submits valid adjustment payload with delta and audit reason', async () => {
@@ -282,7 +284,9 @@ describe('STORM-FE-018: Admin Inventory Restock Matrix, SKU Variant Stock Adjust
       expect(screen.queryByTestId('stock-adjustment-modal')).not.toBeInTheDocument();
       expect(screen.getByTestId('onhand-SAR-HLM-RED-OS')).toHaveTextContent('20');
       expect(screen.getByTestId('available-SAR-HLM-RED-OS')).toHaveTextContent('18');
-      expect(screen.getByTestId('inventory-toast')).toHaveTextContent(/Stock updated: SKU SAR-HLM-RED-OS \(\+8 units\)/i);
+      expect(screen.getByTestId('inventory-toast')).toHaveTextContent(
+        /Stock updated: SKU SAR-HLM-RED-OS \(\+8 units\)/i
+      );
     });
   });
 });

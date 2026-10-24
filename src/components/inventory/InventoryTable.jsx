@@ -36,7 +36,10 @@ export default function InventoryTable({
   const collapseAll = () => setExpandedProductIds([]);
 
   // Extract distinct categories
-  const categories = ['all', ...Array.from(new Set(products.map((p) => p.category).filter(Boolean)))];
+  const categories = [
+    'all',
+    ...Array.from(new Set(products.map((p) => p.category).filter(Boolean))),
+  ];
 
   // Filtering Logic
   const filteredProducts = products
@@ -166,7 +169,10 @@ export default function InventoryTable({
                 const isExpanded = expandedProductIds.includes(product.id);
                 const variants = product.displayVariants || product.variants || [];
                 const totalOnHand = variants.reduce((sum, v) => sum + (v.stock_quantity || 0), 0);
-                const totalReserved = variants.reduce((sum, v) => sum + (v.reserved_quantity || 0), 0);
+                const totalReserved = variants.reduce(
+                  (sum, v) => sum + (v.reserved_quantity || 0),
+                  0
+                );
                 const totalAvailable = Math.max(0, totalOnHand - totalReserved);
                 const hasLowStockVariant = variants.some((v) => {
                   const avail = Math.max(0, (v.stock_quantity || 0) - (v.reserved_quantity || 0));
@@ -209,7 +215,8 @@ export default function InventoryTable({
                               <span className="category-pill">{product.category}</span>
                               <span className="sku-prefix-pill">{product.sku_prefix}</span>
                               <span className="variant-count-pill">
-                                {variants.length} SKU {variants.length === 1 ? 'Variant' : 'Variants'}
+                                {variants.length} SKU{' '}
+                                {variants.length === 1 ? 'Variant' : 'Variants'}
                               </span>
                             </div>
                           </div>
@@ -217,7 +224,9 @@ export default function InventoryTable({
                       </td>
                       <td className="text-center font-mono font-bold">{totalOnHand}</td>
                       <td className="text-center font-mono text-muted">{totalReserved}</td>
-                      <td className="text-center font-mono font-bold text-highlight">{totalAvailable}</td>
+                      <td className="text-center font-mono font-bold text-highlight">
+                        {totalAvailable}
+                      </td>
                       <td>
                         {hasLowStockVariant ? (
                           <span className="group-alert-pill">
@@ -261,10 +270,16 @@ export default function InventoryTable({
                             <td>
                               <span className="variant-size-badge">{variant.size}</span>
                             </td>
-                            <td className="text-center font-mono" data-testid={`onhand-${variant.sku}`}>
+                            <td
+                              className="text-center font-mono"
+                              data-testid={`onhand-${variant.sku}`}
+                            >
                               {onHand}
                             </td>
-                            <td className="text-center font-mono text-muted" data-testid={`reserved-${variant.sku}`}>
+                            <td
+                              className="text-center font-mono text-muted"
+                              data-testid={`reserved-${variant.sku}`}
+                            >
                               {reserved}
                             </td>
                             <td

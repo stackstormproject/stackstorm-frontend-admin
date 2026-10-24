@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   LayoutDashboard,
   Package,
@@ -9,16 +9,40 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldAlert,
-} from 'lucide-react'
+} from 'lucide-react';
 
 export const ADMIN_NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard & KPIs', icon: LayoutDashboard, path: '/admin/dashboard', badge: 'Live' },
-  { id: 'inventory', label: 'Inventory & SKUs', icon: Package, path: '/admin/inventory', badge: '3 Low' },
-  { id: 'orders', label: 'Order Fulfillment', icon: ShoppingBag, path: '/admin/orders', badge: '8 New' },
+  {
+    id: 'dashboard',
+    label: 'Dashboard & KPIs',
+    icon: LayoutDashboard,
+    path: '/admin/dashboard',
+    badge: 'Live',
+  },
+  {
+    id: 'inventory',
+    label: 'Inventory & SKUs',
+    icon: Package,
+    path: '/admin/inventory',
+    badge: '3 Low',
+  },
+  {
+    id: 'orders',
+    label: 'Order Fulfillment',
+    icon: ShoppingBag,
+    path: '/admin/orders',
+    badge: '8 New',
+  },
   { id: 'returns', label: '30-Day Returns', icon: RotateCcw, path: '/admin/returns', badge: null },
   { id: 'loyalty', label: 'Loyalty Tiers', icon: Award, path: '/admin/loyalty', badge: null },
-  { id: 'support', label: 'Live Support Chat', icon: Headphones, path: '/admin/support', badge: '2 Active' },
-]
+  {
+    id: 'support',
+    label: 'Live Support Chat',
+    icon: Headphones,
+    path: '/admin/support',
+    badge: '2 Active',
+  },
+];
 
 export default function AdminSidebar({
   currentTab = 'dashboard',
@@ -62,8 +86,8 @@ export default function AdminSidebar({
         {!isCollapsed && <span className="nav-section-label">Operations Control</span>}
 
         {ADMIN_NAV_ITEMS.map((item) => {
-          const Icon = item.icon
-          const isActive = currentTab === item.id
+          const Icon = item.icon;
+          const isActive = currentTab === item.id;
 
           return (
             <button
@@ -81,7 +105,7 @@ export default function AdminSidebar({
                 </>
               )}
             </button>
-          )
+          );
         })}
       </nav>
 
@@ -101,5 +125,5 @@ export default function AdminSidebar({
         )}
       </div>
     </aside>
-  )
+  );
 }

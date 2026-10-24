@@ -7,8 +7,8 @@
   position: fixed;
   top: 70px;
   right: 24px;
-  background: var(--admin-primary, #38BDF8);
-  color: #0B0F19;
+  background: var(--admin-primary, #38bdf8);
+  color: #0b0f19;
   padding: 10px 18px;
   border-radius: var(--radius-md, 0.5rem);
   font-weight: 700;
@@ -45,26 +45,26 @@
   padding: 2px 8px;
   border-radius: var(--radius-full, 9999px);
   background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
   border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
 .inventory-kicker-tag {
   font-size: 0.75rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
 }
 
 .inventory-title {
   font-family: var(--font-heading, sans-serif);
   font-size: var(--text-2xl, 1.5rem);
   font-weight: 700;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
   margin: 0;
 }
 
 .inventory-subtitle {
   font-size: 0.9rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   margin: 4px 0 0 0;
 }
 
@@ -72,9 +72,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--admin-card, #151D2F);
-  border: 1px solid var(--admin-border, #1E293B);
-  color: var(--admin-text, #F8FAFC);
+  background: var(--admin-card, #151d2f);
+  border: 1px solid var(--admin-border, #1e293b);
+  color: var(--admin-text, #f8fafc);
   padding: 8px 14px;
   border-radius: var(--radius-md, 0.5rem);
   font-size: 0.8rem;
@@ -84,8 +84,8 @@
 }
 
 .inventory-refresh-btn:hover {
-  background: var(--admin-card-hover, #1E293B);
-  border-color: var(--admin-primary, #38BDF8);
+  background: var(--admin-card-hover, #1e293b);
+  border-color: var(--admin-primary, #38bdf8);
 }
 
 .inventory-kpi-grid {
@@ -96,8 +96,8 @@
 }
 
 .inv-kpi-card {
-  background: var(--admin-card, #151D2F);
-  border: 1px solid var(--admin-border, #1E293B);
+  background: var(--admin-card, #151d2f);
+  border: 1px solid var(--admin-border, #1e293b);
   border-radius: var(--radius-lg, 0.75rem);
   padding: var(--space-4, 1rem);
   display: flex;
@@ -113,7 +113,7 @@
 
 .inv-kpi-label {
   font-size: 0.725rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -127,32 +127,32 @@
 
 .icon-primary {
   background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
 }
 
 .icon-danger {
   background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
-  color: var(--admin-danger, #EF4444);
+  color: var(--admin-danger, #ef4444);
 }
 
 .icon-success {
   background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
-  color: var(--admin-success, #10B981);
+  color: var(--admin-success, #10b981);
 }
 
 .icon-warning {
   background: var(--admin-warning-bg, rgba(245, 158, 11, 0.15));
-  color: var(--admin-warning, #F59E0B);
+  color: var(--admin-warning, #f59e0b);
 }
 
 .inv-kpi-val {
   font-family: var(--font-heading, sans-serif);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
 }
 
 .inv-kpi-sub {
   font-size: 0.725rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
 }

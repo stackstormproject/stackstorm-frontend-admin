@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Clock,
-  Radio,
-  CheckCircle2,
-  Zap,
-} from 'lucide-react';
+import { Clock, Radio, CheckCircle2, Zap } from 'lucide-react';
 import adminSocketService from '../services/adminSocket.service';
 import SessionQueue from '../components/support/SessionQueue';
 import AgentChatWindow from '../components/support/AgentChatWindow';
@@ -208,9 +203,7 @@ export default function SupportConsolePage() {
   };
 
   const handleResolveSession = (sessionId) => {
-    setSessions((prev) =>
-      prev.map((s) => (s.id === sessionId ? { ...s, status: 'resolved' } : s))
-    );
+    setSessions((prev) => prev.map((s) => (s.id === sessionId ? { ...s, status: 'resolved' } : s)));
   };
 
   const handleTyping = (isTyping) => {
@@ -239,7 +232,8 @@ export default function SupportConsolePage() {
           </div>
           <h1 className="support-title">Real-Time Support Console &amp; Queue</h1>
           <p className="support-subtitle">
-            Manage live multi-channel shopper inquiries, triage pending queue requests, send quick canned resolutions, and monitor bi-directional typing broadcasts.
+            Manage live multi-channel shopper inquiries, triage pending queue requests, send quick
+            canned resolutions, and monitor bi-directional typing broadcasts.
           </p>
         </div>
       </div>
@@ -293,7 +287,10 @@ export default function SupportConsolePage() {
             <span className="kpi-tag">Avg Response Speed</span>
             <div
               className="kpi-icon-box"
-              style={{ backgroundColor: 'var(--admin-accent-subtle)', color: 'var(--admin-accent)' }}
+              style={{
+                backgroundColor: 'var(--admin-accent-subtle)',
+                color: 'var(--admin-accent)',
+              }}
             >
               <Zap size={16} />
             </div>
