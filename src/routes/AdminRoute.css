@@ -1,0 +1,146 @@
+/* AdminRoute RBAC Guard Styles */
+.admin-route-guard-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--admin-bg, #0B0F19);
+  padding: var(--space-6, 1.5rem);
+  box-sizing: border-box;
+}
+
+.admin-guard-card {
+  max-width: 480px;
+  width: 100%;
+  background: var(--admin-card, #151D2F);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-xl, 1rem);
+  padding: var(--space-8, 2rem);
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.guard-card-forbidden {
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);
+}
+
+.guard-icon-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.guard-icon-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--admin-warning, #F59E0B);
+}
+
+.guard-icon-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--admin-danger, #EF4444);
+}
+
+.guard-code-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--admin-danger, #EF4444);
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: var(--space-3, 0.75rem);
+}
+
+.guard-title {
+  font-family: var(--font-heading, sans-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--admin-text, #F8FAFC);
+  margin: 0 0 var(--space-3, 0.75rem) 0;
+}
+
+.guard-desc {
+  font-size: 0.95rem;
+  color: var(--admin-text-muted, #94A3B8);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4, 1rem) 0;
+}
+
+.user-role-highlight {
+  color: var(--admin-danger, #EF4444);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.guard-subtext {
+  font-size: 0.825rem;
+  color: var(--admin-text-subtle, #64748B);
+  margin: 0 0 var(--space-6, 1.5rem) 0;
+}
+
+.guard-subtext code {
+  background: var(--admin-bg, #0B0F19);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--admin-primary, #38BDF8);
+  font-family: var(--font-mono, monospace);
+}
+
+.guard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+.guard-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md, 0.5rem);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.guard-btn-primary {
+  background: var(--admin-primary, #38BDF8);
+  color: #0B0F19;
+}
+
+.guard-btn-primary:hover {
+  background: var(--admin-primary-hover, #0EA5E9);
+}
+
+.guard-btn-danger {
+  background: var(--admin-danger, #EF4444);
+  color: #FFFFFF;
+}
+
+.guard-btn-danger:hover {
+  background: #DC2626;
+}
+
+.guard-btn-ghost {
+  background: transparent;
+  color: var(--admin-text-muted, #94A3B8);
+  border-color: var(--admin-border, #1E293B);
+}
+
+.guard-btn-ghost:hover {
+  background: var(--admin-surface-elevated, #192338);
+  color: var(--admin-text, #F8FAFC);
+}

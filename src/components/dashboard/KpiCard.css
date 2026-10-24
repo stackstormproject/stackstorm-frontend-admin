@@ -1,0 +1,111 @@
+/* Executive KPI Card Component Styles */
+.kpi-card-root {
+  background: var(--admin-card, #151D2F);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-lg, 0.75rem);
+  padding: var(--space-5, 1.25rem);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card-root:hover {
+  transform: translateY(-2px);
+  border-color: var(--admin-border-subtle, #24344D);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.kpi-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3, 0.75rem);
+}
+
+.kpi-card-title {
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--admin-text-muted, #94A3B8);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.kpi-icon-wrapper {
+  padding: 8px;
+  border-radius: var(--radius-md, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-variant-primary {
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
+  color: var(--admin-primary, #38BDF8);
+}
+
+.icon-variant-success {
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+  color: var(--admin-success, #10B981);
+}
+
+.icon-variant-warning {
+  background: var(--admin-warning-bg, rgba(245, 158, 11, 0.15));
+  color: var(--admin-warning, #F59E0B);
+}
+
+.icon-variant-danger {
+  background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
+  color: var(--admin-danger, #EF4444);
+}
+
+.icon-variant-accent {
+  background: var(--admin-accent-subtle, rgba(212, 175, 55, 0.15));
+  color: var(--admin-accent, #D4AF37);
+}
+
+.kpi-card-value {
+  font-family: var(--font-heading, sans-serif);
+  font-size: var(--text-2xl, 1.5rem);
+  font-weight: var(--font-bold, 700);
+  color: var(--admin-text, #F8FAFC);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kpi-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-2, 0.5rem);
+  font-size: var(--text-xs, 0.75rem);
+}
+
+.kpi-trend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm, 0.25rem);
+  font-weight: 600;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+}
+
+.trend-positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--admin-success, #10B981);
+}
+
+.trend-negative {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--admin-danger, #EF4444);
+}
+
+.trend-neutral {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--admin-text-muted, #94A3B8);
+}
+
+.kpi-trend-label {
+  color: var(--admin-text-muted, #94A3B8);
+}
