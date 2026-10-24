@@ -1,0 +1,275 @@
+/* Recent Orders Table Component Styles */
+.recent-orders-card {
+  background: var(--admin-card, #151D2F);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-lg, 0.75rem);
+  padding: var(--space-5, 1.25rem);
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+.orders-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 0.75rem);
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.orders-table-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 0.75rem);
+}
+
+.orders-title-icon {
+  padding: 8px;
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
+  color: var(--admin-primary, #38BDF8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orders-heading {
+  font-family: var(--font-heading, sans-serif);
+  font-size: var(--text-base, 1rem);
+  font-weight: var(--font-bold, 700);
+  color: var(--admin-text, #F8FAFC);
+  margin: 0;
+}
+
+.orders-sub {
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--admin-text-muted, #94A3B8);
+  margin: 2px 0 0 0;
+}
+
+.orders-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 0.75rem);
+  flex-wrap: wrap;
+}
+
+.orders-search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--admin-bg, #0B0F19);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-md, 0.5rem);
+  padding: 5px 10px;
+}
+
+.orders-search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--admin-text, #F8FAFC);
+  width: 170px;
+}
+
+.orders-search-input::placeholder {
+  color: var(--admin-text-subtle, #64748B);
+}
+
+.search-icon {
+  color: var(--admin-text-subtle, #64748B);
+}
+
+.orders-status-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--admin-bg, #0B0F19);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-md, 0.5rem);
+  padding: 5px 10px;
+}
+
+.orders-filter-select {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--admin-text, #F8FAFC);
+  cursor: pointer;
+}
+
+.orders-filter-select option {
+  background: var(--admin-bg, #0B0F19);
+  color: var(--admin-text, #F8FAFC);
+}
+
+.table-responsive-wrapper {
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-xs, 0.75rem);
+  text-align: left;
+}
+
+.orders-table thead th {
+  padding: 10px 12px;
+  color: var(--admin-text-subtle, #64748B);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  border-bottom: 1px solid var(--admin-border, #1E293B);
+}
+
+.orders-table tbody tr {
+  border-bottom: 1px solid var(--admin-border, #1E293B);
+  transition: background-color 0.15s ease;
+}
+
+.orders-table tbody tr:hover {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+.orders-table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.order-number {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: var(--admin-primary, #38BDF8);
+}
+
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.customer-name {
+  color: var(--admin-text, #F8FAFC);
+  font-weight: 600;
+}
+
+.customer-email {
+  color: var(--admin-text-muted, #94A3B8);
+  font-size: 0.7rem;
+}
+
+.items-badge {
+  background: var(--admin-bg, #0B0F19);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm, 0.25rem);
+  border: 1px solid var(--admin-border, #1E293B);
+  color: var(--admin-text-muted, #94A3B8);
+}
+
+.order-amount-cell {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: var(--admin-text, #F8FAFC);
+}
+
+.order-time-cell {
+  color: var(--admin-text-muted, #94A3B8);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-placed {
+  background: var(--admin-warning-bg, rgba(245, 158, 11, 0.15));
+  color: var(--admin-warning, #F59E0B);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-processing {
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.15));
+  color: var(--admin-primary, #38BDF8);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.badge-shipped {
+  background: rgba(168, 85, 247, 0.15);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.badge-delivered {
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+  color: var(--admin-success, #10B981);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm, 0.25rem);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.action-processing {
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.15));
+  color: var(--admin-primary, #38BDF8);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.action-processing:hover {
+  background: var(--admin-primary, #38BDF8);
+  color: #0B0F19;
+}
+
+.action-shipped {
+  background: rgba(168, 85, 247, 0.15);
+  color: #C084FC;
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.action-shipped:hover {
+  background: #C084FC;
+  color: #0B0F19;
+}
+
+.action-delivered {
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+  color: var(--admin-success, #10B981);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.action-delivered:hover {
+  background: var(--admin-success, #10B981);
+  color: #0B0F19;
+}
+
+.fulfilled-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--admin-success, #10B981);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.empty-orders-cell {
+  text-align: center;
+  padding: var(--space-6, 1.5rem);
+  color: var(--admin-text-muted, #94A3B8);
+}
