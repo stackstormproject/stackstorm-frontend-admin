@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './components/layout/AdminLayout';
+import LoyaltyConsolePage from './pages/LoyaltyConsolePage';
 import './styles/admin-tokens.css';
 import './styles/admin-global.css';
 
@@ -97,11 +98,7 @@ export default function App() {
       )}
 
       {/* Tab 5: Loyalty Tiers */}
-      {currentTab === 'loyalty' && (
-        <section style={{ padding: '1.5rem' }}>
-          <h2>Loyalty Tier Console</h2>
-        </section>
-      )}
+      {currentTab === 'loyalty' && <LoyaltyConsolePage />}
 
       {/* Tab 6: Live Support */}
       {currentTab === 'support' && (
