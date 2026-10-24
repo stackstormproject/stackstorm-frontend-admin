@@ -1,0 +1,242 @@
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(2, 6, 23, 0.65);
+}
+
+.inspector-drawer {
+  width: min(100%, 560px);
+  height: 100%;
+  overflow-y: auto;
+  color: var(--admin-text, #f8fafc);
+  background: var(--admin-card, #151d2f);
+  border-left: 1px solid var(--admin-border, #1e293b);
+  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.3);
+}
+
+.drawer-header,
+.hero-status-row,
+.hero-tracking-row,
+.item-row,
+.drawer-total-bar {
+  display: flex;
+  align-items: center;
+}
+
+.drawer-header,
+.drawer-total-bar {
+  justify-content: space-between;
+}
+
+.drawer-header {
+  position: sticky;
+  top: 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--admin-card, #151d2f);
+  border-bottom: 1px solid var(--admin-border, #1e293b);
+}
+
+.drawer-kicker,
+.info-label,
+.hero-status-label {
+  display: block;
+  color: var(--admin-text-muted, #94a3b8);
+  font-size: 0.75rem;
+}
+
+.drawer-title {
+  margin: 0.25rem 0 0;
+  font-size: 1.1rem;
+}
+
+.drawer-close-btn {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  color: var(--admin-text-muted, #94a3b8);
+  background: transparent;
+  border: 1px solid var(--admin-border, #1e293b);
+  border-radius: var(--radius-md, 0.5rem);
+  cursor: pointer;
+}
+
+.drawer-body {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem 2rem;
+}
+
+.inspector-hero-card,
+.drawer-section {
+  padding: 1rem;
+  background: var(--admin-bg, #0b0f19);
+  border: 1px solid var(--admin-border, #1e293b);
+  border-radius: var(--radius-lg, 0.75rem);
+}
+
+.hero-status-row {
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.status-pill {
+  padding: 0.3rem 0.6rem;
+  color: var(--admin-primary, #38bdf8);
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.pill-delivered,
+.pill-approved {
+  color: var(--admin-success, #10b981);
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+}
+
+.pill-cancelled,
+.pill-rejected {
+  color: var(--admin-danger, #ef4444);
+  background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
+}
+
+.hero-tracking-row {
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  color: var(--admin-text-muted, #94a3b8);
+  font-size: 0.8rem;
+}
+
+.advance-stage-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.6rem 0.8rem;
+  color: #0b0f19;
+  background: var(--admin-primary, #38bdf8);
+  border: 0;
+  border-radius: var(--radius-md, 0.5rem);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.section-title {
+  margin: 0 0 0.9rem;
+  font-size: 0.9rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.info-val {
+  display: block;
+  margin-top: 0.25rem;
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+}
+
+.address-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  color: var(--admin-text-muted, #94a3b8);
+  background: var(--admin-card, #151d2f);
+  border-radius: var(--radius-md, 0.5rem);
+  font-size: 0.82rem;
+}
+
+.address-icon {
+  flex: 0 0 auto;
+  color: var(--admin-primary, #38bdf8);
+}
+
+.items-list {
+  display: grid;
+}
+
+.item-row {
+  gap: 0.75rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--admin-border, #1e293b);
+}
+
+.item-thumb,
+.item-thumb-fallback {
+  width: 3.25rem;
+  height: 3.75rem;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border-radius: var(--radius-sm, 0.25rem);
+}
+
+.item-thumb-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--admin-text-muted, #94a3b8);
+  background: var(--admin-card, #151d2f);
+}
+
+.item-details {
+  display: grid;
+  flex: 1;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.item-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.item-meta,
+.item-qty {
+  color: var(--admin-text-muted, #94a3b8);
+  font-size: 0.75rem;
+}
+
+.item-pricing {
+  display: grid;
+  justify-items: end;
+  gap: 0.3rem;
+}
+
+.item-price {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.drawer-total-bar {
+  gap: 1rem;
+  padding-top: 1rem;
+  font-weight: 700;
+}
+
+.total-amount {
+  color: var(--admin-primary, #38bdf8);
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (max-width: 420px) {
+  .drawer-header,
+  .drawer-body {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}

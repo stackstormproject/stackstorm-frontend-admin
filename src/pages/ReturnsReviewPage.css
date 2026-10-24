@@ -1,0 +1,390 @@
+/* Returns Review Page Styles */
+.returns-page-container {
+  padding-bottom: var(--space-8, 2rem);
+}
+
+.returns-toast {
+  position: fixed;
+  top: 70px;
+  right: 24px;
+  background: var(--admin-primary, #38BDF8);
+  color: #0B0F19;
+  padding: 10px 18px;
+  border-radius: var(--radius-md, 0.5rem);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
+  z-index: 1000;
+  animation: slideInRight 0.3s ease;
+}
+
+.returns-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-5, 1.25rem);
+  flex-wrap: wrap;
+  gap: var(--space-4, 1rem);
+}
+
+.returns-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.kicker-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
+  color: var(--admin-primary, #38BDF8);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.kicker-tag {
+  font-size: 0.75rem;
+  color: var(--admin-text-subtle, #64748B);
+}
+
+.returns-title {
+  font-family: var(--font-heading, sans-serif);
+  font-size: var(--text-2xl, 1.5rem);
+  font-weight: 700;
+  color: var(--admin-text, #F8FAFC);
+  margin: 0;
+}
+
+.returns-subtitle {
+  font-size: 0.9rem;
+  color: var(--admin-text-muted, #94A3B8);
+  margin: 4px 0 0 0;
+}
+
+.returns-table-card {
+  background: var(--admin-card, #151D2F);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-lg, 0.75rem);
+  padding: var(--space-5, 1.25rem);
+}
+
+.returns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-xs, 0.75rem);
+  text-align: left;
+}
+
+.returns-table thead th {
+  padding: 10px 12px;
+  color: var(--admin-text-subtle, #64748B);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  border-bottom: 1px solid var(--admin-border, #1E293B);
+}
+
+.returns-table tbody tr {
+  border-bottom: 1px solid var(--admin-border, #1E293B);
+  transition: background-color 0.15s ease;
+}
+
+.returns-table tbody tr:hover {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+.returns-table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.ref-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ref-number {
+  font-weight: 700;
+  color: var(--admin-primary, #38BDF8);
+}
+
+.order-sub {
+  font-size: 0.7rem;
+  color: var(--admin-text-muted, #94A3B8);
+}
+
+.delivery-window-tag {
+  font-size: 0.65rem;
+  color: var(--admin-text-subtle, #64748B);
+}
+
+.garment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.garment-title {
+  font-weight: 600;
+  color: var(--admin-text, #F8FAFC);
+}
+
+.variant-info {
+  font-size: 0.7rem;
+  color: var(--admin-text-subtle, #64748B);
+}
+
+.exchange-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: var(--admin-primary, #38BDF8);
+  margin-top: 2px;
+}
+
+.type-pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.type-exchange {
+  background: rgba(168, 85, 247, 0.15);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.type-return {
+  background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.15));
+  color: var(--admin-primary, #38BDF8);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.reason-cell {
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reason-text {
+  font-weight: 600;
+  color: var(--admin-text, #F8FAFC);
+}
+
+.notes-text {
+  font-size: 0.7rem;
+  color: var(--admin-text-muted, #94A3B8);
+  font-style: italic;
+}
+
+.photo-thumb-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.proof-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  display: block;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: rgba(11, 15, 25, 0.8);
+  color: var(--admin-primary, #38BDF8);
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.pill-approved {
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+  color: var(--admin-success, #10B981);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.pill-rejected {
+  background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
+  color: var(--admin-danger, #EF4444);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.approve-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+  color: var(--admin-success, #10B981);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-sm, 0.25rem);
+  font-size: 0.725rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.approve-btn:hover {
+  background: var(--admin-success, #10B981);
+  color: #0B0F19;
+}
+
+.reject-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
+  color: var(--admin-danger, #EF4444);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm, 0.25rem);
+  font-size: 0.725rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reject-btn:hover {
+  background: var(--admin-danger, #EF4444);
+  color: #FFFFFF;
+}
+
+.decision-final-tag {
+  font-size: 0.7rem;
+  color: var(--admin-text-subtle, #64748B);
+}
+
+/* Lightbox Modal */
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 15, 25, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4, 1rem);
+}
+
+.lightbox-card {
+  background: var(--admin-card, #151D2F);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-lg, 0.75rem);
+  max-width: 500px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.lightbox-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--admin-border, #1E293B);
+}
+
+.lightbox-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--admin-text, #F8FAFC);
+}
+
+.lightbox-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--admin-text-muted, #94A3B8);
+  cursor: pointer;
+}
+
+.lightbox-image {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  display: block;
+}
+
+.reject-modal-card {
+  background: var(--admin-card, #151D2F);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-lg, 0.75rem);
+  max-width: 440px;
+  width: 100%;
+  padding: var(--space-6, 1.5rem);
+}
+
+.reject-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--space-3, 0.75rem);
+}
+
+.reject-title {
+  font-family: var(--font-heading, sans-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-text, #F8FAFC);
+  margin: 0;
+}
+
+.reject-desc {
+  font-size: 0.85rem;
+  color: var(--admin-text-muted, #94A3B8);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4, 1rem) 0;
+}
+
+.reject-select {
+  width: 100%;
+  background: var(--admin-bg, #0B0F19);
+  border: 1px solid var(--admin-border, #1E293B);
+  border-radius: var(--radius-sm, 0.25rem);
+  padding: 8px 12px;
+  color: var(--admin-text, #F8FAFC);
+  font-size: 0.825rem;
+  margin-top: 6px;
+}
+
+.reject-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3, 0.75rem);
+  margin-top: var(--space-5, 1.25rem);
+}
+
+.confirm-reject-btn {
+  padding: 8px 16px;
+  background: var(--admin-danger, #EF4444);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-sm, 0.25rem);
+  font-size: 0.825rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirm-reject-btn:hover {
+  background: #DC2626;
+}
