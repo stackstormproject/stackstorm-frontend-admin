@@ -13,7 +13,8 @@ export default function KpiCard({
 }) {
   const isPositive = typeof trend === 'number' ? trend > 0 : String(trend).startsWith('+');
   const isNegative = typeof trend === 'number' ? trend < 0 : String(trend).startsWith('-');
-  const formattedTrend = typeof trend === 'number' ? (trend > 0 ? `+${trend}%` : `${trend}%`) : trend;
+  const formattedTrend =
+    typeof trend === 'number' ? (trend > 0 ? `+${trend}%` : `${trend}%`) : trend;
 
   return (
     <div className={`kpi-card-root kpi-variant-${variant}`} data-testid={dataTestId || 'kpi-card'}>

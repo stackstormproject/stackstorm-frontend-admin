@@ -50,16 +50,16 @@ export default function ReturnsReviewPage() {
 
   const handleApprove = async (ret) => {
     // 1. Optimistic update
-    setReturnsList((prev) =>
-      prev.map((r) => (r.id === ret.id ? { ...r, status: 'approved' } : r))
-    );
+    setReturnsList((prev) => prev.map((r) => (r.id === ret.id ? { ...r, status: 'approved' } : r)));
 
     // 2. Dispatch API
     await adminOrdersApi.approveReturn(ret.id, { restock: true });
 
     // 3. Toast
     const actionLabel = ret.type === 'exchange' ? 'Exchange Authorized' : 'Return Approved';
-    setToastMessage(`${actionLabel} for reference ${ret.return_reference}. Inventory restock triggered.`);
+    setToastMessage(
+      `${actionLabel} for reference ${ret.return_reference}. Inventory restock triggered.`
+    );
     setTimeout(() => setToastMessage(''), 4500);
   };
 
@@ -116,7 +116,8 @@ export default function ReturnsReviewPage() {
           </div>
           <h1 className="returns-title">30-Day Return & Exchange Approvals</h1>
           <p className="returns-subtitle">
-            Inspect photographic proof, audit return eligibility within 30 days of delivery, and approve refunds or variant exchanges.
+            Inspect photographic proof, audit return eligibility within 30 days of delivery, and
+            approve refunds or variant exchanges.
           </p>
         </div>
 
@@ -208,7 +209,8 @@ export default function ReturnsReviewPage() {
                       <span className="ref-number font-mono">{ret.return_reference}</span>
                       <span className="order-sub font-mono">{ret.order_number}</span>
                       <span className="delivery-window-tag">
-                        Delivered {ret.days_since_delivery || 10}d ago ({30 - (ret.days_since_delivery || 10)}d left)
+                        Delivered {ret.days_since_delivery || 10}d ago (
+                        {30 - (ret.days_since_delivery || 10)}d left)
                       </span>
                     </td>
                     <td>
@@ -221,12 +223,16 @@ export default function ReturnsReviewPage() {
                       <div className="garment-info">
                         <span className="garment-title">{ret.item_title}</span>
                         <span className="variant-info">
-                          Original: <code>{ret.original_variant?.sku}</code> ({ret.original_variant?.size})
+                          Original: <code>{ret.original_variant?.sku}</code> (
+                          {ret.original_variant?.size})
                         </span>
                         {ret.exchange_variant && (
                           <div className="exchange-info">
                             <ArrowRight size={11} color="var(--admin-primary)" />
-                            <span>Exchange to: <code>{ret.exchange_variant.sku}</code> ({ret.exchange_variant.size})</span>
+                            <span>
+                              Exchange to: <code>{ret.exchange_variant.sku}</code> (
+                              {ret.exchange_variant.size})
+                            </span>
                           </div>
                         )}
                       </div>
@@ -284,11 +290,17 @@ export default function ReturnsReviewPage() {
                             type="button"
                             className="approve-btn"
                             onClick={() => handleApprove(ret)}
-                            title={ret.type === 'exchange' ? 'Authorize garment size exchange' : 'Approve return for refund'}
+                            title={
+                              ret.type === 'exchange'
+                                ? 'Authorize garment size exchange'
+                                : 'Approve return for refund'
+                            }
                             data-testid={`approve-return-btn-${ret.id}`}
                           >
                             <CheckCircle2 size={13} />
-                            <span>{ret.type === 'exchange' ? 'Authorize Exchange' : 'Approve Return'}</span>
+                            <span>
+                              {ret.type === 'exchange' ? 'Authorize Exchange' : 'Approve Return'}
+                            </span>
                           </button>
                           <button
                             type="button"
@@ -317,7 +329,11 @@ export default function ReturnsReviewPage() {
 
       {/* Photographic Proof Lightbox Modal */}
       {activePhoto && (
-        <div className="lightbox-backdrop" onClick={() => setActivePhoto(null)} data-testid="photo-lightbox">
+        <div
+          className="lightbox-backdrop"
+          onClick={() => setActivePhoto(null)}
+          data-testid="photo-lightbox"
+        >
           <div className="lightbox-card" onClick={(e) => e.stopPropagation()}>
             <div className="lightbox-header">
               <span className="lightbox-title">Customer Photographic Evidence</span>
@@ -332,14 +348,21 @@ export default function ReturnsReviewPage() {
 
       {/* Reject Justification Modal */}
       {rejectingReturn && (
-        <div className="lightbox-backdrop" onClick={() => setRejectingReturn(null)} data-testid="reject-modal">
+        <div
+          className="lightbox-backdrop"
+          onClick={() => setRejectingReturn(null)}
+          data-testid="reject-modal"
+        >
           <div className="reject-modal-card" onClick={(e) => e.stopPropagation()}>
             <div className="reject-header">
               <AlertTriangle size={20} color="var(--admin-danger)" />
-              <h3 className="reject-title">Reject Return Request ({rejectingReturn.return_reference})</h3>
+              <h3 className="reject-title">
+                Reject Return Request ({rejectingReturn.return_reference})
+              </h3>
             </div>
             <p className="reject-desc">
-              Please specify the audit justification for rejecting customer <strong>{rejectingReturn.customer_name}</strong>'s request.
+              Please specify the audit justification for rejecting customer{' '}
+              <strong>{rejectingReturn.customer_name}</strong>'s request.
             </p>
             <div className="form-group">
               <label className="form-label">Rejection Reason</label>
@@ -349,19 +372,23 @@ export default function ReturnsReviewPage() {
                 className="reject-select"
                 data-testid="reject-reason-select"
               >
-                <option value="Garment worn or tags removed">Garment worn or tags removed (Policy violation)</option>
-                <option value="Return requested past 30-day delivered window">Return requested past 30-day delivered window</option>
-                <option value="Garment is marked as Final Sale">Garment is marked as Final Sale</option>
-                <option value="Photo evidence does not show reported defect">Photo evidence does not show reported defect</option>
+                <option value="Garment worn or tags removed">
+                  Garment worn or tags removed (Policy violation)
+                </option>
+                <option value="Return requested past 30-day delivered window">
+                  Return requested past 30-day delivered window
+                </option>
+                <option value="Garment is marked as Final Sale">
+                  Garment is marked as Final Sale
+                </option>
+                <option value="Photo evidence does not show reported defect">
+                  Photo evidence does not show reported defect
+                </option>
                 <option value="Other Policy Ineligibility">Other Policy Ineligibility</option>
               </select>
             </div>
             <div className="reject-actions">
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={() => setRejectingReturn(null)}
-              >
+              <button type="button" className="cancel-btn" onClick={() => setRejectingReturn(null)}>
                 Cancel
               </button>
               <button

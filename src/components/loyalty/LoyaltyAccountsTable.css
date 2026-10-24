@@ -169,19 +169,19 @@
 
 .tier-silver {
   background: rgba(148, 163, 184, 0.15);
-  color: #94A3B8;
+  color: #94a3b8;
   border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .tier-gold {
   background: rgba(245, 158, 11, 0.15);
-  color: #F59E0B;
+  color: #f59e0b;
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .tier-platinum {
   background: rgba(56, 189, 248, 0.15);
-  color: #38BDF8;
+  color: #38bdf8;
   border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
@@ -249,7 +249,8 @@
 }
 
 @keyframes pulseAmber {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 rgba(245, 158, 11, 0);
   }
   50% {
@@ -265,7 +266,8 @@
 }
 
 @keyframes pulseRed {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 rgba(239, 68, 68, 0);
   }
   50% {

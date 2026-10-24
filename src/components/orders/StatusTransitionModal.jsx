@@ -118,7 +118,10 @@ export default function StatusTransitionModal({
           <div>
             <span className="context-label">Total Amount:</span>
             <span className="context-val font-mono">
-              LKR {Number(order.total_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              LKR{' '}
+              {Number(order.total_amount || 0).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+              })}
             </span>
           </div>
         </div>
@@ -195,8 +198,9 @@ export default function StatusTransitionModal({
               <div>
                 <div className="notice-title">30-Day Return Eligibility Anchor</div>
                 <div className="notice-sub">
-                  Delivered timestamp will be permanently logged as <strong>{new Date().toLocaleString()}</strong>.
-                  Customer 30-day return window activates from this moment.
+                  Delivered timestamp will be permanently logged as{' '}
+                  <strong>{new Date().toLocaleString()}</strong>. Customer 30-day return window
+                  activates from this moment.
                 </div>
               </div>
             </div>
@@ -228,12 +232,7 @@ export default function StatusTransitionModal({
 
           {/* Action Buttons */}
           <div className="modal-actions">
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <button type="button" className="cancel-btn" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </button>
             <button
@@ -242,7 +241,9 @@ export default function StatusTransitionModal({
               disabled={isSubmitting}
               data-testid="confirm-status-transition-btn"
             >
-              <span>{isSubmitting ? 'Updating...' : `Confirm: Mark as ${targetStatus.toUpperCase()}`}</span>
+              <span>
+                {isSubmitting ? 'Updating...' : `Confirm: Mark as ${targetStatus.toUpperCase()}`}
+              </span>
               <ArrowRight size={14} />
             </button>
           </div>

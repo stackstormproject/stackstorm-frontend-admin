@@ -22,7 +22,8 @@ export default function RevenueTrendChart({ trendData, isLoading = false }) {
   const chartHeight = height - paddingY * 2;
 
   const points = series.map((item, idx) => {
-    const x = paddingX + (series.length > 1 ? (idx / (series.length - 1)) * chartWidth : chartWidth / 2);
+    const x =
+      paddingX + (series.length > 1 ? (idx / (series.length - 1)) * chartWidth : chartWidth / 2);
     const normalizedY = (item.revenue || 0) / maxRevenue;
     const y = height - paddingY - normalizedY * chartHeight;
     return { x, y, ...item };
@@ -32,7 +33,12 @@ export default function RevenueTrendChart({ trendData, isLoading = false }) {
   let linePath = '';
   let areaPath = '';
   if (points.length > 0) {
-    linePath = `M ${points[0].x} ${points[0].y} ` + points.slice(1).map((p) => `L ${p.x} ${p.y}`).join(' ');
+    linePath =
+      `M ${points[0].x} ${points[0].y} ` +
+      points
+        .slice(1)
+        .map((p) => `L ${p.x} ${p.y}`)
+        .join(' ');
     areaPath = `${linePath} L ${points[points.length - 1].x} ${height - paddingY} L ${points[0].x} ${height - paddingY} Z`;
   }
 
@@ -96,14 +102,19 @@ export default function RevenueTrendChart({ trendData, isLoading = false }) {
       <div className="chart-summary-bar">
         <div className="summary-stat">
           <span className="summary-label">Window Total</span>
-          <span className="summary-value" data-testid="chart-window-total">{formatLKR(totalRevenue)}</span>
+          <span className="summary-value" data-testid="chart-window-total">
+            {formatLKR(totalRevenue)}
+          </span>
         </div>
         <div className="summary-stat">
           <span className="summary-label">Total Volume</span>
           <span className="summary-value">{totalOrders} Orders</span>
         </div>
         <div className="summary-stat">
-          <span className="summary-label">Average per {activeTimeframe === 'daily' ? 'Day' : activeTimeframe === 'weekly' ? 'Week' : 'Month'}</span>
+          <span className="summary-label">
+            Average per{' '}
+            {activeTimeframe === 'daily' ? 'Day' : activeTimeframe === 'weekly' ? 'Week' : 'Month'}
+          </span>
           <span className="summary-value">
             {formatLKR(series.length ? totalRevenue / series.length : 0)}
           </span>
@@ -157,9 +168,7 @@ export default function RevenueTrendChart({ trendData, isLoading = false }) {
           })}
 
           {/* Area fill */}
-          {areaPath && (
-            <path d={areaPath} fill="url(#adminRevenueGradient)" />
-          )}
+          {areaPath && <path d={areaPath} fill="url(#adminRevenueGradient)" />}
 
           {/* Trend Stroke Line */}
           {linePath && (
@@ -192,7 +201,11 @@ export default function RevenueTrendChart({ trendData, isLoading = false }) {
                 x={pt.x}
                 y={height - paddingY + 16}
                 textAnchor="middle"
-                fill={hoveredIndex === idx ? 'var(--admin-primary, #38BDF8)' : 'var(--admin-text-muted, #94A3B8)'}
+                fill={
+                  hoveredIndex === idx
+                    ? 'var(--admin-primary, #38BDF8)'
+                    : 'var(--admin-text-muted, #94A3B8)'
+                }
                 fontSize="11"
                 fontWeight={hoveredIndex === idx ? 'bold' : 'normal'}
                 fontFamily="var(--font-body, sans-serif)"
