@@ -22,7 +22,8 @@ export default function AdminRoute({
           </div>
           <h2 className="guard-title">Authentication Required</h2>
           <p className="guard-desc">
-            You must be authenticated with administrative credentials to access the Dickwella Fashion Corner control room.
+            You must be authenticated with administrative credentials to access the Dickwella
+            Fashion Corner control room.
           </p>
           <div className="guard-actions">
             <a href="/login" className="guard-btn guard-btn-primary">
@@ -48,7 +49,9 @@ export default function AdminRoute({
           <div className="guard-code-badge">HTTP 403 FORBIDDEN</div>
           <h2 className="guard-title">Access Denied: Insufficient Privileges</h2>
           <p className="guard-desc">
-            Your authenticated role (<strong className="user-role-highlight">{user.role || 'customer'}</strong>) does not have authorization to view this operations console.
+            Your authenticated role (
+            <strong className="user-role-highlight">{user.role || 'customer'}</strong>) does not
+            have authorization to view this operations console.
           </p>
           <p className="guard-subtext">
             Required administrative roles: <code>{allowedRoles.join(' | ')}</code>.

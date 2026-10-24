@@ -52,7 +52,7 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -209,7 +209,9 @@
 }
 
 @keyframes typingBounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: translateY(0);
     opacity: 0.4;
   }

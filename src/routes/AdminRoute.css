@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--admin-bg, #0B0F19);
+  background-color: var(--admin-bg, #0b0f19);
   padding: var(--space-6, 1.5rem);
   box-sizing: border-box;
 }
@@ -13,8 +13,8 @@
 .admin-guard-card {
   max-width: 480px;
   width: 100%;
-  background: var(--admin-card, #151D2F);
-  border: 1px solid var(--admin-border, #1E293B);
+  background: var(--admin-card, #151d2f);
+  border: 1px solid var(--admin-border, #1e293b);
   border-radius: var(--radius-xl, 1rem);
   padding: var(--space-8, 2rem);
   text-align: center;
@@ -38,12 +38,12 @@
 
 .guard-icon-warning {
   background: rgba(245, 158, 11, 0.15);
-  color: var(--admin-warning, #F59E0B);
+  color: var(--admin-warning, #f59e0b);
 }
 
 .guard-icon-danger {
   background: rgba(239, 68, 68, 0.15);
-  color: var(--admin-danger, #EF4444);
+  color: var(--admin-danger, #ef4444);
 }
 
 .guard-code-badge {
@@ -53,7 +53,7 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--admin-danger, #EF4444);
+  color: var(--admin-danger, #ef4444);
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: var(--radius-full, 9999px);
@@ -64,34 +64,34 @@
   font-family: var(--font-heading, sans-serif);
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
   margin: 0 0 var(--space-3, 0.75rem) 0;
 }
 
 .guard-desc {
   font-size: 0.95rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   line-height: 1.5;
   margin: 0 0 var(--space-4, 1rem) 0;
 }
 
 .user-role-highlight {
-  color: var(--admin-danger, #EF4444);
+  color: var(--admin-danger, #ef4444);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .guard-subtext {
   font-size: 0.825rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
   margin: 0 0 var(--space-6, 1.5rem) 0;
 }
 
 .guard-subtext code {
-  background: var(--admin-bg, #0B0F19);
+  background: var(--admin-bg, #0b0f19);
   padding: 2px 6px;
   border-radius: 4px;
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
   font-family: var(--font-mono, monospace);
 }
 
@@ -117,30 +117,30 @@
 }
 
 .guard-btn-primary {
-  background: var(--admin-primary, #38BDF8);
-  color: #0B0F19;
+  background: var(--admin-primary, #38bdf8);
+  color: #0b0f19;
 }
 
 .guard-btn-primary:hover {
-  background: var(--admin-primary-hover, #0EA5E9);
+  background: var(--admin-primary-hover, #0ea5e9);
 }
 
 .guard-btn-danger {
-  background: var(--admin-danger, #EF4444);
-  color: #FFFFFF;
+  background: var(--admin-danger, #ef4444);
+  color: #ffffff;
 }
 
 .guard-btn-danger:hover {
-  background: #DC2626;
+  background: #dc2626;
 }
 
 .guard-btn-ghost {
   background: transparent;
-  color: var(--admin-text-muted, #94A3B8);
-  border-color: var(--admin-border, #1E293B);
+  color: var(--admin-text-muted, #94a3b8);
+  border-color: var(--admin-border, #1e293b);
 }
 
 .guard-btn-ghost:hover {
   background: var(--admin-surface-elevated, #192338);
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
 }

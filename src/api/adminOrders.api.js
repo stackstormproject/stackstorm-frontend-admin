@@ -255,14 +255,18 @@ export const adminOrdersApi = {
   /**
    * Updates fulfillment status of an order via PUT /api/v1/admin/orders/:id/status
    */
-  async updateStatus(orderId, { status, tracking_number = '', courier = '', notes = '', delivered_at = null }) {
+  async updateStatus(
+    orderId,
+    { status, tracking_number = '', courier = '', notes = '', delivered_at = null }
+  ) {
     // Failure recovery: if status is 'delivered', ensure delivered_at is present
     const payload = {
       status,
       tracking_number,
       courier,
       notes,
-      delivered_at: status === 'delivered' ? delivered_at || new Date().toISOString() : delivered_at,
+      delivered_at:
+        status === 'delivered' ? delivered_at || new Date().toISOString() : delivered_at,
     };
 
     try {
@@ -361,7 +365,13 @@ export const adminOrdersApi = {
       const data = await res.json();
       return data?.data || data;
     } catch {
-      return { id: returnId, status: 'rejected', reason, notes, updatedAt: new Date().toISOString() };
+      return {
+        id: returnId,
+        status: 'rejected',
+        reason,
+        notes,
+        updatedAt: new Date().toISOString(),
+      };
     }
   },
 };

@@ -85,7 +85,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
 }
 
 .sidebar-toggle-btn:hover {
@@ -186,7 +188,7 @@
   width: 34px;
   height: 34px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
   display: flex;
   align-items: center;
   justify-content: center;

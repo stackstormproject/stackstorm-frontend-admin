@@ -1,13 +1,18 @@
 import React from 'react';
-import { X, MapPin, Phone, Mail, CreditCard, Package, Truck, CheckCircle2, SlidersHorizontal } from 'lucide-react';
+import {
+  X,
+  MapPin,
+  Phone,
+  Mail,
+  CreditCard,
+  Package,
+  Truck,
+  CheckCircle2,
+  SlidersHorizontal,
+} from 'lucide-react';
 import './OrderInspectorDrawer.css';
 
-export default function OrderInspectorDrawer({
-  isOpen,
-  onClose,
-  order,
-  onOpenStatusModal,
-}) {
+export default function OrderInspectorDrawer({ isOpen, onClose, order, onOpenStatusModal }) {
   if (!isOpen || !order) return null;
 
   const formatLKR = (val) =>
@@ -20,7 +25,9 @@ export default function OrderInspectorDrawer({
         <div className="drawer-header">
           <div>
             <span className="drawer-kicker">Order Fulfillment Inspector</span>
-            <h2 className="drawer-title" data-testid="drawer-order-number">{order.order_number}</h2>
+            <h2 className="drawer-title" data-testid="drawer-order-number">
+              {order.order_number}
+            </h2>
           </div>
           <button onClick={onClose} className="drawer-close-btn" aria-label="Close Inspector">
             <X size={20} />
@@ -39,7 +46,9 @@ export default function OrderInspectorDrawer({
             {order.tracking_number && (
               <div className="hero-tracking-row">
                 <Truck size={14} />
-                <span>Tracking: <strong>{order.tracking_number}</strong> ({order.courier || 'Courier'})</span>
+                <span>
+                  Tracking: <strong>{order.tracking_number}</strong> ({order.courier || 'Courier'})
+                </span>
               </div>
             )}
             <button
@@ -61,7 +70,9 @@ export default function OrderInspectorDrawer({
             <div className="info-grid">
               <div className="info-item">
                 <span className="info-label">Customer Name</span>
-                <span className="info-val" data-testid="drawer-customer-name">{order.customer?.name || 'Customer'}</span>
+                <span className="info-val" data-testid="drawer-customer-name">
+                  {order.customer?.name || 'Customer'}
+                </span>
               </div>
               <div className="info-item">
                 <span className="info-label">Email Address</span>
@@ -73,7 +84,9 @@ export default function OrderInspectorDrawer({
               </div>
               <div className="info-item">
                 <span className="info-label">Payment Mode</span>
-                <span className="info-val font-mono">{order.payment_method?.toUpperCase() || 'CARD'}</span>
+                <span className="info-val font-mono">
+                  {order.payment_method?.toUpperCase() || 'CARD'}
+                </span>
               </div>
             </div>
             <div className="address-box">

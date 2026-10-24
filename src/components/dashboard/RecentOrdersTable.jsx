@@ -29,13 +29,29 @@ export default function RecentOrdersTable({ orders = [], onUpdateStatus }) {
     const norm = (status || '').toLowerCase().trim();
     switch (norm) {
       case 'placed':
-        return <span className="status-badge badge-placed"><Clock size={12} /> Placed</span>;
+        return (
+          <span className="status-badge badge-placed">
+            <Clock size={12} /> Placed
+          </span>
+        );
       case 'processing':
-        return <span className="status-badge badge-processing"><ShoppingBag size={12} /> Processing</span>;
+        return (
+          <span className="status-badge badge-processing">
+            <ShoppingBag size={12} /> Processing
+          </span>
+        );
       case 'shipped':
-        return <span className="status-badge badge-shipped"><Truck size={12} /> Shipped</span>;
+        return (
+          <span className="status-badge badge-shipped">
+            <Truck size={12} /> Shipped
+          </span>
+        );
       case 'delivered':
-        return <span className="status-badge badge-delivered"><CheckCircle2 size={12} /> Delivered</span>;
+        return (
+          <span className="status-badge badge-delivered">
+            <CheckCircle2 size={12} /> Delivered
+          </span>
+        );
       default:
         return <span className="status-badge">{status}</span>;
     }
@@ -45,11 +61,21 @@ export default function RecentOrdersTable({ orders = [], onUpdateStatus }) {
     const norm = (currentStatus || '').toLowerCase().trim();
     switch (norm) {
       case 'placed':
-        return { next: 'processing', label: 'Start Processing', icon: ArrowRight, class: 'action-processing' };
+        return {
+          next: 'processing',
+          label: 'Start Processing',
+          icon: ArrowRight,
+          class: 'action-processing',
+        };
       case 'processing':
         return { next: 'shipped', label: 'Dispatch (Ship)', icon: Truck, class: 'action-shipped' };
       case 'shipped':
-        return { next: 'delivered', label: 'Mark Delivered', icon: CheckCircle2, class: 'action-delivered' };
+        return {
+          next: 'delivered',
+          label: 'Mark Delivered',
+          icon: CheckCircle2,
+          class: 'action-delivered',
+        };
       case 'delivered':
       default:
         return null;
