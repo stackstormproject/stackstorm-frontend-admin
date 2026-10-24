@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './components/layout/AdminLayout';
 import LoyaltyConsolePage from './pages/LoyaltyConsolePage';
+import SupportConsolePage from './pages/SupportConsolePage';
 import './styles/admin-tokens.css';
 import './styles/admin-global.css';
 
@@ -101,11 +102,7 @@ export default function App() {
       {currentTab === 'loyalty' && <LoyaltyConsolePage />}
 
       {/* Tab 6: Live Support */}
-      {currentTab === 'support' && (
-        <section style={{ padding: '1.5rem' }}>
-          <h2>Live Support Chat Console</h2>
-        </section>
-      )}
+      {currentTab === 'support' && <SupportConsolePage />}
     </AdminLayout>
   );
 }
