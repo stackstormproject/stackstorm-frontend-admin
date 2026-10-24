@@ -5,7 +5,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import './admin-tokens.css';
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -27,7 +29,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--admin-text);
   font-weight: var(--font-bold);
@@ -83,7 +90,9 @@ button {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-dark-sm);
   padding: var(--space-5);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .admin-card:hover {
@@ -101,8 +110,23 @@ button {
   letter-spacing: 0.02em;
 }
 
-.badge-success { background: var(--admin-success-bg); color: var(--admin-success); }
-.badge-warning { background: var(--admin-warning-bg); color: var(--admin-warning); }
-.badge-danger  { background: var(--admin-danger-bg);  color: var(--admin-danger);  }
-.badge-info    { background: var(--admin-info-bg);    color: var(--admin-info);    }
-.badge-gold    { background: var(--admin-accent-subtle); color: var(--admin-accent); }
+.badge-success {
+  background: var(--admin-success-bg);
+  color: var(--admin-success);
+}
+.badge-warning {
+  background: var(--admin-warning-bg);
+  color: var(--admin-warning);
+}
+.badge-danger {
+  background: var(--admin-danger-bg);
+  color: var(--admin-danger);
+}
+.badge-info {
+  background: var(--admin-info-bg);
+  color: var(--admin-info);
+}
+.badge-gold {
+  background: var(--admin-accent-subtle);
+  color: var(--admin-accent);
+}

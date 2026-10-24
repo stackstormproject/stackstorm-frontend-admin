@@ -154,7 +154,9 @@ describe('STORM-FE-022: Admin Real-Time Support Console & Active Session Queue',
       fireEvent.change(cannedSelect, { target: { value: 'greeting' } });
 
       const input = screen.getByTestId('chat-message-input');
-      expect(input.value).toContain('Hello! Thank you for reaching out to Dickwella Fashion Corner');
+      expect(input.value).toContain(
+        'Hello! Thank you for reaching out to Dickwella Fashion Corner'
+      );
 
       // Submit message
       const sendBtn = screen.getByTestId('send-message-btn');

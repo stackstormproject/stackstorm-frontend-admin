@@ -4,20 +4,17 @@ import './StockAdjustmentModal.css';
 
 export const AUDIT_REASONS = [
   { value: 'Restock Shipment Received', label: 'Restock Shipment Received (Vendor Delivery)' },
-  { value: 'Cycle Count Audit Correction', label: 'Cycle Count Audit Correction (Physical Inventory)' },
+  {
+    value: 'Cycle Count Audit Correction',
+    label: 'Cycle Count Audit Correction (Physical Inventory)',
+  },
   { value: 'Damaged Garment Write-off', label: 'Damaged / Defective Garment Write-off' },
   { value: 'Customer Exchange Return', label: 'Customer Return / Exchange Restock' },
   { value: 'Warehouse Transfer', label: 'Central Warehouse Stock Transfer' },
   { value: 'Other Operational Adjustment', label: 'Other Operational Adjustment' },
 ];
 
-export default function StockAdjustmentModal({
-  isOpen,
-  onClose,
-  product,
-  variant,
-  onSubmit,
-}) {
+export default function StockAdjustmentModal({ isOpen, onClose, product, variant, onSubmit }) {
   const [adjustmentType, setAdjustmentType] = useState('add'); // 'add' | 'subtract'
   const [quantity, setQuantity] = useState(1);
   const [reason, setReason] = useState(AUDIT_REASONS[0].value);
@@ -131,9 +128,13 @@ export default function StockAdjustmentModal({
           <div>
             <div className="garment-title">{product?.title || 'Garment Item'}</div>
             <div className="garment-attributes">
-              <span>Color: <strong>{variant.color}</strong></span>
+              <span>
+                Color: <strong>{variant.color}</strong>
+              </span>
               <span>•</span>
-              <span>Size: <strong>{variant.size}</strong></span>
+              <span>
+                Size: <strong>{variant.size}</strong>
+              </span>
             </div>
           </div>
           <div className="current-stock-pills">
@@ -306,12 +307,7 @@ export default function StockAdjustmentModal({
 
           {/* Actions */}
           <div className="modal-actions">
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <button type="button" className="cancel-btn" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </button>
             <button
@@ -321,7 +317,9 @@ export default function StockAdjustmentModal({
               data-testid="submit-stock-adjustment-btn"
             >
               <ShieldCheck size={16} />
-              <span>{isSubmitting ? 'Recording Adjustment...' : 'Confirm & Commit Adjustment'}</span>
+              <span>
+                {isSubmitting ? 'Recording Adjustment...' : 'Confirm & Commit Adjustment'}
+              </span>
             </button>
           </div>
         </form>

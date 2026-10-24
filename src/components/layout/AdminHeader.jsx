@@ -1,12 +1,5 @@
-import React from 'react'
-import {
-  Bell,
-  Search,
-  ExternalLink,
-  ShieldCheck,
-  CheckCircle2,
-  AlertCircle,
-} from 'lucide-react'
+import React from 'react';
+import { Bell, Search, ExternalLink, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function AdminHeader({
   activeTabLabel = 'Dashboard & KPIs',
@@ -72,9 +65,11 @@ export default function AdminHeader({
           }}
         >
           <ShieldCheck size={14} color="var(--admin-accent)" />
-          <span style={{ fontWeight: 'var(--font-bold)', color: 'var(--admin-accent)' }}>ADMIN</span>
+          <span style={{ fontWeight: 'var(--font-bold)', color: 'var(--admin-accent)' }}>
+            ADMIN
+          </span>
         </div>
       </div>
     </header>
-  )
+  );
 }

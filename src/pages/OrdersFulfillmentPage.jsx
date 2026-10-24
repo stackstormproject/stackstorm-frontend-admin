@@ -16,7 +16,15 @@ import OrderInspectorDrawer from '../components/orders/OrderInspectorDrawer';
 import { adminOrdersApi, FALLBACK_ADMIN_ORDERS } from '../api/adminOrders.api';
 import './OrdersFulfillmentPage.css';
 
-const STATUS_FILTERS = ['all', 'pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled'];
+const STATUS_FILTERS = [
+  'all',
+  'pending',
+  'paid',
+  'processing',
+  'shipped',
+  'delivered',
+  'cancelled',
+];
 
 export default function OrdersFulfillmentPage() {
   const [orders, setOrders] = useState(FALLBACK_ADMIN_ORDERS);
@@ -47,7 +55,14 @@ export default function OrdersFulfillmentPage() {
     fetchOrders();
   }, []);
 
-  const handleStatusUpdateConfirm = async ({ orderId, status, tracking_number, courier, notes, delivered_at }) => {
+  const handleStatusUpdateConfirm = async ({
+    orderId,
+    status,
+    tracking_number,
+    courier,
+    notes,
+    delivered_at,
+  }) => {
     // 1. Optimistic in-place update
     setOrders((prev) =>
       prev.map((ord) => {
@@ -101,15 +116,35 @@ export default function OrdersFulfillmentPage() {
     const norm = (status || '').toLowerCase().trim();
     switch (norm) {
       case 'pending':
-        return <span className="status-pill pill-pending"><Clock size={11} /> PENDING</span>;
+        return (
+          <span className="status-pill pill-pending">
+            <Clock size={11} /> PENDING
+          </span>
+        );
       case 'paid':
-        return <span className="status-pill pill-paid"><CheckCircle2 size={11} /> PAID</span>;
+        return (
+          <span className="status-pill pill-paid">
+            <CheckCircle2 size={11} /> PAID
+          </span>
+        );
       case 'processing':
-        return <span className="status-pill pill-processing"><ShoppingBag size={11} /> PROCESSING</span>;
+        return (
+          <span className="status-pill pill-processing">
+            <ShoppingBag size={11} /> PROCESSING
+          </span>
+        );
       case 'shipped':
-        return <span className="status-pill pill-shipped"><Truck size={11} /> SHIPPED</span>;
+        return (
+          <span className="status-pill pill-shipped">
+            <Truck size={11} /> SHIPPED
+          </span>
+        );
       case 'delivered':
-        return <span className="status-pill pill-delivered"><CheckCircle2 size={11} /> DELIVERED</span>;
+        return (
+          <span className="status-pill pill-delivered">
+            <CheckCircle2 size={11} /> DELIVERED
+          </span>
+        );
       case 'cancelled':
         return <span className="status-pill pill-cancelled">CANCELLED</span>;
       default:
@@ -136,7 +171,8 @@ export default function OrdersFulfillmentPage() {
           </div>
           <h1 className="fulfillment-title">Order Fulfillment Console</h1>
           <p className="fulfillment-subtitle">
-            Manage live garment orders through Placed, Processing, Dispatched, and Delivered states with carrier tracking codes.
+            Manage live garment orders through Placed, Processing, Dispatched, and Delivered states
+            with carrier tracking codes.
           </p>
         </div>
 

@@ -9,13 +9,14 @@ on:
       - 'fix/**'
       - 'hotfix/**'
       - 'release/**'
+      - 'chore/**'
   pull_request:
     branches:
       - develop
       - main
 
 concurrency:
-  group: frontend-ci-${{ github.ref }}
+  group: frontend-admin-ci-${{ github.ref }}
   cancel-in-progress: false
   queue: max
 

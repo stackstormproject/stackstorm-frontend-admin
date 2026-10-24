@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Send,
-  CheckCircle,
-  MessageSquare,
-  Sparkles,
-  Zap,
-} from 'lucide-react';
+import { Send, CheckCircle, MessageSquare, Sparkles, Zap } from 'lucide-react';
 import './AgentChatWindow.css';
 
 export const CANNED_RESPONSES = [
@@ -116,10 +110,7 @@ export default function AgentChatWindow({
             {session.customer_name ? session.customer_name.charAt(0) : 'C'}
           </div>
           <div className="header-meta">
-            <div
-              className="header-cust-name"
-              data-testid="chat-header-customer"
-            >
+            <div className="header-cust-name" data-testid="chat-header-customer">
               <span>{session.customer_name}</span>
               <span style={{ marginLeft: 6, color: 'var(--admin-accent)', fontSize: '0.75rem' }}>
                 ({session.tier || 'Silver'} VIP)
@@ -178,7 +169,12 @@ export default function AgentChatWindow({
               </span>
               <div className="bubble-content">{msg.text}</div>
               <span className="bubble-timestamp">
-                {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Now'}
+                {msg.timestamp
+                  ? new Date(msg.timestamp).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                  : 'Now'}
               </span>
             </div>
           );

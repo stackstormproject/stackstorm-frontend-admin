@@ -12,7 +12,7 @@ import { DollarSign } from 'lucide-react';
 
 describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dashboard', () => {
   beforeEach(() => {
-       if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       window.localStorage.clear();
     }
     global.fetch = vi.fn().mockImplementation((url) => {
@@ -41,7 +41,8 @@ describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dash
         return Promise.resolve({
           ok: true,
           status: 200,
-          json: () => Promise.resolve({ success: true, data: { orders: FALLBACK_ANALYTICS.recentOrders } }),
+          json: () =>
+            Promise.resolve({ success: true, data: { orders: FALLBACK_ANALYTICS.recentOrders } }),
         });
       }
       return Promise.reject(new Error(`Unhandled URL: ${url}`));
@@ -183,7 +184,9 @@ describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dash
 
   describe('AC4: RecentOrdersTable with Quick Fulfillment Status Actions', () => {
     it('renders 10 recent orders with order numbers, customer names, and LKR totals', () => {
-      render(<RecentOrdersTable orders={FALLBACK_ANALYTICS.recentOrders} onUpdateStatus={vi.fn()} />);
+      render(
+        <RecentOrdersTable orders={FALLBACK_ANALYTICS.recentOrders} onUpdateStatus={vi.fn()} />
+      );
 
       expect(screen.getByText('DFC-20261005-9901')).toBeInTheDocument();
       expect(screen.getByText('Kavindu Senanayake')).toBeInTheDocument();
@@ -194,7 +197,9 @@ describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dash
 
     it('triggers fulfillment status transition callback when action button is clicked', async () => {
       const handleUpdate = vi.fn().mockResolvedValue({ success: true });
-      render(<RecentOrdersTable orders={FALLBACK_ANALYTICS.recentOrders} onUpdateStatus={handleUpdate} />);
+      render(
+        <RecentOrdersTable orders={FALLBACK_ANALYTICS.recentOrders} onUpdateStatus={handleUpdate} />
+      );
 
       // Order #1 is 'placed', so next action is 'Start Processing'
       const startProcessingBtn = screen.getByTestId('action-btn-1');
@@ -207,7 +212,9 @@ describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dash
     });
 
     it('filters orders by search query keyword', () => {
-      render(<RecentOrdersTable orders={FALLBACK_ANALYTICS.recentOrders} onUpdateStatus={vi.fn()} />);
+      render(
+        <RecentOrdersTable orders={FALLBACK_ANALYTICS.recentOrders} onUpdateStatus={vi.fn()} />
+      );
 
       const searchInput = screen.getByLabelText(/Search Orders/i);
       fireEvent.change(searchInput, { target: { value: 'Thisara' } });
@@ -238,7 +245,7 @@ describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dash
       expect(screen.getByTestId('recent-orders-table')).toBeInTheDocument();
     });
 
-      it('handles refresh button click to reload metrics', async () => {
+    it('handles refresh button click to reload metrics', async () => {
       await act(async () => {
         render(<DashboardPage isBackendHealthy={true} />);
       });

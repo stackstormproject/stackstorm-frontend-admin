@@ -79,11 +79,7 @@ export default function PointsAdjustmentModal({
   };
 
   return (
-    <div
-      className="modal-backdrop"
-      onClick={onClose}
-      data-testid="points-adjustment-modal"
-    >
+    <div className="modal-backdrop" onClick={onClose} data-testid="points-adjustment-modal">
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="modal-header">
@@ -238,12 +234,7 @@ export default function PointsAdjustmentModal({
 
           {/* Footer Actions */}
           <div className="modal-footer">
-            <button
-              type="button"
-              className="btn-cancel"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <button type="button" className="btn-cancel" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </button>
             <button
