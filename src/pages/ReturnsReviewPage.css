@@ -7,8 +7,8 @@
   position: fixed;
   top: 70px;
   right: 24px;
-  background: var(--admin-primary, #38BDF8);
-  color: #0B0F19;
+  background: var(--admin-primary, #38bdf8);
+  color: #0b0f19;
   padding: 10px 18px;
   border-radius: var(--radius-md, 0.5rem);
   font-weight: 700;
@@ -45,32 +45,32 @@
   padding: 2px 8px;
   border-radius: var(--radius-full, 9999px);
   background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.12));
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
   border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
 .kicker-tag {
   font-size: 0.75rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
 }
 
 .returns-title {
   font-family: var(--font-heading, sans-serif);
   font-size: var(--text-2xl, 1.5rem);
   font-weight: 700;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
   margin: 0;
 }
 
 .returns-subtitle {
   font-size: 0.9rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   margin: 4px 0 0 0;
 }
 
 .returns-table-card {
-  background: var(--admin-card, #151D2F);
-  border: 1px solid var(--admin-border, #1E293B);
+  background: var(--admin-card, #151d2f);
+  border: 1px solid var(--admin-border, #1e293b);
   border-radius: var(--radius-lg, 0.75rem);
   padding: var(--space-5, 1.25rem);
 }
@@ -84,15 +84,15 @@
 
 .returns-table thead th {
   padding: 10px 12px;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.7rem;
-  border-bottom: 1px solid var(--admin-border, #1E293B);
+  border-bottom: 1px solid var(--admin-border, #1e293b);
 }
 
 .returns-table tbody tr {
-  border-bottom: 1px solid var(--admin-border, #1E293B);
+  border-bottom: 1px solid var(--admin-border, #1e293b);
   transition: background-color 0.15s ease;
 }
 
@@ -113,17 +113,17 @@
 
 .ref-number {
   font-weight: 700;
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
 }
 
 .order-sub {
   font-size: 0.7rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
 }
 
 .delivery-window-tag {
   font-size: 0.65rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
 }
 
 .garment-info {
@@ -134,12 +134,12 @@
 
 .garment-title {
   font-weight: 600;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
 }
 
 .variant-info {
   font-size: 0.7rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
 }
 
 .exchange-info {
@@ -147,7 +147,7 @@
   align-items: center;
   gap: 4px;
   font-size: 0.7rem;
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
   margin-top: 2px;
 }
 
@@ -161,13 +161,13 @@
 
 .type-exchange {
   background: rgba(168, 85, 247, 0.15);
-  color: #C084FC;
+  color: #c084fc;
   border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 .type-return {
   background: var(--admin-primary-subtle, rgba(56, 189, 248, 0.15));
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
   border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
@@ -180,19 +180,19 @@
 
 .reason-text {
   font-weight: 600;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
 }
 
 .notes-text {
   font-size: 0.7rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   font-style: italic;
 }
 
 .photo-thumb-btn {
   position: relative;
   background: transparent;
-  border: 1px solid var(--admin-border, #1E293B);
+  border: 1px solid var(--admin-border, #1e293b);
   border-radius: 4px;
   padding: 0;
   cursor: pointer;
@@ -212,20 +212,20 @@
   bottom: 2px;
   right: 2px;
   background: rgba(11, 15, 25, 0.8);
-  color: var(--admin-primary, #38BDF8);
+  color: var(--admin-primary, #38bdf8);
   padding: 2px;
   border-radius: 2px;
 }
 
 .pill-approved {
   background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
-  color: var(--admin-success, #10B981);
+  color: var(--admin-success, #10b981);
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .pill-rejected {
   background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
-  color: var(--admin-danger, #EF4444);
+  color: var(--admin-danger, #ef4444);
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
@@ -235,7 +235,7 @@
   gap: 4px;
   padding: 5px 10px;
   background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
-  color: var(--admin-success, #10B981);
+  color: var(--admin-success, #10b981);
   border: 1px solid rgba(16, 185, 129, 0.3);
   border-radius: var(--radius-sm, 0.25rem);
   font-size: 0.725rem;
@@ -245,8 +245,8 @@
 }
 
 .approve-btn:hover {
-  background: var(--admin-success, #10B981);
-  color: #0B0F19;
+  background: var(--admin-success, #10b981);
+  color: #0b0f19;
 }
 
 .reject-btn {
@@ -255,7 +255,7 @@
   gap: 4px;
   padding: 5px 8px;
   background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
-  color: var(--admin-danger, #EF4444);
+  color: var(--admin-danger, #ef4444);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: var(--radius-sm, 0.25rem);
   font-size: 0.725rem;
@@ -264,13 +264,13 @@
 }
 
 .reject-btn:hover {
-  background: var(--admin-danger, #EF4444);
-  color: #FFFFFF;
+  background: var(--admin-danger, #ef4444);
+  color: #ffffff;
 }
 
 .decision-final-tag {
   font-size: 0.7rem;
-  color: var(--admin-text-subtle, #64748B);
+  color: var(--admin-text-subtle, #64748b);
 }
 
 /* Lightbox Modal */
@@ -288,8 +288,8 @@
 }
 
 .lightbox-card {
-  background: var(--admin-card, #151D2F);
-  border: 1px solid var(--admin-border, #1E293B);
+  background: var(--admin-card, #151d2f);
+  border: 1px solid var(--admin-border, #1e293b);
   border-radius: var(--radius-lg, 0.75rem);
   max-width: 500px;
   width: 100%;
@@ -301,19 +301,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--admin-border, #1E293B);
+  border-bottom: 1px solid var(--admin-border, #1e293b);
 }
 
 .lightbox-title {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
 }
 
 .lightbox-close-btn {
   background: transparent;
   border: none;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   cursor: pointer;
 }
 
@@ -326,7 +326,7 @@
 }
 
 .reject-modal-card {
-  background: var(--admin-card, #151D2F);
+  background: var(--admin-card, #151d2f);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: var(--radius-lg, 0.75rem);
   max-width: 440px;
@@ -345,24 +345,24 @@
   font-family: var(--font-heading, sans-serif);
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
   margin: 0;
 }
 
 .reject-desc {
   font-size: 0.85rem;
-  color: var(--admin-text-muted, #94A3B8);
+  color: var(--admin-text-muted, #94a3b8);
   line-height: 1.5;
   margin: 0 0 var(--space-4, 1rem) 0;
 }
 
 .reject-select {
   width: 100%;
-  background: var(--admin-bg, #0B0F19);
-  border: 1px solid var(--admin-border, #1E293B);
+  background: var(--admin-bg, #0b0f19);
+  border: 1px solid var(--admin-border, #1e293b);
   border-radius: var(--radius-sm, 0.25rem);
   padding: 8px 12px;
-  color: var(--admin-text, #F8FAFC);
+  color: var(--admin-text, #f8fafc);
   font-size: 0.825rem;
   margin-top: 6px;
 }
@@ -376,8 +376,8 @@
 
 .confirm-reject-btn {
   padding: 8px 16px;
-  background: var(--admin-danger, #EF4444);
-  color: #FFFFFF;
+  background: var(--admin-danger, #ef4444);
+  color: #ffffff;
   border: none;
   border-radius: var(--radius-sm, 0.25rem);
   font-size: 0.825rem;
@@ -386,5 +386,5 @@
 }
 
 .confirm-reject-btn:hover {
-  background: #DC2626;
+  background: #dc2626;
 }

@@ -196,7 +196,10 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
           </div>
           <div className="telemetry-pill">
             <span className="telemetry-label">Backend Reverse Proxy</span>
-            <span className="telemetry-val" style={{ color: isBackendHealthy ? 'var(--admin-success)' : 'var(--admin-warning)' }}>
+            <span
+              className="telemetry-val"
+              style={{ color: isBackendHealthy ? 'var(--admin-success)' : 'var(--admin-warning)' }}
+            >
               {gatewayMessage || 'Backend Online (Port 5000)'}
             </span>
           </div>

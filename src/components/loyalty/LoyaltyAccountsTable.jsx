@@ -207,11 +207,7 @@ export default function LoyaltyAccountsTable({ accounts = [], onAdjustPoints }) 
                 const isUnderSpend = threshold > 0 && spend < threshold;
 
                 return (
-                  <tr
-                    key={acc.id}
-                    className="loyalty-row"
-                    data-testid={`loyalty-row-${acc.id}`}
-                  >
+                  <tr key={acc.id} className="loyalty-row" data-testid={`loyalty-row-${acc.id}`}>
                     <td>
                       <div className="customer-cell">
                         <span className="cust-name">{acc.customer_name}</span>
@@ -240,18 +236,20 @@ export default function LoyaltyAccountsTable({ accounts = [], onAdjustPoints }) 
                             className="spend-progress-bar"
                             style={{
                               width: `${spendPct}%`,
-                              backgroundColor: isUnderSpend ? 'var(--admin-warning)' : 'var(--admin-success)',
+                              backgroundColor: isUnderSpend
+                                ? 'var(--admin-warning)'
+                                : 'var(--admin-success)',
                             }}
                           />
                         </div>
                       </div>
                     </td>
                     <td>
-                      <span className="points-cell">{acc.points_balance?.toLocaleString()} pts</span>
+                      <span className="points-cell">
+                        {acc.points_balance?.toLocaleString()} pts
+                      </span>
                     </td>
-                    <td data-testid={`grace-status-${acc.id}`}>
-                      {getGraceStatusBadge(acc)}
-                    </td>
+                    <td data-testid={`grace-status-${acc.id}`}>{getGraceStatusBadge(acc)}</td>
                     <td style={{ textAlign: 'right' }}>
                       <button
                         type="button"

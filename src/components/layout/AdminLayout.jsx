@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import AdminSidebar, { ADMIN_NAV_ITEMS } from './AdminSidebar'
-import AdminHeader from './AdminHeader'
-import '../../styles/admin-layout.css'
+import React, { useState } from 'react';
+import AdminSidebar, { ADMIN_NAV_ITEMS } from './AdminSidebar';
+import AdminHeader from './AdminHeader';
+import '../../styles/admin-layout.css';
 
 export default function AdminLayout({
   children,
@@ -10,9 +10,9 @@ export default function AdminLayout({
   isBackendHealthy = true,
   gatewayMessage = 'Backend Connected (Port 5000)',
 }) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  const activeItem = ADMIN_NAV_ITEMS.find((item) => item.id === currentTab) || ADMIN_NAV_ITEMS[0]
+  const activeItem = ADMIN_NAV_ITEMS.find((item) => item.id === currentTab) || ADMIN_NAV_ITEMS[0];
 
   return (
     <div className="admin-layout-root">
@@ -47,5 +47,5 @@ export default function AdminLayout({
         </footer>
       </div>
     </div>
-  )
+  );
 }

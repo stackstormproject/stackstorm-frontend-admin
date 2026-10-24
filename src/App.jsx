@@ -54,20 +54,39 @@ export default function App() {
       {currentTab === 'dashboard' && (
         <section style={{ padding: '1.5rem' }}>
           <h2>Executive Operations Dashboard</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '1rem' }}>
-            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '1rem',
+              marginTop: '1rem',
+            }}
+          >
+            <div
+              className="admin-kpi-card"
+              style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}
+            >
               <h3>Total Monthly Revenue</h3>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>LKR 845,200.00</p>
             </div>
-            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+            <div
+              className="admin-kpi-card"
+              style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}
+            >
               <h3>Active Orders Fulfilled</h3>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>142</p>
             </div>
-            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+            <div
+              className="admin-kpi-card"
+              style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}
+            >
               <h3>Low-Stock SKU Alerts</h3>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>6</p>
             </div>
-            <div className="admin-kpi-card" style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}>
+            <div
+              className="admin-kpi-card"
+              style={{ background: 'var(--admin-card)', padding: '1rem', borderRadius: '8px' }}
+            >
               <h3>Live Support Queue</h3>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>3</p>
             </div>

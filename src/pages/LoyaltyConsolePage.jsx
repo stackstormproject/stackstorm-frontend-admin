@@ -98,9 +98,7 @@ export default function LoyaltyConsolePage() {
     }
   };
 
-  const platinumCount = accounts.filter(
-    (a) => (a.tier || '').toLowerCase() === 'platinum'
-  ).length;
+  const platinumCount = accounts.filter((a) => (a.tier || '').toLowerCase() === 'platinum').length;
   const goldCount = accounts.filter((a) => (a.tier || '').toLowerCase() === 'gold').length;
   const silverCount = accounts.filter((a) => (a.tier || '').toLowerCase() === 'silver').length;
   const graceAccountsCount = accounts.filter(
@@ -129,7 +127,8 @@ export default function LoyaltyConsolePage() {
           </div>
           <h1 className="loyalty-title">Loyalty Tier Console &amp; Grace Period Oversight</h1>
           <p className="loyalty-subtitle">
-            Monitor customer tier progression, inspect annual spend against thresholds, issue customer service goodwill adjustments, and govern 2-quarter grace downgrades.
+            Monitor customer tier progression, inspect annual spend against thresholds, issue
+            customer service goodwill adjustments, and govern 2-quarter grace downgrades.
           </p>
         </div>
 
@@ -154,7 +153,10 @@ export default function LoyaltyConsolePage() {
             <span className="kpi-label">Total Tier Members</span>
             <div
               className="kpi-icon-box"
-              style={{ backgroundColor: 'var(--admin-primary-subtle)', color: 'var(--admin-primary)' }}
+              style={{
+                backgroundColor: 'var(--admin-primary-subtle)',
+                color: 'var(--admin-primary)',
+              }}
             >
               <Users size={16} />
             </div>
@@ -230,21 +232,26 @@ export default function LoyaltyConsolePage() {
             <span>2-Quarter Grace Period Policy (SDS §11.4)</span>
           </h3>
           <p className="policy-desc">
-            Dickwella Fashion Corner enforces a stateful hysteresis retention model. Shoppers who experience a temporary dip in spending do not lose high-tier privileges prematurely.
+            Dickwella Fashion Corner enforces a stateful hysteresis retention model. Shoppers who
+            experience a temporary dip in spending do not lose high-tier privileges prematurely.
           </p>
 
           <div className="policy-steps">
             <div className="policy-step">
               <span
                 className="step-num"
-                style={{ backgroundColor: 'var(--admin-success-bg)', color: 'var(--admin-success)' }}
+                style={{
+                  backgroundColor: 'var(--admin-success-bg)',
+                  color: 'var(--admin-success)',
+                }}
               >
                 1
               </span>
               <div className="step-content">
                 <span className="step-label">Stage 1: Active / Maintained</span>
                 <span className="step-detail">
-                  Customer annual spend meets or exceeds the tier threshold. Tier benefits remain fully unlocked.
+                  Customer annual spend meets or exceeds the tier threshold. Tier benefits remain
+                  fully unlocked.
                 </span>
               </div>
             </div>
@@ -252,14 +259,18 @@ export default function LoyaltyConsolePage() {
             <div className="policy-step">
               <span
                 className="step-num"
-                style={{ backgroundColor: 'var(--admin-warning-bg)', color: 'var(--admin-warning)' }}
+                style={{
+                  backgroundColor: 'var(--admin-warning-bg)',
+                  color: 'var(--admin-warning)',
+                }}
               >
                 2
               </span>
               <div className="step-content">
                 <span className="step-label">Stage 2: Q1 Grace Warning (Tier Preserved)</span>
                 <span className="step-detail">
-                  1 quarter below threshold. Account enters grace period. Tier and multiplier perks are 100% preserved.
+                  1 quarter below threshold. Account enters grace period. Tier and multiplier perks
+                  are 100% preserved.
                 </span>
               </div>
             </div>
@@ -274,7 +285,8 @@ export default function LoyaltyConsolePage() {
               <div className="step-content">
                 <span className="step-label">Stage 3: Q2 Downgrade Pending</span>
                 <span className="step-detail">
-                  2 consecutive quarters below threshold. Downgrade is scheduled and applied during the next quarterly audit sweep.
+                  2 consecutive quarters below threshold. Downgrade is scheduled and applied during
+                  the next quarterly audit sweep.
                 </span>
               </div>
             </div>
@@ -283,10 +295,7 @@ export default function LoyaltyConsolePage() {
       </div>
 
       {/* Accounts Table */}
-      <LoyaltyAccountsTable
-        accounts={accounts}
-        onAdjustPoints={(acc) => setSelectedAccount(acc)}
-      />
+      <LoyaltyAccountsTable accounts={accounts} onAdjustPoints={(acc) => setSelectedAccount(acc)} />
 
       {/* Points Adjustment Modal */}
       <PointsAdjustmentModal

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Package,
-  AlertTriangle,
-  Boxes,
-  Clock,
-  RefreshCw,
-  Sparkles,
-  Layers,
-} from 'lucide-react';
+import { Package, AlertTriangle, Boxes, Clock, RefreshCw, Sparkles, Layers } from 'lucide-react';
 import InventoryTable from '../components/inventory/InventoryTable';
 import StockAdjustmentModal from '../components/inventory/StockAdjustmentModal';
 import { inventoryApi, FALLBACK_INVENTORY } from '../api/inventory.api';
@@ -54,7 +46,15 @@ export default function InventoryPage() {
     setSelectedVariant(null);
   };
 
-  const handleStockAdjustmentSubmit = async ({ sku, delta, reason, notes, newStockLevel, variantId, productId }) => {
+  const handleStockAdjustmentSubmit = async ({
+    sku,
+    delta,
+    reason,
+    notes,
+    newStockLevel,
+    variantId,
+    productId,
+  }) => {
     // 1. Optimistic in-place state update without full page reload (AC4)
     setProducts((prevProducts) =>
       prevProducts.map((prod) => {
@@ -85,7 +85,9 @@ export default function InventoryPage() {
 
     // 3. User feedback
     const formattedDelta = delta > 0 ? `+${delta}` : `${delta}`;
-    setToastMessage(`Stock updated: SKU ${sku} (${formattedDelta} units). Audit recorded: "${reason}".`);
+    setToastMessage(
+      `Stock updated: SKU ${sku} (${formattedDelta} units). Audit recorded: "${reason}".`
+    );
     setTimeout(() => setToastMessage(''), 4500);
   };
 
@@ -129,7 +131,8 @@ export default function InventoryPage() {
           </div>
           <h1 className="inventory-title">Inventory & SKU Restock Matrix</h1>
           <p className="inventory-subtitle">
-            Audit physical apparel stock, monitor 15-minute checkout reservations, and execute compliant restock adjustments.
+            Audit physical apparel stock, monitor 15-minute checkout reservations, and execute
+            compliant restock adjustments.
           </p>
         </div>
 
@@ -157,7 +160,9 @@ export default function InventoryPage() {
               <Boxes size={18} />
             </div>
           </div>
-          <div className="inv-kpi-val" data-testid="kpi-total-skus">{totalSkus} SKUs</div>
+          <div className="inv-kpi-val" data-testid="kpi-total-skus">
+            {totalSkus} SKUs
+          </div>
           <span className="inv-kpi-sub">Across {products.length} Garment Styles</span>
         </div>
 
@@ -168,7 +173,9 @@ export default function InventoryPage() {
               <AlertTriangle size={18} />
             </div>
           </div>
-          <div className="inv-kpi-val text-danger" data-testid="kpi-low-stock-skus">{lowStockSkus} SKUs</div>
+          <div className="inv-kpi-val text-danger" data-testid="kpi-low-stock-skus">
+            {lowStockSkus} SKUs
+          </div>
           <span className="inv-kpi-sub">Available stock &lt; 5 units</span>
         </div>
 
@@ -179,7 +186,9 @@ export default function InventoryPage() {
               <Package size={18} />
             </div>
           </div>
-          <div className="inv-kpi-val text-success" data-testid="kpi-onhand-units">{totalOnHandUnits} Units</div>
+          <div className="inv-kpi-val text-success" data-testid="kpi-onhand-units">
+            {totalOnHandUnits} Units
+          </div>
           <span className="inv-kpi-sub">Physical warehouse stock</span>
         </div>
 
@@ -190,7 +199,9 @@ export default function InventoryPage() {
               <Clock size={18} />
             </div>
           </div>
-          <div className="inv-kpi-val text-warning" data-testid="kpi-reserved-units">{totalReservedUnits} Reserved</div>
+          <div className="inv-kpi-val text-warning" data-testid="kpi-reserved-units">
+            {totalReservedUnits} Reserved
+          </div>
           <span className="inv-kpi-sub">15-minute temporary lock</span>
         </div>
       </div>
