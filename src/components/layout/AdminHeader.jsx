@@ -1,11 +1,21 @@
 import React from 'react';
-import { Bell, Search, ExternalLink, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
+import {
+  Bell,
+  Search,
+  ExternalLink,
+  ShieldCheck,
+  CheckCircle2,
+  AlertCircle,
+  LogOut,
+} from 'lucide-react';
+import { useAdminAuth } from '../../context/AdminAuthContext';
 
 export default function AdminHeader({
   activeTabLabel = 'Dashboard & KPIs',
   isBackendHealthy = true,
-  gatewayMessage = 'Backend Connected (Port 5000)',
+  gatewayMessage = 'Backend Connected',
 }) {
+  const { logout } = useAdminAuth();
   return (
     <header className="admin-top-header" role="banner">
       {/* Breadcrumbs */}
@@ -46,7 +56,7 @@ export default function AdminHeader({
           rel="noreferrer"
           className="tool-icon-btn"
           aria-label="Open Customer Storefront"
-          title="Open Storefront (Port 5173)"
+          title="Open Customer Storefront"
         >
           <ExternalLink size={18} />
         </a>
@@ -69,6 +79,18 @@ export default function AdminHeader({
             ADMIN
           </span>
         </div>
+
+        {/* Logout Control */}
+        <button
+          onClick={logout}
+          className="tool-icon-btn"
+          aria-label="Log Out of Admin Portal"
+          title="Sign Out of Session"
+          style={{ color: 'var(--admin-danger)' }}
+          data-testid="admin-logout-btn"
+        >
+          <LogOut size={16} />
+        </button>
       </div>
     </header>
   );

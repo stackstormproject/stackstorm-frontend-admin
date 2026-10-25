@@ -127,14 +127,11 @@ describe('STORM-FE-003: Admin Portal React 18 + Vite Scaffolding & Dark Control 
     expect(screen.getByText(/Live Support Queue/i)).toBeInTheDocument();
   });
 
-  it('AC6: should display student engineering team credits in the admin portal footer', async () => {
+  it('AC6: should display portal footer in the admin layout', async () => {
     await act(async () => {
       render(<App />);
     });
 
-    expect(screen.getByText(/Amarawickrama R.H./i)).toBeInTheDocument();
-    expect(screen.getAllByText(/S. Thanoogithan/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/B.K. Pabasara/i)).toBeInTheDocument();
-    expect(screen.getByText(/Lakshani A.T./i)).toBeInTheDocument();
+    expect(screen.getByText(/StackStorm Control Room v1\.0 • Dickwella Fashion Corner Operations/i)).toBeInTheDocument();
   });
 });

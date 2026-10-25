@@ -1,0 +1,64 @@
+/* Low Stock Badge Component Styles */
+.stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.725rem;
+  font-weight: 600;
+  white-space: nowrap;
+  position: relative;
+}
+
+.badge-in-stock {
+  background: var(--admin-success-bg, rgba(16, 185, 129, 0.15));
+  color: var(--admin-success, #10B981);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-low-stock {
+  background: var(--admin-danger-bg, rgba(239, 68, 68, 0.15));
+  color: var(--admin-danger, #EF4444);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-out-of-stock {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--admin-text-subtle, #64748B);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Pulsing Red Indicator Ring */
+.pulsing {
+  animation: badgePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--admin-danger, #EF4444);
+  display: inline-block;
+  animation: dotBlink 1s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes dotBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}

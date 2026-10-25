@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldAlert,
+  Shirt,
 } from 'lucide-react';
 
 export const ADMIN_NAV_ITEMS = [
@@ -18,6 +19,13 @@ export const ADMIN_NAV_ITEMS = [
     icon: LayoutDashboard,
     path: '/admin/dashboard',
     badge: 'Live',
+  },
+  {
+    id: 'catalog',
+    label: 'Product Catalog',
+    icon: Shirt,
+    path: '/admin/catalog',
+    badge: 'Add',
   },
   {
     id: 'inventory',
@@ -33,8 +41,20 @@ export const ADMIN_NAV_ITEMS = [
     path: '/admin/orders',
     badge: '8 New',
   },
-  { id: 'returns', label: '30-Day Returns', icon: RotateCcw, path: '/admin/returns', badge: null },
-  { id: 'loyalty', label: 'Loyalty Tiers', icon: Award, path: '/admin/loyalty', badge: null },
+  {
+    id: 'returns',
+    label: '30-Day Returns',
+    icon: RotateCcw,
+    path: '/admin/returns',
+    badge: null,
+  },
+  {
+    id: 'loyalty',
+    label: 'Loyalty Tiers',
+    icon: Award,
+    path: '/admin/loyalty',
+    badge: null,
+  },
   {
     id: 'support',
     label: 'Live Support Chat',
