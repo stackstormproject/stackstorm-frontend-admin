@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { ShieldX, LogIn, ExternalLink, RefreshCw } from 'lucide-react';
+import AdminLoginPage from '../pages/AdminLoginPage';
 import './AdminRoute.css';
 
 export default function AdminRoute({
   children,
-  allowedRoles = ['admin', 'inventory_manager', 'inventory_staff'],
+  allowedRoles = ['admin', 'super_admin', 'inventory_manager', 'inventory_staff', 'support_agent'],
   fallback = null,
 }) {
   const { user, isAuthenticated, hasRole, logout } = useAdminAuth();
+  const [showLoginForm, setShowLoginForm] = useState(false);
 
   // 1. Unauthenticated -> Redirect or Login Gate
   if (!isAuthenticated || !user) {
     if (fallback) return fallback;
+
+    if (showLoginForm) {
+      return <AdminLoginPage onLoginSuccess={() => setShowLoginForm(false)} />;
+    }
 
     return (
       <div className="admin-route-guard-container" data-testid="admin-login-guard">
@@ -26,7 +32,14 @@ export default function AdminRoute({
             Fashion Corner control room.
           </p>
           <div className="guard-actions">
-            <a href="/login" className="guard-btn guard-btn-primary">
+            <a
+              href="#login"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowLoginForm(true);
+              }}
+              className="guard-btn guard-btn-primary"
+            >
               <LogIn size={16} /> Log In to Admin Console
             </a>
             <a href="http://localhost:5173" className="guard-btn guard-btn-ghost">

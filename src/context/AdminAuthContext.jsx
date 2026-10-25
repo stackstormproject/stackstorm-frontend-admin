@@ -74,8 +74,10 @@ export function AdminAuthProvider({
     setToken(null);
   };
 
-  const hasRole = (allowedRoles = ['admin', 'inventory_manager', 'inventory_staff']) => {
+  const hasRole = (allowedRoles = ['admin', 'super_admin', 'inventory_manager', 'inventory_staff', 'support_agent']) => {
     if (!user || !user.role) return false;
+    // super_admin has unconditional root privileges across all admin operations
+    if (user.role === 'super_admin') return true;
     return allowedRoles.includes(user.role);
   };
 
@@ -84,8 +86,13 @@ export function AdminAuthProvider({
     role: user?.role || null,
     token,
     isAuthenticated: !!token && !!user,
-    isAdmin: user?.role === 'admin',
-    isInventoryManager: user?.role === 'inventory_manager' || user?.role === 'inventory_staff',
+    isAdmin: user?.role === 'admin' || user?.role === 'super_admin',
+    isSuperAdmin: user?.role === 'super_admin',
+    isInventoryManager:
+      user?.role === 'inventory_manager' ||
+      user?.role === 'inventory_staff' ||
+      user?.role === 'super_admin' ||
+      user?.role === 'admin',
     hasRole,
     login,
     logout,

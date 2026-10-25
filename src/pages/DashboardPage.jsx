@@ -191,8 +191,8 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
             <span className="telemetry-val primary-color">#38BDF8 (Sky Blue)</span>
           </div>
           <div className="telemetry-pill">
-            <span className="telemetry-label">Vite Admin Port</span>
-            <span className="telemetry-val accent-color">Port 5174 (Strict)</span>
+            <span className="telemetry-label">Vite Admin Console</span>
+            <span className="telemetry-val accent-color">Active (Strict)</span>
           </div>
           <div className="telemetry-pill">
             <span className="telemetry-label">Backend Reverse Proxy</span>
@@ -200,7 +200,7 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
               className="telemetry-val"
               style={{ color: isBackendHealthy ? 'var(--admin-success)' : 'var(--admin-warning)' }}
             >
-              {gatewayMessage || 'Backend Online (Port 5000)'}
+              {gatewayMessage || 'Backend Online'}
             </span>
           </div>
         </div>

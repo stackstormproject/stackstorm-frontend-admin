@@ -152,6 +152,10 @@ export const adminLoyaltyApi = {
     }
   },
 
+  getLoyaltyAccounts() {
+    return this.getAccounts();
+  },
+
   /**
    * Manually adjusts customer loyalty points balance with audit reason
    */
