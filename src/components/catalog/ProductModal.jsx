@@ -96,8 +96,7 @@ export default function ProductModal({
         material: 'Pure Handloom Cotton',
         careInstructions: 'Dry clean only or cold gentle hand wash with mild detergent.',
         description: '',
-        primaryImage:
-          'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80',
+        primaryImage: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80',
         isFinalSale: false,
         variants: [
           {
@@ -278,9 +277,7 @@ export default function ProductModal({
                   className={formErrors.name ? 'input-error' : ''}
                   data-testid="product-name-input"
                 />
-                {formErrors.name && (
-                  <span className="field-error-text">{formErrors.name}</span>
-                )}
+                {formErrors.name && <span className="field-error-text">{formErrors.name}</span>}
               </div>
 
               <div className="form-row-2">
@@ -336,9 +333,7 @@ export default function ProductModal({
                     className={formErrors.price ? 'input-error' : ''}
                     data-testid="product-price-input"
                   />
-                  {formErrors.price && (
-                    <span className="field-error-text">{formErrors.price}</span>
-                  )}
+                  {formErrors.price && <span className="field-error-text">{formErrors.price}</span>}
                 </div>
 
                 <div className="form-group">
@@ -456,7 +451,9 @@ export default function ProductModal({
               <table className="variants-form-table">
                 <thead>
                   <tr>
-                    <th>Variant SKU <span className="req">*</span></th>
+                    <th>
+                      Variant SKU <span className="req">*</span>
+                    </th>
                     <th>Size</th>
                     <th>Colorway</th>
                     <th>Initial Stock</th>
@@ -568,8 +565,8 @@ export default function ProductModal({
                 {isSubmitting
                   ? 'Saving Garment...'
                   : isEdit
-                  ? 'Update Product Details'
-                  : 'Publish Garment to Catalog'}
+                    ? 'Update Product Details'
+                    : 'Publish Garment to Catalog'}
               </span>
             </button>
           </div>
