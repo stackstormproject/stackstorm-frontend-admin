@@ -88,6 +88,33 @@
   border-color: var(--admin-primary, #38bdf8);
 }
 
+.inventory-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inventory-add-product-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--admin-primary, #38bdf8), #0284c7);
+  border: none;
+  color: #0b0f19;
+  padding: 8px 16px;
+  border-radius: var(--radius-md, 0.5rem);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+  transition: all 0.2s ease;
+}
+
+.inventory-add-product-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.45);
+}
+
 .inventory-kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

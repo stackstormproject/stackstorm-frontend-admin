@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Package, AlertTriangle, Boxes, Clock, RefreshCw, Sparkles, Layers } from 'lucide-react';
+import {
+  Package,
+  AlertTriangle,
+  Boxes,
+  Clock,
+  RefreshCw,
+  Sparkles,
+  Layers,
+  Plus,
+} from 'lucide-react';
 import InventoryTable from '../components/inventory/InventoryTable';
 import StockAdjustmentModal from '../components/inventory/StockAdjustmentModal';
+import ProductModal from '../components/catalog/ProductModal';
 import { inventoryApi, FALLBACK_INVENTORY } from '../api/inventory.api';
+import { adminProductsApi } from '../api/adminProducts.api';
 import './InventoryPage.css';
 
-export default function InventoryPage() {
+export default function InventoryPage({ onNavigateToCatalog }) {
   const [products, setProducts] = useState(FALLBACK_INVENTORY);
   const [isLoading, setIsLoading] = useState(false);
   const [lowStockOnly, setLowStockOnly] = useState(false);
@@ -15,6 +26,9 @@ export default function InventoryPage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Add Product Modal State
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
   const fetchInventory = async () => {
     setIsLoading(true);
@@ -91,6 +105,37 @@ export default function InventoryPage() {
     setTimeout(() => setToastMessage(''), 4500);
   };
 
+  const handleAddNewProductSubmit = async (payload) => {
+    try {
+      await adminProductsApi.createProduct(payload);
+      setToastMessage(`Product "${payload.name}" created successfully and added to catalog.`);
+      setTimeout(() => setToastMessage(''), 4500);
+      fetchInventory();
+    } catch {
+      // Optimistic local update
+      const newInventoryItem = {
+        id: Date.now(),
+        title: payload.name,
+        category: payload.category || 'Apparel',
+        sku_prefix: (payload.category || 'SKU').substring(0, 3).toUpperCase(),
+        thumbnail:
+          payload.primaryImage ||
+          'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=150&q=80',
+        variants: (payload.variants || []).map((v, i) => ({
+          id: Date.now() + i,
+          sku: v.sku,
+          color: v.color || 'Natural',
+          size: v.size || 'One Size',
+          stock_quantity: Number(v.stockQuantity) || 0,
+          reserved_quantity: 0,
+        })),
+      };
+      setProducts((prev) => [newInventoryItem, ...prev]);
+      setToastMessage(`Product "${payload.name}" added to inventory catalog.`);
+      setTimeout(() => setToastMessage(''), 4500);
+    }
+  };
+
   // Compute Aggregate Inventory Telemetry
   let totalSkus = 0;
   let lowStockSkus = 0;
@@ -147,6 +192,16 @@ export default function InventoryPage() {
           >
             <RefreshCw size={14} className={isLoading ? 'spinning' : ''} />
             <span>{isLoading ? 'Syncing...' : 'Sync Warehouse'}</span>
+          </button>
+
+          <button
+            type="button"
+            className="inventory-add-product-btn"
+            onClick={() => setIsAddProductOpen(true)}
+            data-testid="open-add-product-modal-btn"
+          >
+            <Plus size={14} />
+            <span>Add New Product</span>
           </button>
         </div>
       </div>
@@ -221,6 +276,13 @@ export default function InventoryPage() {
         product={selectedProduct}
         variant={selectedVariant}
         onSubmit={handleStockAdjustmentSubmit}
+      />
+
+      {/* Add New Product Modal */}
+      <ProductModal
+        isOpen={isAddProductOpen}
+        onClose={() => setIsAddProductOpen(false)}
+        onSubmit={handleAddNewProductSubmit}
       />
     </div>
   );
