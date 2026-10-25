@@ -17,7 +17,8 @@ export const FALLBACK_PRODUCTS = [
     brand: 'Dickwella Atelier',
     category: 'Saree',
     material: 'Pure Handloom Cotton',
-    description: 'A stunning handloom saree woven by master artisans in the Dickwella region, featuring traditional Ceylon motifs in vibrant colours.',
+    description:
+      'A stunning handloom saree woven by master artisans in the Dickwella region, featuring traditional Ceylon motifs in vibrant colours.',
     primaryImage: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=300&q=80',
     isFinalSale: false,
     variants: [
@@ -33,7 +34,8 @@ export const FALLBACK_PRODUCTS = [
     brand: 'Dickwella Atelier',
     category: 'Shirt',
     material: 'Natural Silk',
-    description: 'Individually hand-dyed batik shirt with unique wax-resist patterns. Each piece is one-of-a-kind due to the artisanal dyeing process.',
+    description:
+      'Individually hand-dyed batik shirt with unique wax-resist patterns. Each piece is one-of-a-kind due to the artisanal dyeing process.',
     primaryImage: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&q=80',
     isFinalSale: false,
     variants: [
@@ -50,7 +52,8 @@ export const FALLBACK_PRODUCTS = [
     brand: 'Dickwella Atelier',
     category: 'Dress',
     material: 'Lightweight Chiffon',
-    description: 'Flowing tropical kaftan with hand-embroidered floral motifs. Perfect for warm evenings and beach resort wear.',
+    description:
+      'Flowing tropical kaftan with hand-embroidered floral motifs. Perfect for warm evenings and beach resort wear.',
     primaryImage: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=300&q=80',
     isFinalSale: false,
     variants: [
@@ -66,7 +69,8 @@ export const FALLBACK_PRODUCTS = [
     brand: 'Dickwella Atelier',
     category: 'Sarong',
     material: 'Handloom Cotton',
-    description: 'Traditional Sri Lankan sarong woven on handlooms in the Southern Province. Available in authentic check and stripe patterns.',
+    description:
+      'Traditional Sri Lankan sarong woven on handlooms in the Southern Province. Available in authentic check and stripe patterns.',
     primaryImage: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300&q=80',
     isFinalSale: false,
     variants: [
@@ -82,7 +86,8 @@ export const FALLBACK_PRODUCTS = [
     brand: 'Dickwella Atelier',
     category: 'Trouser',
     material: '100% Linen',
-    description: 'Relaxed-fit linen trousers tailored for the tropical climate. Features a natural texture and breathable weave.',
+    description:
+      'Relaxed-fit linen trousers tailored for the tropical climate. Features a natural texture and breathable weave.',
     primaryImage: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&q=80',
     isFinalSale: false,
     variants: [

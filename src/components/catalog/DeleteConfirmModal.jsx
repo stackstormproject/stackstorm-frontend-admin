@@ -22,12 +22,7 @@ export default function DeleteConfirmModal({
           <div className="delete-icon-box">
             <AlertTriangle size={24} />
           </div>
-          <button
-            type="button"
-            className="modal-close-btn"
-            onClick={onClose}
-            aria-label="Close"
-          >
+          <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close">
             <X size={18} />
           </button>
         </div>
@@ -38,8 +33,8 @@ export default function DeleteConfirmModal({
           </h3>
           <p className="delete-modal-text">
             Are you sure you want to remove{' '}
-            <strong className="delete-highlight">{product.name}</strong> (ID: {product.id})?
-            This will purge the garment and associated SKUs from public listing.
+            <strong className="delete-highlight">{product.name}</strong> (ID: {product.id})? This
+            will purge the garment and associated SKUs from public listing.
           </p>
         </div>
 

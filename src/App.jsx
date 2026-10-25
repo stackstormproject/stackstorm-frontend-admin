@@ -64,12 +64,12 @@ function AdminAppContent() {
           user?.role === 'super_admin'
             ? 'Executive Super Admin'
             : user?.role === 'admin'
-            ? 'Executive Store Owner'
-            : user?.role === 'inventory_manager'
-            ? 'Lead Inventory Engineer'
-            : user?.role === 'support_agent'
-            ? 'Customer Support Lead'
-            : 'Operations Specialist'
+              ? 'Executive Store Owner'
+              : user?.role === 'inventory_manager'
+                ? 'Lead Inventory Engineer'
+                : user?.role === 'support_agent'
+                  ? 'Customer Support Lead'
+                  : 'Operations Specialist'
         }
       >
         {/* View 1: Dashboard & KPIs */}

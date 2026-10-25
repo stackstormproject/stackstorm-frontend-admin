@@ -98,9 +98,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, var(--admin-primary, #38BDF8), #0284C7);
+  background: linear-gradient(135deg, var(--admin-primary, #38bdf8), #0284c7);
   border: none;
-  color: #0B0F19;
+  color: #0b0f19;
   padding: 8px 16px;
   border-radius: var(--radius-md, 0.5rem);
   font-size: 0.8rem;

@@ -132,6 +132,8 @@ describe('STORM-FE-003: Admin Portal React 18 + Vite Scaffolding & Dark Control 
       render(<App />);
     });
 
-    expect(screen.getByText(/StackStorm Control Room v1\.0 • Dickwella Fashion Corner Operations/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/StackStorm Control Room v1\.0 • Dickwella Fashion Corner Operations/i)
+    ).toBeInTheDocument();
   });
 });
