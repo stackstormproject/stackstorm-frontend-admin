@@ -18,11 +18,7 @@ import {
   CheckCircle2,
   AlertTriangle,
 } from 'lucide-react';
-import {
-  adminProductsApi,
-  FALLBACK_PRODUCTS,
-  FALLBACK_CATEGORIES,
-} from '../api/adminProducts.api';
+import { adminProductsApi, FALLBACK_PRODUCTS, FALLBACK_CATEGORIES } from '../api/adminProducts.api';
 import ProductModal from '../components/catalog/ProductModal';
 import DeleteConfirmModal from '../components/catalog/DeleteConfirmModal';
 import './CatalogPage.css';
@@ -150,9 +146,7 @@ export default function CatalogPage() {
         const brandMatch = (prod.brand || '').toLowerCase().includes(q);
         const descMatch = (prod.description || '').toLowerCase().includes(q);
         const materialMatch = (prod.material || '').toLowerCase().includes(q);
-        const skuMatch = (prod.variants || []).some((v) =>
-          (v.sku || '').toLowerCase().includes(q)
-        );
+        const skuMatch = (prod.variants || []).some((v) => (v.sku || '').toLowerCase().includes(q));
         return nameMatch || brandMatch || descMatch || materialMatch || skuMatch;
       }
 
@@ -196,7 +190,8 @@ export default function CatalogPage() {
           </div>
           <h1 className="catalog-title">Product Catalog & Garment Management</h1>
           <p className="catalog-subtitle">
-            Configure apparel specifications, manage multi-variant SKUs, and publish new artisanal designs to the online store.
+            Configure apparel specifications, manage multi-variant SKUs, and publish new artisanal
+            designs to the online store.
           </p>
         </div>
 
@@ -293,11 +288,7 @@ export default function CatalogPage() {
             data-testid="catalog-search-input"
           />
           {searchQuery && (
-            <button
-              type="button"
-              className="search-clear-btn"
-              onClick={() => setSearchQuery('')}
-            >
+            <button type="button" className="search-clear-btn" onClick={() => setSearchQuery('')}>
               &times;
             </button>
           )}
@@ -364,11 +355,7 @@ export default function CatalogPage() {
               ? `No products match your search query "${searchQuery}".`
               : `No apparel products registered under category "${selectedCategory}".`}
           </p>
-          <button
-            type="button"
-            className="catalog-add-btn"
-            onClick={handleOpenAddModal}
-          >
+          <button type="button" className="catalog-add-btn" onClick={handleOpenAddModal}>
             <Plus size={16} />
             <span>Add New Product</span>
           </button>
@@ -414,9 +401,7 @@ export default function CatalogPage() {
                 </div>
 
                 <div className="product-card-body">
-                  <div className="card-brand-tag">
-                    {product.brand || 'Dickwella Atelier'}
-                  </div>
+                  <div className="card-brand-tag">{product.brand || 'Dickwella Atelier'}</div>
                   <h3 className="card-product-title" title={product.name}>
                     {product.name}
                   </h3>
@@ -441,7 +426,9 @@ export default function CatalogPage() {
                   <div className="card-variants-summary">
                     <div className="variant-pill-tag">
                       <Layers size={12} />
-                      <span>{variants.length} SKU Variant{variants.length > 1 ? 's' : ''}</span>
+                      <span>
+                        {variants.length} SKU Variant{variants.length > 1 ? 's' : ''}
+                      </span>
                     </div>
                     <div
                       className={`stock-badge ${
@@ -554,7 +541,10 @@ export default function CatalogPage() {
                       <div className="table-variants-cell">
                         <span>{variants.length} SKUs</span>
                         <span className="table-variant-sub">
-                          {variants.map((v) => v.size || 'OS').slice(0, 3).join(', ')}
+                          {variants
+                            .map((v) => v.size || 'OS')
+                            .slice(0, 3)
+                            .join(', ')}
                           {variants.length > 3 ? '...' : ''}
                         </span>
                       </div>
@@ -562,7 +552,11 @@ export default function CatalogPage() {
                     <td>
                       <span
                         className={`table-stock-badge ${
-                          totalStock > 10 ? 'in-stock' : totalStock > 0 ? 'low-stock' : 'out-of-stock'
+                          totalStock > 10
+                            ? 'in-stock'
+                            : totalStock > 0
+                              ? 'low-stock'
+                              : 'out-of-stock'
                         }`}
                       >
                         {totalStock} units

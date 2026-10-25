@@ -74,7 +74,9 @@ export function AdminAuthProvider({
     setToken(null);
   };
 
-  const hasRole = (allowedRoles = ['admin', 'super_admin', 'inventory_manager', 'inventory_staff', 'support_agent']) => {
+  const hasRole = (
+    allowedRoles = ['admin', 'super_admin', 'inventory_manager', 'inventory_staff', 'support_agent']
+  ) => {
     if (!user || !user.role) return false;
     // super_admin has unconditional root privileges across all admin operations
     if (user.role === 'super_admin') return true;
