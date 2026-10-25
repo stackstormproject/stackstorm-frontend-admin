@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import './LoyaltyAccountsTable.css';
 
-export default function LoyaltyAccountsTable({ accounts = [], onAdjustPoints }) {
+export default function LoyaltyAccountsTable({ accounts = [], onAdjustPoints, onOpenAdjustModal }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 
@@ -254,9 +254,12 @@ export default function LoyaltyAccountsTable({ accounts = [], onAdjustPoints }) 
                       <button
                         type="button"
                         className="btn-adjust-points"
-                        onClick={() => onAdjustPoints && onAdjustPoints(acc)}
+                        onClick={() => {
+                          if (onAdjustPoints) onAdjustPoints(acc);
+                          else if (onOpenAdjustModal) onOpenAdjustModal(acc);
+                        }}
                         title="Adjust points for customer goodwill"
-                        data-testid={`adjust-points-btn-${acc.id}`}
+                        data-testid={`adjust-points-btn-${acc.customer_id || acc.id}`}
                       >
                         <Edit3 size={13} />
                         <span>Adjust Points</span>

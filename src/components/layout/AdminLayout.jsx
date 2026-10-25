@@ -8,7 +8,9 @@ export default function AdminLayout({
   currentTab = 'dashboard',
   onSelectTab,
   isBackendHealthy = true,
-  gatewayMessage = 'Backend Connected (Port 5000)',
+  gatewayMessage = 'Backend Connected',
+  operatorName = 'S. Thanoogithan',
+  operatorRole = 'Lead Inventory Engineer',
 }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
@@ -22,6 +24,8 @@ export default function AdminLayout({
         onSelectTab={onSelectTab}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
+        operatorName={operatorName}
+        operatorRole={operatorRole}
       />
 
       {/* 2. Main Content Viewport */}
