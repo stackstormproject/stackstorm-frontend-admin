@@ -56,6 +56,15 @@ class ApiClient {
 
     const res = await fetch(url, config);
 
+    const contentType = res.headers?.get ? res.headers.get('content-type') : '';
+    if (contentType && contentType.includes('text/html')) {
+      const err = new Error(
+        `Endpoint '${endpoint}' returned HTML instead of JSON. Ensure backend is running and proxy is active.`
+      );
+      err.status = 502;
+      throw err;
+    }
+
     let data = {};
     if (typeof res.json === 'function') {
       try {
