@@ -259,5 +259,18 @@ describe('STORM-FE-017: Admin Role-Guarded Layout & Executive KPI Analytics Dash
 
       expect(global.fetch).toHaveBeenCalled();
     });
+
+    it('displays telemetry warning alert when backend fetch fails', async () => {
+      global.fetch = vi
+        .fn()
+        .mockImplementation(() => Promise.reject(new Error('PostgreSQL connection timeout')));
+
+      await act(async () => {
+        render(<DashboardPage isBackendHealthy={false} />);
+      });
+
+      expect(screen.getByTestId('telemetry-error-alert')).toBeInTheDocument();
+      expect(screen.getByText(/PostgreSQL connection timeout/i)).toBeInTheDocument();
+    });
   });
 });
