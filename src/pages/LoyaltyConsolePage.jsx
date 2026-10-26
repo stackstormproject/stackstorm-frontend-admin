@@ -26,7 +26,7 @@ export default function LoyaltyConsolePage() {
     setIsLoading(true);
     try {
       const data = await adminLoyaltyApi.getAccounts();
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data)) {
         setAccounts(data);
       }
     } catch {

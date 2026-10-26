@@ -1,12 +1,11 @@
 /**
  * Admin Authentication API Client
  * StackStorm E-Commerce Platform — Dickwella Fashion Corner
- * Endpoints:
+ * Connects directly to live backend endpoints:
  *   POST /api/v1/auth/admin/login
  *   GET  /api/v1/auth/admin/me
  */
-
-const BASE_URL = '/api/v1/auth';
+import apiClient from './client';
 
 export const DEMO_ADMIN_ACCOUNTS = [
   {
@@ -52,58 +51,31 @@ export const adminAuthApi = {
    * Submit credentials to POST /api/v1/auth/admin/login
    */
   async loginAdmin({ email, password }) {
-    try {
-      const res = await fetch(`${BASE_URL}/admin/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+    const { data } = await apiClient.post('/auth/admin/login', { email, password });
 
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        throw new Error(data.message || data.error || `HTTP ${res.status}: Invalid credentials`);
-      }
-
-      // Backend returns { admin: { id, name, email, role }, accessToken }
-      return {
-        user: data.admin || {
-          id: data.userId || 'admin-001',
-          name: data.name || email.split('@')[0],
-          email,
-          role: data.role || 'admin',
-        },
-        token: data.accessToken || 'jwt-admin-token',
+    const user = data.admin ||
+      data.user || {
+        id: data.userId || 'admin-001',
+        name: data.name || email.split('@')[0],
+        email,
+        role: data.role || 'admin',
       };
-    } catch (err) {
-      // Check if credentials match any demo account for resilient offline/mock testing
-      const matchedDemo = DEMO_ADMIN_ACCOUNTS.find(
-        (acc) => acc.email.toLowerCase() === email.toLowerCase() && acc.password === password
-      );
+    const token = data.accessToken || data.token || 'jwt-admin-token';
 
-      if (matchedDemo) {
-        return {
-          user: matchedDemo.user,
-          token: `demo-token-${Date.now()}`,
-        };
-      }
-
-      throw err;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('stackstorm_admin_token', token);
+      localStorage.setItem('stackstorm_admin_user', JSON.stringify(user));
     }
+
+    return { user, token };
   },
 
   /**
    * Fetch current authenticated admin profile
    */
   async getProfile(token) {
-    const res = await fetch(`${BASE_URL}/admin/me`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!res.ok) throw new Error('Session expired');
-    return res.json();
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const { data } = await apiClient.get('/auth/admin/me', { headers });
+    return data;
   },
 };

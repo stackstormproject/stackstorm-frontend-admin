@@ -4,7 +4,7 @@
  * Module Owner: Amarawickrama R.H.
  */
 
-const BASE_URL = '/api/v1/admin';
+import apiClient from './client';
 
 // Fallback mock analytics data for resilient offline testing and determinism
 export const FALLBACK_ANALYTICS = {
@@ -68,7 +68,7 @@ export const FALLBACK_ANALYTICS = {
       total_amount: 6800,
       total_formatted: 'LKR 6,800.00',
       status: 'processing',
-      created_at: '2026-10-05T07:15:00Z',
+      created_at: '2026-10-05T09:15:00Z',
     },
     {
       id: 3,
@@ -76,76 +76,76 @@ export const FALLBACK_ANALYTICS = {
       customer_name: 'Thisara Perera',
       customer_email: 'thisara@yahoo.com',
       items_count: 3,
-      total_amount: 21900,
-      total_formatted: 'LKR 21,900.00',
-      status: 'shipped',
-      created_at: '2026-10-04T16:45:00Z',
-    },
-    {
-      id: 4,
-      order_number: 'DFC-20261004-9898',
-      customer_name: 'Sanduni Wickramasinghe',
-      customer_email: 'sanduni.w@gmail.com',
-      items_count: 1,
-      total_amount: 4500,
-      total_formatted: 'LKR 4,500.00',
-      status: 'delivered',
-      created_at: '2026-10-04T11:20:00Z',
-    },
-    {
-      id: 5,
-      order_number: 'DFC-20261003-9895',
-      customer_name: 'Ruwani Jayawardena',
-      customer_email: 'ruwani.j@hotmail.com',
-      items_count: 4,
       total_amount: 32400,
       total_formatted: 'LKR 32,400.00',
       status: 'shipped',
-      created_at: '2026-10-03T14:10:00Z',
+      created_at: '2026-10-04T14:20:00Z',
+    },
+    {
+      id: 4,
+      order_number: 'DFC-20261004-9895',
+      customer_name: 'Sanduni Wickramasinghe',
+      customer_email: 'sanduni.w@gmail.com',
+      items_count: 1,
+      total_amount: 8500,
+      total_formatted: 'LKR 8,500.00',
+      status: 'delivered',
+      created_at: '2026-10-04T11:00:00Z',
+    },
+    {
+      id: 5,
+      order_number: 'DFC-20261003-9890',
+      customer_name: 'Roshan Bandara',
+      customer_email: 'roshan.b@gmail.com',
+      items_count: 2,
+      total_amount: 12600,
+      total_formatted: 'LKR 12,600.00',
+      status: 'delivered',
+      created_at: '2026-10-03T16:45:00Z',
     },
     {
       id: 6,
-      order_number: 'DFC-20261003-9892',
-      customer_name: 'Dinuka Bandara',
-      customer_email: 'dinuka.b@gmail.com',
-      items_count: 2,
-      total_amount: 12200,
-      total_formatted: 'LKR 12,200.00',
-      status: 'delivered',
-      created_at: '2026-10-03T09:05:00Z',
+      order_number: 'DFC-20261003-9888',
+      customer_name: 'Anoma Jayawardena',
+      customer_email: 'anoma.j@sltnet.lk',
+      items_count: 4,
+      total_amount: 45000,
+      total_formatted: 'LKR 45,000.00',
+      status: 'processing',
+      created_at: '2026-10-03T10:10:00Z',
     },
     {
       id: 7,
-      order_number: 'DFC-20261002-9887',
-      customer_name: 'Chamari Atapattu',
-      customer_email: 'chamari.a@gmail.com',
+      order_number: 'DFC-20261002-9884',
+      customer_name: 'Dinesh Chandimal',
+      customer_email: 'dinesh.c@gmail.com',
       items_count: 1,
-      total_amount: 8900,
-      total_formatted: 'LKR 8,900.00',
+      total_amount: 4200,
+      total_formatted: 'LKR 4,200.00',
       status: 'delivered',
-      created_at: '2026-10-02T15:30:00Z',
+      created_at: '2026-10-02T13:30:00Z',
     },
     {
       id: 8,
-      order_number: 'DFC-20261002-9884',
-      customer_name: 'Akila Dananjaya',
-      customer_email: 'akila.d@gmail.com',
+      order_number: 'DFC-20261002-9881',
+      customer_name: 'Chamari Athapaththu',
+      customer_email: 'chamari.a@yahoo.com',
       items_count: 2,
-      total_amount: 9500,
-      total_formatted: 'LKR 9,500.00',
-      status: 'delivered',
-      created_at: '2026-10-02T10:15:00Z',
+      total_amount: 18900,
+      total_formatted: 'LKR 18,900.00',
+      status: 'placed',
+      created_at: '2026-10-02T09:00:00Z',
     },
     {
       id: 9,
       order_number: 'DFC-20261001-9880',
-      customer_name: 'Hiruni Mendis',
-      customer_email: 'hiruni.m@gmail.com',
-      items_count: 3,
-      total_amount: 18600,
-      total_formatted: 'LKR 18,600.00',
-      status: 'delivered',
-      created_at: '2026-10-01T17:40:00Z',
+      customer_name: 'Lahiru Kumara',
+      customer_email: 'lahiru.k@outlook.com',
+      items_count: 1,
+      total_amount: 6750,
+      total_formatted: 'LKR 6,750.00',
+      status: 'shipped',
+      created_at: '2026-10-01T15:15:00Z',
     },
     {
       id: 10,
@@ -161,86 +161,72 @@ export const FALLBACK_ANALYTICS = {
   ],
 };
 
+function mapBackendMetrics(data) {
+  if (!data) return null;
+  const metrics = data.metrics || data;
+  return {
+    totalRevenue: metrics.totalRevenue ?? metrics.total_revenue ?? 0,
+    totalRevenueFormatted:
+      metrics.totalRevenueFormatted ||
+      metrics.formatted_revenue ||
+      `LKR ${(metrics.totalRevenue ?? metrics.total_revenue ?? 0).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`,
+    totalRevenueGrowth: metrics.totalRevenueGrowth ?? metrics.revenue_growth ?? 0,
+    monthlyOrders: metrics.monthlyOrders ?? metrics.total_orders ?? 0,
+    monthlyOrdersGrowth: metrics.monthlyOrdersGrowth ?? metrics.orders_growth ?? 0,
+    averageOrderValue: metrics.averageOrderValue ?? metrics.average_order_value ?? 0,
+    averageOrderValueFormatted:
+      metrics.averageOrderValueFormatted ||
+      metrics.formatted_aov ||
+      `LKR ${(metrics.averageOrderValue ?? metrics.average_order_value ?? 0).toLocaleString(
+        'en-US',
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      )}`,
+    aovGrowth: metrics.aovGrowth ?? metrics.aov_growth ?? 0,
+    activeCustomers: metrics.activeCustomers ?? metrics.active_customers ?? 0,
+    activeCustomersGrowth: metrics.activeCustomersGrowth ?? metrics.customers_growth ?? 0,
+    lowStockCount: metrics.lowStockCount ?? metrics.low_stock_count ?? 0,
+    supportQueueCount: metrics.supportQueueCount ?? metrics.support_queue_count ?? 0,
+  };
+}
+
 export const adminAnalyticsApi = {
   /**
    * Fetches real-time overview metrics from GET /api/v1/admin/analytics
    */
   async getOverview() {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/analytics`, { headers });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      return data?.data || data || FALLBACK_ANALYTICS.metrics;
-    } catch {
-      return FALLBACK_ANALYTICS.metrics;
-    }
+    const { data } = await apiClient.get('/admin/analytics');
+    return mapBackendMetrics(data);
   },
 
   /**
    * Fetches sales trend aggregations from GET /api/v1/admin/analytics/sales-trend
    */
   async getSalesTrend(days = 30) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/analytics/sales-trend?days=${days}`, { headers });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      return data?.data || data || FALLBACK_ANALYTICS.salesTrend;
-    } catch {
-      return FALLBACK_ANALYTICS.salesTrend;
-    }
+    const { data } = await apiClient.get(`/admin/analytics/sales-trend?days=${days}`);
+    return data?.salesTrend || data;
   },
 
   /**
    * Fetches recent 10 orders for fulfillment management
    */
   async getRecentOrders(limit = 10) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/orders?limit=${limit}`, { headers });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      return data?.data?.orders || FALLBACK_ANALYTICS.recentOrders;
-    } catch {
-      return FALLBACK_ANALYTICS.recentOrders;
-    }
+    const { data } = await apiClient.get(`/admin/orders?limit=${limit}`);
+    return data?.orders || (Array.isArray(data) ? data : []);
   },
 
   /**
    * Updates fulfillment status of an order
    */
   async updateOrderStatus(orderId, newStatus) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/orders/${orderId}/status`, {
-        method: 'PATCH',
-        headers,
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch {
-      // Return optimistic success for local/mock testing
-      return { success: true, orderId, status: newStatus };
-    }
+    const { data } = await apiClient.patch(`/admin/orders/${orderId}/status`, {
+      status: newStatus,
+    });
+    return data;
   },
 };

@@ -50,10 +50,10 @@ export default function CatalogPage() {
         adminProductsApi.getProducts(),
         adminProductsApi.getCategories(),
       ]);
-      if (Array.isArray(prods) && prods.length > 0) {
+      if (Array.isArray(prods)) {
         setProducts(prods);
       }
-      if (Array.isArray(cats) && cats.length > 0) {
+      if (Array.isArray(cats)) {
         setCategories(cats);
       }
     } catch {

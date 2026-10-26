@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Clock, Radio, CheckCircle2, Zap } from 'lucide-react';
 import adminSocketService from '../services/adminSocket.service';
+import apiClient from '../api/client';
 import SessionQueue from '../components/support/SessionQueue';
 import AgentChatWindow from '../components/support/AgentChatWindow';
 import './SupportConsolePage.css';
@@ -111,6 +112,28 @@ export default function SupportConsolePage() {
       // Audio autoplay blocked or unsupported
     }
   };
+
+  useEffect(() => {
+    let isMounted = true;
+    apiClient
+      .get('/admin/support/sessions')
+      .then(({ data }) => {
+        const liveSessions = data?.sessions || (Array.isArray(data) ? data : null);
+        if (isMounted && Array.isArray(liveSessions) && liveSessions.length > 0) {
+          setSessions(liveSessions);
+          if (!selectedSessionId || !liveSessions.some((s) => s.id === selectedSessionId)) {
+            setSelectedSessionId(liveSessions[0].id);
+          }
+        }
+      })
+      .catch(() => {
+        // Fallback retained
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     // 1. Establish socket connection
