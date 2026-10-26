@@ -135,7 +135,30 @@ export default function SessionQueue({
       {/* Queue List */}
       <div className="queue-list" role="list">
         {filteredSessions.length === 0 ? (
-          <div className="empty-queue-cell">No support sessions match the selected filter.</div>
+          <div className="empty-queue-cell">
+            {filterTab === 'active' && pendingCount > 0 ? (
+              <>
+                No active conversations yet.{' '}
+                <button
+                  type="button"
+                  onClick={() => setFilterTab('pending')}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--admin-accent)',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    padding: 0,
+                    font: 'inherit',
+                  }}
+                >
+                  {pendingCount} inquiry waiting in queue &rarr;
+                </button>
+              </>
+            ) : (
+              'No support sessions match the selected filter.'
+            )}
+          </div>
         ) : (
           filteredSessions.map((session) => {
             const isSelected = String(selectedSessionId) === String(session.id);
