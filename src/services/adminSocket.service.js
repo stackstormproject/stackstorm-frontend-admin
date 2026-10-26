@@ -93,9 +93,18 @@ class AdminSocketService {
    */
   joinSession(sessionId, callback) {
     if (!this.socket) this.connect();
-    this.socket.emit('chat:join', { sessionId }, (response) => {
-      if (typeof callback === 'function') callback(response);
-    });
+    this.socket.emit(
+      'chat:join',
+      {
+        sessionId,
+        isAgent: true,
+        role: 'support_agent',
+        senderRole: 'support_agent',
+      },
+      (response) => {
+        if (typeof callback === 'function') callback(response);
+      }
+    );
   }
 
   /**
@@ -103,9 +112,22 @@ class AdminSocketService {
    */
   sendMessage(sessionId, message, callback) {
     if (!this.socket) this.connect();
-    this.socket.emit('chat:message', { sessionId, message }, (response) => {
-      if (typeof callback === 'function') callback(response);
-    });
+    this.socket.emit(
+      'chat:message',
+      {
+        sessionId,
+        message,
+        isAgent: true,
+        senderRole: 'support_agent',
+        senderType: 'agent',
+        sender: 'agent',
+        role: 'support_agent',
+        senderName: 'Alex (Support Agent)',
+      },
+      (response) => {
+        if (typeof callback === 'function') callback(response);
+      }
+    );
   }
 
   /**
