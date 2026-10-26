@@ -4,7 +4,7 @@
  * Module Owner: Lakshani A.T.
  */
 
-const BASE_URL = '/api/v1/loyalty';
+import apiClient from './client';
 
 export const FALLBACK_LOYALTY_ACCOUNTS = [
   {
@@ -133,82 +133,34 @@ export const adminLoyaltyApi = {
   /**
    * Fetches all customer loyalty accounts
    */
-  async getAccounts() {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/accounts`, { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const accounts = data?.data?.accounts || data?.data;
-      if (Array.isArray(accounts) && accounts.length > 0) {
-        return accounts;
-      }
-      return FALLBACK_LOYALTY_ACCOUNTS;
-    } catch {
-      return FALLBACK_LOYALTY_ACCOUNTS;
-    }
+  async getAccounts(params = {}) {
+    const { data } = await apiClient.get('/loyalty/accounts', { params });
+    const accounts = data?.accounts || (Array.isArray(data) ? data : []);
+    return accounts;
   },
 
-  getLoyaltyAccounts() {
-    return this.getAccounts();
+  getLoyaltyAccounts(params = {}) {
+    return this.getAccounts(params);
   },
 
   /**
    * Manually adjusts customer loyalty points balance with audit reason
    */
   async adjustPoints({ customerId, pointsDelta, reason, notes = '' }) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/adjust`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ customerId, pointsDelta, reason, notes }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      return data?.data || data;
-    } catch {
-      return {
-        customerId,
-        pointsDelta,
-        reason,
-        notes,
-        updatedAt: new Date().toISOString(),
-      };
-    }
+    const { data } = await apiClient.post('/loyalty/adjust', {
+      customerId,
+      pointsDelta,
+      reason,
+      notes,
+    });
+    return data;
   },
 
   /**
    * Triggers quarterly audit sweep enforcing 2-quarter grace period
    */
   async triggerQuarterlyAudit(auditDate = new Date().toISOString()) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/audit`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ audit_date: auditDate }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      return data?.data || data;
-    } catch {
-      return {
-        success: true,
-        evaluatedAccounts: 8,
-        downgradedCount: 1,
-        warnedCount: 1,
-        auditDate,
-      };
-    }
+    const { data } = await apiClient.post('/loyalty/audit', { audit_date: auditDate });
+    return data;
   },
 };
