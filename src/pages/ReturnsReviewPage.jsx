@@ -34,7 +34,7 @@ export default function ReturnsReviewPage() {
     setIsLoading(true);
     try {
       const data = await adminOrdersApi.getReturns();
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data)) {
         setReturnsList(data);
       }
     } catch {
