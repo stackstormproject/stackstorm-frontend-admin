@@ -4,7 +4,7 @@
  * Module Owner: S. Thanoogithan
  */
 
-const BASE_URL = '/api/v1/inventory';
+import apiClient from './client';
 
 export const FALLBACK_INVENTORY = [
   {
@@ -179,22 +179,9 @@ export const inventoryApi = {
    * Fetches all products with variant stock levels
    */
   async getProducts() {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch('/api/v1/products?limit=50', { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const products = data?.data?.products || data?.data;
-      if (Array.isArray(products) && products.length > 0) {
-        return products;
-      }
-      return FALLBACK_INVENTORY;
-    } catch {
-      return FALLBACK_INVENTORY;
-    }
+    const { data } = await apiClient.get('/products?limit=50');
+    const products = data?.products || (Array.isArray(data) ? data : []);
+    return products;
   },
 
   /**
@@ -202,50 +189,16 @@ export const inventoryApi = {
    * @param {Object} payload { sku, delta, reason, notes }
    */
   async adjustStock({ sku, delta, reason, notes = '' }) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/adjust`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ sku, delta, reason, notes }),
-      });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      return data?.data || data;
-    } catch (err) {
-      // Return deterministic fallback result for testing
-      return {
-        sku,
-        delta,
-        reason,
-        newStockLevel: Math.max(0, 10 + Number(delta)),
-        updatedAt: new Date().toISOString(),
-      };
-    }
+    const { data } = await apiClient.post('/inventory/adjust', { sku, delta, reason, notes });
+    return data;
   },
 
   /**
    * Fetches inventory audit trail logs
    */
   async getAuditLogs(sku = null) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const url = sku ? `${BASE_URL}/variants/${sku}/logs` : `${BASE_URL}/logs`;
-      const res = await fetch(url, { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      return data?.data || [];
-    } catch {
-      return [];
-    }
+    const url = sku ? `/inventory/variants/${sku}/logs` : `/inventory/logs`;
+    const { data } = await apiClient.get(url);
+    return Array.isArray(data) ? data : data?.logs || [];
   },
 };
