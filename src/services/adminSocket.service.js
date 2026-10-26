@@ -18,12 +18,17 @@ class AdminSocketService {
    * Initializes or reuses the Socket.IO connection for support agents/admins.
    */
   connect(token = null) {
-    if (this.socket && this.socket.connected) {
-      return this.socket;
-    }
-
     const authToken =
       token || localStorage.getItem('stackstorm_admin_token') || localStorage.getItem('token');
+
+    if (this.socket) {
+      if (this.socket.connected && this.currentAuthToken === authToken) {
+        return this.socket;
+      }
+      this.disconnect();
+    }
+
+    this.currentAuthToken = authToken;
 
     this.socket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
@@ -127,7 +132,20 @@ class AdminSocketService {
     }
     this.listeners.get(event).add(handler);
 
-    if (this.socket) {
+    const isForwarded = [
+      'connect',
+      'disconnect',
+      'connect_error',
+      'chat:joined',
+      'chat:message',
+      'chat:typing',
+      'chat:user_joined',
+      'chat:user_left',
+      'chat:error',
+      'support:new_session',
+    ].includes(event);
+
+    if (!isForwarded && this.socket) {
       this.socket.on(event, handler);
     }
 

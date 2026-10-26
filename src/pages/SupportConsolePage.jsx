@@ -174,18 +174,65 @@ export default function SupportConsolePage() {
             const role = senderRole || sender || 'customer';
             const msgSender = role === 'support_agent' || role === 'agent' ? 'agent' : 'customer';
             const msgText = typeof message === 'string' ? message : text || message?.text || '';
+            const msgId = data.id ? String(data.id) : null;
+            const existingMessages = s.messages || [];
+
+            // 1. Deduplicate by exact message ID
+            if (msgId && existingMessages.some((m) => String(m.id) === msgId)) {
+              return s;
+            }
+
+            // 2. Reconcile optimistic agent message with the canonical server broadcast
+            if (msgSender === 'agent') {
+              const recentOptimisticIndex = existingMessages.findIndex(
+                (m) =>
+                  m.sender === 'agent' &&
+                  m.text === msgText &&
+                  (String(m.id).startsWith('msg-agent-') ||
+                    Math.abs(Date.now() - new Date(m.timestamp).getTime()) < 15000)
+              );
+
+              if (recentOptimisticIndex !== -1) {
+                const updatedMessages = [...existingMessages];
+                updatedMessages[recentOptimisticIndex] = {
+                  ...updatedMessages[recentOptimisticIndex],
+                  id: msgId || updatedMessages[recentOptimisticIndex].id,
+                  timestamp:
+                    createdAt || timestamp || updatedMessages[recentOptimisticIndex].timestamp,
+                };
+                return {
+                  ...s,
+                  messages: updatedMessages,
+                };
+              }
+            }
+
+            // 3. Deduplicate identical customer message received in rapid succession (< 3s)
+            if (msgSender === 'customer') {
+              const isDuplicate = existingMessages.some(
+                (m) =>
+                  m.sender === 'customer' &&
+                  m.text === msgText &&
+                  Math.abs(Date.now() - new Date(m.timestamp).getTime()) < 3000
+              );
+              if (isDuplicate) {
+                return s;
+              }
+            }
+
             const newMsg = {
-              id: data.id || `msg-${Date.now()}`,
+              id: msgId || `msg-${Date.now()}`,
               sender: msgSender,
               sender_name:
                 senderName ||
-                (msgSender === 'agent' ? 'Support Agent' : s.customer_name || 'Customer'),
+                (msgSender === 'agent' ? 'Alex (Support Agent)' : s.customer_name || 'Customer'),
               text: msgText,
               timestamp: createdAt || timestamp || new Date().toISOString(),
             };
+
             return {
               ...s,
-              messages: [...(s.messages || []), newMsg],
+              messages: [...existingMessages, newMsg],
             };
           }
           return s;
@@ -274,12 +321,13 @@ export default function SupportConsolePage() {
   };
 
   const handleSendMessage = (text) => {
-    if (!activeSession) return;
+    if (!activeSession || !text || !text.trim()) return;
+    const cleanText = text.trim();
     const newMsg = {
       id: `msg-agent-${Date.now()}`,
       sender: 'agent',
       sender_name: 'Alex (Support Agent)',
-      text,
+      text: cleanText,
       timestamp: new Date().toISOString(),
     };
 
@@ -291,7 +339,7 @@ export default function SupportConsolePage() {
       )
     );
 
-    adminSocketService.sendMessage(activeSession.id, text);
+    adminSocketService.sendMessage(activeSession.id, cleanText);
   };
 
   const handleResolveSession = (sessionId) => {
