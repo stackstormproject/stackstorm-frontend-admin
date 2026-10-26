@@ -24,8 +24,11 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
   const [lastRefreshed, setLastRefreshed] = useState(new Date().toLocaleTimeString());
   const [toastMessage, setToastMessage] = useState('');
 
+  const [errorState, setErrorState] = useState(null);
+
   const loadDashboardData = async () => {
     setIsLoading(true);
+    setErrorState(null);
     try {
       const [metricsData, trendData, ordersData] = await Promise.all([
         adminAnalyticsApi.getOverview(),
@@ -43,8 +46,8 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
         setOrders(ordersData);
       }
       setLastRefreshed(new Date().toLocaleTimeString());
-    } catch {
-      // Fallbacks already in state
+    } catch (err) {
+      setErrorState(err.message || 'Failed to sync live telemetry from PostgreSQL.');
     } finally {
       setIsLoading(false);
     }
@@ -102,12 +105,52 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
         </div>
       </div>
 
+      {/* Sync Warning Alert */}
+      {errorState && (
+        <div
+          className="dashboard-sync-alert"
+          role="alert"
+          data-testid="telemetry-error-alert"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            background: 'rgba(239, 68, 68, 0.1)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            borderRadius: '8px',
+            color: '#f87171',
+            marginBottom: '20px',
+            fontSize: '0.875rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <AlertTriangle size={16} />
+            <span>Live telemetry warning: {errorState}</span>
+          </div>
+          <button
+            onClick={loadDashboardData}
+            style={{
+              background: 'transparent',
+              border: '1px solid #f87171',
+              color: '#f87171',
+              padding: '4px 10px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '0.75rem',
+            }}
+          >
+            Retry Telemetry
+          </button>
+        </div>
+      )}
+
       {/* 4 Primary Executive Retail KPI Cards */}
       <div className="kpi-grid">
         <KpiCard
           title="Total Monthly Revenue"
-          value={metrics.totalRevenueFormatted || 'LKR 845,200.00'}
-          trend={metrics.totalRevenueGrowth || 18.4}
+          value={metrics.totalRevenueFormatted || 'LKR 0.00'}
+          trend={metrics.totalRevenueGrowth ?? 0}
           trendLabel="from last month"
           icon={DollarSign}
           variant="primary"
@@ -116,9 +159,9 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
 
         <KpiCard
           title="Active Orders Fulfilled"
-          value={`${metrics.monthlyOrders || 142} Orders`}
-          trend={metrics.monthlyOrdersGrowth || 12.3}
-          trendLabel="8 awaiting dispatch"
+          value={`${metrics.monthlyOrders ?? 0} Orders`}
+          trend={metrics.monthlyOrdersGrowth ?? 0}
+          trendLabel={`${metrics.monthlyOrders ?? 0} orders processed`}
           icon={ShoppingBag}
           variant="success"
           dataTestId="kpi-monthly-orders"
@@ -126,8 +169,8 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
 
         <KpiCard
           title="Average Order Value (AOV)"
-          value={metrics.averageOrderValueFormatted || 'LKR 5,952.11'}
-          trend={metrics.aovGrowth || 5.4}
+          value={metrics.averageOrderValueFormatted || 'LKR 0.00'}
+          trend={metrics.aovGrowth ?? 0}
           trendLabel="vs previous period"
           icon={TrendingUp}
           variant="accent"
@@ -136,9 +179,9 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
 
         <KpiCard
           title="Active Customers"
-          value={`${metrics.activeCustomers || 840} Customers`}
-          trend={metrics.activeCustomersGrowth || 9.2}
-          trendLabel="112 repeat buyers"
+          value={`${metrics.activeCustomers ?? 0} Customers`}
+          trend={metrics.activeCustomersGrowth ?? 0}
+          trendLabel="Registered retail buyers"
           icon={Users}
           variant="primary"
           dataTestId="kpi-active-customers"
@@ -149,9 +192,9 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
       <div className="kpi-secondary-grid">
         <KpiCard
           title="Low-Stock SKU Alerts"
-          value={`${metrics.lowStockCount || 3} Variants`}
-          trend={-15}
-          trendLabel="Available stock < 5 units"
+          value={`${metrics.lowStockCount ?? 0} Variants`}
+          trend={0}
+          trendLabel="Available stock <= 5 units"
           icon={AlertTriangle}
           variant="danger"
           dataTestId="kpi-low-stock"
@@ -159,9 +202,9 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
 
         <KpiCard
           title="Live Support Queue"
-          value={`${metrics.supportQueueCount || 2} Active Chats`}
+          value={`${metrics.supportQueueCount ?? 0} Active Chats`}
           trend={0}
-          trendLabel="Avg response: 45s"
+          trendLabel="Real-time support sessions"
           icon={Headphones}
           variant="warning"
           dataTestId="kpi-support-queue"

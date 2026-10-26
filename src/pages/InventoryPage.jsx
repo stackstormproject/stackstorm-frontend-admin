@@ -34,7 +34,7 @@ export default function InventoryPage({ onNavigateToCatalog }) {
     setIsLoading(true);
     try {
       const data = await inventoryApi.getProducts();
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data)) {
         setProducts(data);
       }
     } catch {
