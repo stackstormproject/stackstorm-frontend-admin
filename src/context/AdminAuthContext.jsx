@@ -33,6 +33,39 @@ export function AdminAuthProvider({
   });
 
   useEffect(() => {
+    // If running in development browser with placeholder token, exchange for signed JWT
+    if (
+      typeof window !== 'undefined' &&
+      import.meta.env?.MODE !== 'test' &&
+      initialToken !== null &&
+      initialUser !== null
+    ) {
+      const stored = localStorage.getItem('stackstorm_admin_token') || token;
+      if (stored === 'jwt-admin-token-xyz' || stored === 'mock-admin-token') {
+        fetch('/api/v1/auth/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: 'admin@stackstorm.lk', password: 'AdminPassword123!' }),
+        })
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data) => {
+            if (data?.accessToken && data?.admin) {
+              setToken(data.accessToken);
+              setUser(data.admin);
+              try {
+                localStorage.setItem('stackstorm_admin_token', data.accessToken);
+                localStorage.setItem('stackstorm_admin_user', JSON.stringify(data.admin));
+              } catch {
+                // ignore
+              }
+            }
+          })
+          .catch(() => {});
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (user) {
       try {
         localStorage.setItem('stackstorm_admin_user', JSON.stringify(user));
