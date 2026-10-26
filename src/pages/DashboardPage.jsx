@@ -24,8 +24,11 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
   const [lastRefreshed, setLastRefreshed] = useState(new Date().toLocaleTimeString());
   const [toastMessage, setToastMessage] = useState('');
 
+  const [errorState, setErrorState] = useState(null);
+
   const loadDashboardData = async () => {
     setIsLoading(true);
+    setErrorState(null);
     try {
       const [metricsData, trendData, ordersData] = await Promise.all([
         adminAnalyticsApi.getOverview(),
@@ -43,8 +46,8 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
         setOrders(ordersData);
       }
       setLastRefreshed(new Date().toLocaleTimeString());
-    } catch {
-      // Fallbacks already in state
+    } catch (err) {
+      setErrorState(err.message || 'Failed to sync live telemetry from PostgreSQL.');
     } finally {
       setIsLoading(false);
     }
@@ -101,6 +104,46 @@ export default function DashboardPage({ isBackendHealthy = true, gatewayMessage 
           </button>
         </div>
       </div>
+
+      {/* Sync Warning Alert */}
+      {errorState && (
+        <div
+          className="dashboard-sync-alert"
+          role="alert"
+          data-testid="telemetry-error-alert"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            background: 'rgba(239, 68, 68, 0.1)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            borderRadius: '8px',
+            color: '#f87171',
+            marginBottom: '20px',
+            fontSize: '0.875rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <AlertTriangle size={16} />
+            <span>Live telemetry warning: {errorState}</span>
+          </div>
+          <button
+            onClick={loadDashboardData}
+            style={{
+              background: 'transparent',
+              border: '1px solid #f87171',
+              color: '#f87171',
+              padding: '4px 10px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '0.75rem',
+            }}
+          >
+            Retry Telemetry
+          </button>
+        </div>
+      )}
 
       {/* 4 Primary Executive Retail KPI Cards */}
       <div className="kpi-grid">
