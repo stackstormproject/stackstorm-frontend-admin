@@ -119,15 +119,23 @@ export default function SupportConsolePage() {
       .get('/admin/support/sessions')
       .then(({ data }) => {
         const liveSessions = data?.sessions || (Array.isArray(data) ? data : null);
-        if (isMounted && Array.isArray(liveSessions) && liveSessions.length > 0) {
-          setSessions(liveSessions);
-          if (!selectedSessionId || !liveSessions.some((s) => s.id === selectedSessionId)) {
-            setSelectedSessionId(liveSessions[0].id);
+        if (isMounted && Array.isArray(liveSessions)) {
+          if (liveSessions.length > 0) {
+            setSessions(liveSessions);
+            if (
+              !selectedSessionId ||
+              !liveSessions.some((s) => String(s.id) === String(selectedSessionId))
+            ) {
+              setSelectedSessionId(liveSessions[0].id);
+            }
+          } else {
+            setSessions([]);
+            setSelectedSessionId(null);
           }
         }
       })
       .catch(() => {
-        // Fallback retained
+        // Fallback retained if backend is unreachable or during test execution
       });
 
     return () => {
@@ -142,16 +150,38 @@ export default function SupportConsolePage() {
     // 2. Incoming message listener
     const unsubMsg = adminSocketService.on('chat:message', (data) => {
       if (!data) return;
-      const { sessionId, message, sender } = data;
+      const { sessionId, message, text, sender, senderRole, senderName, createdAt, timestamp } =
+        data;
 
-      setSessions((prev) =>
-        prev.map((s) => {
-          if (s.id === sessionId) {
+      setSessions((prev) => {
+        const found = prev.some((s) => String(s.id) === String(sessionId));
+        if (!found) {
+          // If message is for a session not currently in state, refresh queue from API
+          apiClient
+            .get('/admin/support/sessions')
+            .then(({ data: resData }) => {
+              const live = resData?.sessions || (Array.isArray(resData) ? resData : null);
+              if (Array.isArray(live) && live.length > 0) {
+                setSessions(live);
+              }
+            })
+            .catch(() => {});
+          return prev;
+        }
+
+        return prev.map((s) => {
+          if (String(s.id) === String(sessionId)) {
+            const role = senderRole || sender || 'customer';
+            const msgSender = role === 'support_agent' || role === 'agent' ? 'agent' : 'customer';
+            const msgText = typeof message === 'string' ? message : text || message?.text || '';
             const newMsg = {
-              id: `msg-${Date.now()}`,
-              sender: sender || 'customer',
-              text: typeof message === 'string' ? message : message?.text || '',
-              timestamp: new Date().toISOString(),
+              id: data.id || `msg-${Date.now()}`,
+              sender: msgSender,
+              sender_name:
+                senderName ||
+                (msgSender === 'agent' ? 'Support Agent' : s.customer_name || 'Customer'),
+              text: msgText,
+              timestamp: createdAt || timestamp || new Date().toISOString(),
             };
             return {
               ...s,
@@ -159,10 +189,11 @@ export default function SupportConsolePage() {
             };
           }
           return s;
-        })
-      );
+        });
+      });
 
-      if (sender === 'customer' || !sender) {
+      const role = senderRole || sender || 'customer';
+      if (role !== 'support_agent' && role !== 'agent') {
         playChime();
       }
     });
@@ -170,7 +201,7 @@ export default function SupportConsolePage() {
     // 3. Typing indicator listener
     const unsubTyping = adminSocketService.on('chat:typing', (data) => {
       if (!data) return;
-      if (data.sessionId === selectedSessionId) {
+      if (String(data.sessionId) === String(selectedSessionId)) {
         setIsCustomerTyping(Boolean(data.isTyping));
         if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
         if (data.isTyping) {
@@ -184,7 +215,40 @@ export default function SupportConsolePage() {
     // 4. New session in queue listener
     const unsubNewSession = adminSocketService.on('support:new_session', (sessionData) => {
       if (!sessionData) return;
-      setSessions((prev) => [sessionData, ...prev]);
+      const normalizedSession = {
+        id: String(sessionData.sessionId || sessionData.id),
+        customer_id: sessionData.customerId ? String(sessionData.customerId) : 'guest',
+        customer_name:
+          sessionData.customerName ||
+          (sessionData.customerId ? `Customer #${sessionData.customerId}` : 'Storefront Guest'),
+        customer_email: sessionData.customerEmail || 'guest@stackstorm.lk',
+        tier: sessionData.tier || 'Silver',
+        status: 'pending',
+        inquiry_topic:
+          sessionData.subject || sessionData.inquiry_topic || 'Customer Storefront Inquiry',
+        created_at: sessionData.createdAt || new Date().toISOString(),
+        wait_time_label: 'Just now',
+        messages: sessionData.messages || [],
+      };
+
+      setSessions((prev) => {
+        if (prev.some((s) => String(s.id) === normalizedSession.id)) {
+          return prev.map((s) =>
+            String(s.id) === normalizedSession.id
+              ? {
+                  ...s,
+                  status: 'pending',
+                  inquiry_topic: normalizedSession.inquiry_topic,
+                  messages:
+                    normalizedSession.messages.length > 0
+                      ? [...(s.messages || []), ...normalizedSession.messages]
+                      : s.messages,
+                }
+              : s
+          );
+        }
+        return [normalizedSession, ...prev];
+      });
       playChime();
     });
 
@@ -196,14 +260,17 @@ export default function SupportConsolePage() {
     };
   }, [selectedSessionId, isChimeEnabled]);
 
-  const activeSession = sessions.find((s) => s.id === selectedSessionId) || null;
+  const activeSession = sessions.find((s) => String(s.id) === String(selectedSessionId)) || null;
 
   const handleAcceptSession = (session) => {
     setSessions((prev) =>
-      prev.map((s) => (s.id === session.id ? { ...s, status: 'agent_active' } : s))
+      prev.map((s) => (String(s.id) === String(session.id) ? { ...s, status: 'agent_active' } : s))
     );
     setSelectedSessionId(session.id);
     adminSocketService.joinSession(session.id);
+    apiClient
+      .patch(`/admin/support/sessions/${session.id}/status`, { status: 'agent_active' })
+      .catch(() => {});
   };
 
   const handleSendMessage = (text) => {
@@ -218,7 +285,9 @@ export default function SupportConsolePage() {
 
     setSessions((prev) =>
       prev.map((s) =>
-        s.id === activeSession.id ? { ...s, messages: [...(s.messages || []), newMsg] } : s
+        String(s.id) === String(activeSession.id)
+          ? { ...s, messages: [...(s.messages || []), newMsg] }
+          : s
       )
     );
 
@@ -226,7 +295,12 @@ export default function SupportConsolePage() {
   };
 
   const handleResolveSession = (sessionId) => {
-    setSessions((prev) => prev.map((s) => (s.id === sessionId ? { ...s, status: 'resolved' } : s)));
+    setSessions((prev) =>
+      prev.map((s) => (String(s.id) === String(sessionId) ? { ...s, status: 'resolved' } : s))
+    );
+    apiClient
+      .patch(`/admin/support/sessions/${sessionId}/status`, { status: 'resolved' })
+      .catch(() => {});
   };
 
   const handleTyping = (isTyping) => {

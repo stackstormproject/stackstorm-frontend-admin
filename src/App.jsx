@@ -13,7 +13,35 @@ import './styles/admin-tokens.css';
 import './styles/admin-global.css';
 
 function AdminAppContent() {
-  const [currentTab, setCurrentTab] = useState('dashboard');
+  const [currentTab, setCurrentTab] = useState(() => {
+    if (typeof window !== 'undefined' && import.meta.env?.MODE !== 'test') {
+      const path = (window.location.pathname || '').toLowerCase();
+      if (path.includes('support')) return 'support';
+      if (path.includes('catalog')) return 'catalog';
+      if (path.includes('inventory')) return 'inventory';
+      if (path.includes('orders')) return 'orders';
+      if (path.includes('returns')) return 'returns';
+      if (path.includes('loyalty')) return 'loyalty';
+      try {
+        const saved = localStorage.getItem('stackstorm_admin_active_tab');
+        if (saved) return saved;
+      } catch {
+        // ignore
+      }
+    }
+    return 'dashboard';
+  });
+
+  const handleSelectTab = (tab) => {
+    setCurrentTab(tab);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('stackstorm_admin_active_tab', tab);
+      } catch {
+        // ignore
+      }
+    }
+  };
   const [backendStatus, setBackendStatus] = useState({
     checked: false,
     healthy: false,
@@ -56,7 +84,7 @@ function AdminAppContent() {
     <AdminRoute>
       <AdminLayout
         currentTab={currentTab}
-        onSelectTab={setCurrentTab}
+        onSelectTab={handleSelectTab}
         isBackendHealthy={backendStatus.healthy}
         gatewayMessage={backendStatus.message}
         operatorName={user?.name || 'Amarawickrama R.H.'}
