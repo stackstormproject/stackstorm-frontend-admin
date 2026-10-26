@@ -138,7 +138,7 @@ export default function SessionQueue({
           <div className="empty-queue-cell">No support sessions match the selected filter.</div>
         ) : (
           filteredSessions.map((session) => {
-            const isSelected = selectedSessionId === session.id;
+            const isSelected = String(selectedSessionId) === String(session.id);
             const lastMsg =
               session.messages && session.messages.length > 0
                 ? session.messages[session.messages.length - 1].text
