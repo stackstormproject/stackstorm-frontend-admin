@@ -4,7 +4,7 @@
  * Module Owner: B.K. Pabasara
  */
 
-const BASE_URL = '/api/v1/admin';
+import apiClient from './client';
 
 export const FALLBACK_ADMIN_ORDERS = [
   {
@@ -233,33 +233,19 @@ export const adminOrdersApi = {
   /**
    * Fetches customer orders for fulfillment
    */
-  async getOrders() {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/orders?limit=50`, { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const orders = data?.data?.orders || data?.orders;
-      if (Array.isArray(orders) && orders.length > 0) {
-        return orders;
-      }
-      return FALLBACK_ADMIN_ORDERS;
-    } catch {
-      return FALLBACK_ADMIN_ORDERS;
-    }
+  async getOrders(params = { limit: 50 }) {
+    const { data } = await apiClient.get('/admin/orders', { params });
+    const orders = data?.orders || (Array.isArray(data) ? data : []);
+    return orders;
   },
 
   /**
-   * Updates fulfillment status of an order via PUT /api/v1/admin/orders/:id/status
+   * Updates fulfillment status of an order via PATCH /api/v1/admin/orders/:id/status
    */
   async updateStatus(
     orderId,
     { status, tracking_number = '', courier = '', notes = '', delivered_at = null }
   ) {
-    // Failure recovery: if status is 'delivered', ensure delivered_at is present
     const payload = {
       status,
       tracking_number,
@@ -269,109 +255,35 @@ export const adminOrdersApi = {
         status === 'delivered' ? delivered_at || new Date().toISOString() : delivered_at,
     };
 
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/orders/${orderId}/status`, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        // Fallback to PATCH if PUT is not matched
-        const patchRes = await fetch(`${BASE_URL}/orders/${orderId}/status`, {
-          method: 'PATCH',
-          headers,
-          body: JSON.stringify(payload),
-        });
-        if (!patchRes.ok) throw new Error(`HTTP ${patchRes.status}`);
-        return await patchRes.json();
-      }
-
-      const data = await res.json();
-      return data?.data || data;
-    } catch {
-      // Deterministic fallback response for offline / testing
-      return {
-        id: orderId,
-        ...payload,
-        updated_at: new Date().toISOString(),
-      };
-    }
+    const { data } = await apiClient.patch(`/admin/orders/${orderId}/status`, payload);
+    return data;
   },
 
   /**
    * Fetches customer return & exchange requests
    */
   async getReturns() {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/returns`, { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const returns = data?.data?.returns || data?.data;
-      if (Array.isArray(returns) && returns.length > 0) {
-        return returns;
-      }
-      return FALLBACK_ADMIN_RETURNS;
-    } catch {
-      return FALLBACK_ADMIN_RETURNS;
-    }
+    const { data } = await apiClient.get('/admin/returns');
+    const returns = data?.returns || (Array.isArray(data) ? data : []);
+    return returns;
   },
 
   /**
    * Approves customer return or size exchange
    */
   async approveReturn(returnId, { restock = true, notes = '' } = {}) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/returns/${returnId}/approve`, {
-        method: 'PATCH',
-        headers,
-        body: JSON.stringify({ restock, notes }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      return data?.data || data;
-    } catch {
-      return { id: returnId, status: 'approved', notes, updatedAt: new Date().toISOString() };
-    }
+    const { data } = await apiClient.patch(`/admin/returns/${returnId}/approve`, {
+      restock,
+      notes,
+    });
+    return data;
   },
 
   /**
    * Rejects customer return with justification note
    */
   async rejectReturn(returnId, { reason = 'Policy condition not met', notes = '' } = {}) {
-    try {
-      const token = localStorage.getItem('stackstorm_admin_token');
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${BASE_URL}/returns/${returnId}/reject`, {
-        method: 'PATCH',
-        headers,
-        body: JSON.stringify({ reason, notes }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      return data?.data || data;
-    } catch {
-      return {
-        id: returnId,
-        status: 'rejected',
-        reason,
-        notes,
-        updatedAt: new Date().toISOString(),
-      };
-    }
+    const { data } = await apiClient.patch(`/admin/returns/${returnId}/reject`, { reason, notes });
+    return data;
   },
 };

@@ -4,8 +4,7 @@
  * Endpoints: POST/GET/PUT/DELETE /api/v1/products
  */
 
-const PRODUCTS_URL = '/api/v1/products';
-const CATEGORIES_URL = '/api/v1/categories';
+import apiClient from './client';
 
 /** Fallback catalog for offline / backend-standby mode */
 export const FALLBACK_PRODUCTS = [
@@ -108,13 +107,6 @@ export const FALLBACK_CATEGORIES = [
   { id: 8, name: 'Jacket' },
 ];
 
-function authHeaders() {
-  const token = localStorage.getItem('stackstorm_admin_token');
-  const h = { 'Content-Type': 'application/json' };
-  if (token) h['Authorization'] = `Bearer ${token}`;
-  return h;
-}
-
 export const adminProductsApi = {
   /**
    * Fetch full product catalogue (admin view, no limit)
@@ -125,11 +117,9 @@ export const adminProductsApi = {
       if (search) params.append('search', search);
       if (category && category !== 'all') params.append('category_id', category);
 
-      const res = await fetch(`${PRODUCTS_URL}?${params}`, { headers: authHeaders() });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const products = data?.data?.products || data?.data || [];
-      return Array.isArray(products) && products.length > 0 ? products : FALLBACK_PRODUCTS;
+      const { data } = await apiClient.get(`/products?${params.toString()}`);
+      const products = data?.products || (Array.isArray(data) ? data : []);
+      return products;
     } catch {
       return FALLBACK_PRODUCTS;
     }
@@ -139,40 +129,23 @@ export const adminProductsApi = {
    * Create a new product  POST /api/v1/products
    */
   async createProduct(payload) {
-    const res = await fetch(PRODUCTS_URL, {
-      method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || `HTTP ${res.status}`);
-    return data?.data || data;
+    const { data } = await apiClient.post('/products', payload);
+    return data;
   },
 
   /**
    * Update existing product  PUT /api/v1/products/:id
    */
   async updateProduct(id, payload) {
-    const res = await fetch(`${PRODUCTS_URL}/${id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || `HTTP ${res.status}`);
-    return data?.data || data;
+    const { data } = await apiClient.put(`/products/${id}`, payload);
+    return data;
   },
 
   /**
    * Delete product  DELETE /api/v1/products/:id
    */
   async deleteProduct(id) {
-    const res = await fetch(`${PRODUCTS_URL}/${id}`, {
-      method: 'DELETE',
-      headers: authHeaders(),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || `HTTP ${res.status}`);
+    await apiClient.delete(`/products/${id}`);
     return true;
   },
 
@@ -181,11 +154,9 @@ export const adminProductsApi = {
    */
   async getCategories() {
     try {
-      const res = await fetch(CATEGORIES_URL, { headers: authHeaders() });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const cats = data?.data || [];
-      return Array.isArray(cats) && cats.length > 0 ? cats : FALLBACK_CATEGORIES;
+      const { data } = await apiClient.get('/categories');
+      const categories = Array.isArray(data) ? data : data?.categories || [];
+      return categories;
     } catch {
       return FALLBACK_CATEGORIES;
     }

@@ -41,7 +41,7 @@ export default function OrdersFulfillmentPage() {
     setIsLoading(true);
     try {
       const data = await adminOrdersApi.getOrders();
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data)) {
         setOrders(data);
       }
     } catch {
