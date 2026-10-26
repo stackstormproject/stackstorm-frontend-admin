@@ -153,8 +153,23 @@ export default function SupportConsolePage() {
       const { sessionId, message, text, sender, senderRole, senderName, createdAt, timestamp } =
         data;
 
-      setSessions((prev) =>
-        prev.map((s) => {
+      setSessions((prev) => {
+        const found = prev.some((s) => String(s.id) === String(sessionId));
+        if (!found) {
+          // If message is for a session not currently in state, refresh queue from API
+          apiClient
+            .get('/admin/support/sessions')
+            .then(({ data: resData }) => {
+              const live = resData?.sessions || (Array.isArray(resData) ? resData : null);
+              if (Array.isArray(live) && live.length > 0) {
+                setSessions(live);
+              }
+            })
+            .catch(() => {});
+          return prev;
+        }
+
+        return prev.map((s) => {
           if (String(s.id) === String(sessionId)) {
             const role = senderRole || sender || 'customer';
             const msgSender = role === 'support_agent' || role === 'agent' ? 'agent' : 'customer';
@@ -174,8 +189,8 @@ export default function SupportConsolePage() {
             };
           }
           return s;
-        })
-      );
+        });
+      });
 
       const role = senderRole || sender || 'customer';
       if (role !== 'support_agent' && role !== 'agent') {
@@ -208,7 +223,7 @@ export default function SupportConsolePage() {
           (sessionData.customerId ? `Customer #${sessionData.customerId}` : 'Storefront Guest'),
         customer_email: sessionData.customerEmail || 'guest@stackstorm.lk',
         tier: sessionData.tier || 'Silver',
-        status: sessionData.status || 'pending',
+        status: 'pending',
         inquiry_topic:
           sessionData.subject || sessionData.inquiry_topic || 'Customer Storefront Inquiry',
         created_at: sessionData.createdAt || new Date().toISOString(),
@@ -218,7 +233,19 @@ export default function SupportConsolePage() {
 
       setSessions((prev) => {
         if (prev.some((s) => String(s.id) === normalizedSession.id)) {
-          return prev;
+          return prev.map((s) =>
+            String(s.id) === normalizedSession.id
+              ? {
+                  ...s,
+                  status: 'pending',
+                  inquiry_topic: normalizedSession.inquiry_topic,
+                  messages:
+                    normalizedSession.messages.length > 0
+                      ? [...(s.messages || []), ...normalizedSession.messages]
+                      : s.messages,
+                }
+              : s
+          );
         }
         return [normalizedSession, ...prev];
       });
