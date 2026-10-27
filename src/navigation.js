@@ -1,4 +1,4 @@
-import { Boxes, LayoutDashboard, Package, ShoppingBag, Undo2 } from 'lucide-react';
+import { Boxes, Headset, LayoutDashboard, Package, ShoppingBag, Undo2, Users } from 'lucide-react';
 import { MANAGER_ROLES, SUPPORT_ROLES } from './lib/roles';
 
 /**
@@ -27,7 +27,14 @@ export const NAV_GROUPS = [
       { to: '/inventory', label: 'Stock', icon: Boxes },
     ],
   },
-  { heading: 'Customers', roles: SUPPORT_ROLES, items: [] },
+  {
+    heading: 'Customers',
+    roles: SUPPORT_ROLES,
+    items: [
+      { to: '/customers', label: 'Customers', icon: Users, roles: MANAGER_ROLES },
+      { to: '/support', label: 'Live support', icon: Headset },
+    ],
+  },
 ];
 
 export const navigationFor = (role) =>

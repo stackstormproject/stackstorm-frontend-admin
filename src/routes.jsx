@@ -1,6 +1,6 @@
 import AdminLayout from './components/layout/AdminLayout';
 import { RequireAuth, RequireRole } from './components/layout/RequireAuth';
-import { MANAGER_ROLES } from './lib/roles';
+import { MANAGER_ROLES, SUPPORT_ROLES } from './lib/roles';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import HomeRedirect from './pages/HomeRedirect';
@@ -13,6 +13,8 @@ import ProductsPage from './pages/ProductsPage';
 import ProductNewPage from './pages/ProductNewPage';
 import ProductEditPage from './pages/ProductEditPage';
 import InventoryPage from './pages/InventoryPage';
+import CustomersPage from './pages/CustomersPage';
+import CustomerDetailPage from './pages/CustomerDetailPage';
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
 
@@ -40,6 +42,22 @@ export const routes = [
       { path: 'products/new', element: managersOnly(<ProductNewPage />) },
       { path: 'products/:productId', element: managersOnly(<ProductEditPage />) },
       { path: 'inventory', element: managersOnly(<InventoryPage />) },
+      { path: 'customers', element: managersOnly(<CustomersPage />) },
+      { path: 'customers/:customerId', element: managersOnly(<CustomerDetailPage />) },
+      {
+        path: 'support',
+        // Loaded on demand: socket.io is only needed by the support console.
+        lazy: async () => {
+          const { default: SupportPage } = await import('./pages/SupportPage');
+          return {
+            element: (
+              <RequireRole roles={SUPPORT_ROLES}>
+                <SupportPage />
+              </RequireRole>
+            ),
+          };
+        },
+      },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
