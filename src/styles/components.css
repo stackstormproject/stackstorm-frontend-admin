@@ -301,6 +301,7 @@ legend {
 
 /* ---------- Tables ---------- */
 .table-wrap {
+  position: relative; /* keeps visually hidden headers inside the scroll area */
   overflow-x: auto;
 }
 
