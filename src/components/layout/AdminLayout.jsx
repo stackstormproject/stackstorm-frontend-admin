@@ -24,6 +24,16 @@ export default function AdminLayout() {
   // Close the narrow-screen drawer after navigating.
   useEffect(() => setDrawerOpen(false), [location.pathname]);
 
+  // Escape closes the drawer.
+  useEffect(() => {
+    if (!drawerOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setDrawerOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [drawerOpen]);
+
   const handleSignOut = async () => {
     // Leave the guarded area first so the guard does not race the sign-out.
     navigate('/login', { replace: true });
@@ -36,7 +46,7 @@ export default function AdminLayout() {
         Skip to content
       </a>
 
-      <div className="topbar">
+      <header className="topbar">
         <Brand />
         <button
           type="button"
@@ -48,7 +58,7 @@ export default function AdminLayout() {
         >
           {drawerOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
         </button>
-      </div>
+      </header>
 
       {drawerOpen && (
         <button

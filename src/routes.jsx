@@ -4,6 +4,7 @@ import { MANAGER_ROLES, SUPPORT_ROLES } from './lib/roles';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import HomeRedirect from './pages/HomeRedirect';
+import { LoadingState } from './components/ui/States';
 import DashboardPage from './pages/DashboardPage';
 import OrdersPage from './pages/OrdersPage';
 import OrderDetailPage from './pages/OrderDetailPage';
@@ -26,6 +27,12 @@ export const routes = [
   { path: '/login', element: <LoginPage /> },
   {
     path: '/',
+    // Shown while a lazily loaded page (the support console) loads on first visit.
+    hydrateFallbackElement: (
+      <div className="state--page state">
+        <LoadingState label="Loading" />
+      </div>
+    ),
     element: (
       <RequireAuth>
         <AdminLayout />
