@@ -58,3 +58,11 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.delta--up {
+  color: var(--success);
+}
+
+.delta--down {
+  color: var(--danger);
+}
