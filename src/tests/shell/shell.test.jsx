@@ -8,6 +8,7 @@ import { describeSignInError, safeNext } from '../../lib/authErrors';
 import { navigationFor, NAV_GROUPS } from '../../navigation';
 
 vi.mock('../../api/auth');
+vi.mock('../../api/analytics');
 
 describe('sign-in', () => {
   it('should show only the sign-in page given no session', async () => {
