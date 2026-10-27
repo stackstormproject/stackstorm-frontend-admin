@@ -153,6 +153,10 @@ describe('shell and roles', () => {
     const closers = screen.getAllByRole('button', { name: 'Close menu' });
     await user.click(closers[closers.length - 1]);
     expect(document.getElementById('sidebar')).not.toHaveClass('sidebar--open');
+
+    await user.click(screen.getByRole('button', { name: 'Open menu' }));
+    await user.keyboard('{Escape}');
+    expect(document.getElementById('sidebar')).not.toHaveClass('sidebar--open');
   });
 
   it('should tell the operator when the session ends mid-work', async () => {
