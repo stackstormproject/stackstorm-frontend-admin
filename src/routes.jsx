@@ -5,6 +5,8 @@ import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import HomeRedirect from './pages/HomeRedirect';
 import DashboardPage from './pages/DashboardPage';
+import OrdersPage from './pages/OrdersPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
 
@@ -24,6 +26,8 @@ export const routes = [
     children: [
       { index: true, element: <HomeRedirect /> },
       { path: 'dashboard', element: managersOnly(<DashboardPage />) },
+      { path: 'orders', element: managersOnly(<OrdersPage />) },
+      { path: 'orders/:orderId', element: managersOnly(<OrderDetailPage />) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
