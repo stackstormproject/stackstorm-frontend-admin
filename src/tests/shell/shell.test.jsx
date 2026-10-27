@@ -178,19 +178,26 @@ describe('shell and roles', () => {
     }
   });
 
-  it('should render nav links for the role', async () => {
-    const icon = () => null;
-    NAV_GROUPS[3].items.push({ to: '/support', label: 'Live support', icon });
-    try {
-      renderApp('/nowhere', { admin: ADMINS.agent });
-      const nav = await screen.findByRole('navigation', { name: 'Main' });
-      expect(within(nav).getByRole('link', { name: 'Live support' })).toHaveAttribute(
-        'href',
-        '/support'
-      );
-    } finally {
-      NAV_GROUPS[3].items.pop();
-    }
+  it('should show a support agent only the support console', async () => {
+    renderApp('/nowhere', { admin: ADMINS.agent });
+
+    const nav = await screen.findByRole('navigation', { name: 'Main' });
+    expect(
+      within(nav)
+        .getAllByRole('link')
+        .map((link) => link.textContent)
+    ).toEqual(['Live support']);
+  });
+
+  it('should show managers every section', async () => {
+    renderApp('/nowhere', { admin: ADMINS.storeManager });
+
+    const nav = await screen.findByRole('navigation', { name: 'Main' });
+    expect(
+      within(nav)
+        .getAllByRole('link')
+        .map((link) => link.textContent)
+    ).toEqual(['Dashboard', 'Orders', 'Returns', 'Products', 'Stock', 'Customers', 'Live support']);
   });
 });
 
