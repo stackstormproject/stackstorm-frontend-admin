@@ -1,3 +1,4 @@
+import { LayoutDashboard } from 'lucide-react';
 import { MANAGER_ROLES, SUPPORT_ROLES } from './lib/roles';
 
 /**
@@ -5,7 +6,11 @@ import { MANAGER_ROLES, SUPPORT_ROLES } from './lib/roles';
  * `roles` hides links the operator cannot use; the API enforces the same matrix.
  */
 export const NAV_GROUPS = [
-  { heading: 'Overview', roles: MANAGER_ROLES, items: [] },
+  {
+    heading: 'Overview',
+    roles: MANAGER_ROLES,
+    items: [{ to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
+  },
   { heading: 'Sales', roles: MANAGER_ROLES, items: [] },
   { heading: 'Catalogue', roles: MANAGER_ROLES, items: [] },
   { heading: 'Customers', roles: SUPPORT_ROLES, items: [] },
