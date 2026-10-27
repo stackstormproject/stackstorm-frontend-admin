@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "oxlint",
-    "format": "prettier --write src/ index.html",
-    "format:check": "prettier --check src/ index.html",
     "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{js,jsx}\" \"e2e/**/*.js\" --max-warnings 0 --no-error-on-unmatched-pattern",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "verify": "npm run lint && npm run format:check && npm run test:coverage && npm run build",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "axios": "^1.20.0",
@@ -23,16 +27,29 @@
     "socket.io-client": "^4.8.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.48.2",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "4.3.4",
     "@vitest/coverage-v8": "^2.1.8",
+    "axios-mock-adapter": "^2.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "jsdom": "25.0.1",
-    "oxlint": "^1.81.0",
-    "prettier": "^3.9.10",
+    "prettier": "^3.3.3",
     "vite": "5.4.11",
-    "vitest": "2.1.8"
+    "vitest": "2.1.8",
+    "vitest-axe": "^0.1.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
