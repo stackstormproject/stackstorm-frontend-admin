@@ -9,6 +9,7 @@ import './styles/components.css';
 import './styles/layout.css';
 import './styles/dashboard.css';
 import './styles/detail.css';
+import './styles/catalog.css';
 
 const router = createBrowserRouter(routes);
 
