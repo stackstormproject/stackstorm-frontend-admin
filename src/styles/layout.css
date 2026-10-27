@@ -188,12 +188,17 @@
     z-index: 40;
     width: min(300px, 86vw);
     transform: translateX(-100%);
-    transition: transform var(--transition);
+    /* Hidden links must not take keyboard focus while the drawer is closed. */
+    visibility: hidden;
+    transition:
+      transform var(--transition),
+      visibility var(--transition);
     box-shadow: var(--shadow-lg);
   }
 
   .sidebar--open {
     transform: translateX(0);
+    visibility: visible;
   }
 
   .sidebar-scrim {
