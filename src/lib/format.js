@@ -46,3 +46,6 @@ export const cleanParams = (params = {}) =>
       ([, value]) => value !== undefined && value !== null && value !== ''
     )
   );
+
+const DELIVERY_LABELS = { standard: 'Home delivery', pickup: 'Store pickup' };
+export const deliveryLabel = (option) => DELIVERY_LABELS[option] || humanize(option);
