@@ -13,6 +13,8 @@ import ProductsPage from './pages/ProductsPage';
 import ProductNewPage from './pages/ProductNewPage';
 import ProductEditPage from './pages/ProductEditPage';
 import InventoryPage from './pages/InventoryPage';
+import CustomersPage from './pages/CustomersPage';
+import CustomerDetailPage from './pages/CustomerDetailPage';
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
 
@@ -40,6 +42,8 @@ export const routes = [
       { path: 'products/new', element: managersOnly(<ProductNewPage />) },
       { path: 'products/:productId', element: managersOnly(<ProductEditPage />) },
       { path: 'inventory', element: managersOnly(<InventoryPage />) },
+      { path: 'customers', element: managersOnly(<CustomersPage />) },
+      { path: 'customers/:customerId', element: managersOnly(<CustomerDetailPage />) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
