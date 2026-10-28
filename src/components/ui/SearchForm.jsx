@@ -17,7 +17,7 @@ export function SearchForm({ label, placeholder, value, onSearch }) {
       }}
     >
       <label htmlFor={id} className="field__label">
-        {label}
+        Search {label}
       </label>
       <div className="search-form__row">
         <input
@@ -28,7 +28,7 @@ export function SearchForm({ label, placeholder, value, onSearch }) {
           value={text}
           onChange={(event) => setText(event.target.value)}
         />
-        <button type="submit" className="btn btn--secondary" aria-label={`Search ${label}`}>
+        <button type="submit" className="btn btn--secondary" aria-label="Search">
           <Search size={16} aria-hidden="true" />
         </button>
       </div>
