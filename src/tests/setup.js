@@ -1,8 +1,11 @@
 import '@testing-library/jest-dom/vitest';
-import { afterEach } from 'vitest';
+import * as axeMatchers from 'vitest-axe/matchers';
 import { cleanup } from '@testing-library/react';
 
-// Node 25+ ships a broken built-in localStorage that shadows jsdom's. Replace it with a simple in-memory one.
+expect.extend(axeMatchers);
+
+// Node 25+ ships a built-in localStorage that shadows jsdom's and fails without a file.
+// Replace both storages with a simple in-memory one so tests behave the same on every Node.
 const createStorage = () => {
   let store = {};
   return {
@@ -26,9 +29,12 @@ const createStorage = () => {
 Object.defineProperty(globalThis, 'localStorage', { value: createStorage(), configurable: true });
 Object.defineProperty(globalThis, 'sessionStorage', { value: createStorage(), configurable: true });
 
-// jsdom does not implement scrollIntoView
+// jsdom does not implement these browser APIs used by the UI.
 window.HTMLElement.prototype.scrollIntoView = () => {};
+window.scrollTo = () => {};
 
 afterEach(() => {
   cleanup();
+  localStorage.clear();
+  sessionStorage.clear();
 });
