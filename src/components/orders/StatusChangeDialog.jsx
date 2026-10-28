@@ -36,6 +36,12 @@ const copyFor = (order, target) => {
         confirm: 'Cancel order',
         danger: true,
       };
+    case 'processing':
+      return {
+        title: 'Start processing',
+        description: 'The customer sees that the order is being prepared.',
+        confirm: 'Start processing',
+      };
     default:
       return { title: 'Change status', description: '', confirm: 'Confirm' };
   }
