@@ -8,6 +8,7 @@ vi.mock('../../api/orders', async (importOriginal) => ({
   listOrders: vi.fn(),
   getOrder: vi.fn(),
   updateOrderStatus: vi.fn(),
+  getInvoice: vi.fn(),
 }));
 
 const row = (overrides = {}) => ({
@@ -170,6 +171,38 @@ describe('order detail', () => {
       '/customers/4'
     );
     expect(screen.getAllByText('12 Main Street, Dickwella, 81200')).toHaveLength(2);
+  });
+
+  it('should download the PDF invoice of a paid order (#179)', async () => {
+    URL.createObjectURL = vi.fn(() => 'blob:x');
+    URL.revokeObjectURL = vi.fn();
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    ordersApi.getOrder.mockResolvedValue(detail());
+    ordersApi.getInvoice
+      .mockResolvedValueOnce(new Blob(['%PDF-']))
+      .mockRejectedValueOnce(apiError(409, 'CONFLICT', 'unpaid'))
+      .mockRejectedValueOnce(apiError(500, 'X', 'Server is busy'));
+    renderApp('/orders/11');
+
+    const button = await screen.findByRole('button', { name: 'Invoice (PDF)' });
+    await userEvent.click(button);
+    await waitFor(() => expect(click).toHaveBeenCalled());
+    expect(click.mock.contexts[0].download).toBe('DFC-2026-0011.pdf');
+    await userEvent.click(button);
+    expect(
+      await screen.findByText('The invoice is ready once the order is paid.')
+    ).toBeInTheDocument();
+    await userEvent.click(button);
+    expect(await screen.findByText('Server is busy')).toBeInTheDocument();
+    click.mockRestore();
+  });
+
+  it('should not offer an invoice for an unpaid order', async () => {
+    ordersApi.getOrder.mockResolvedValue(detail({ status: 'payment_pending' }));
+    renderApp('/orders/11');
+
+    expect(await screen.findByRole('heading', { name: 'DFC-2026-0011' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Invoice (PDF)' })).not.toBeInTheDocument();
   });
 
   it('should offer only the transitions the server allows', async () => {

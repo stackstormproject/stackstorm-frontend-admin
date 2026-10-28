@@ -1,8 +1,12 @@
+import { Link } from 'react-router-dom';
 import { FormField } from '../ui/FormField';
+import { ImageUploader } from './ImageUploader';
 import { LIMITS } from '../../lib/productForm';
 
 /** The product's own fields, shared by the create and edit pages. */
-export function ProductFields({ values, errors, onChange, categories }) {
+export function ProductFields({ values, errors, onChange, categories, brands = [] }) {
+  const brandNames = brands.map((b) => b.name);
+  const unknownBrand = values.brand && !brandNames.includes(values.brand);
   const set = (field) => (event) =>
     onChange({
       ...values,
@@ -52,7 +56,25 @@ export function ProductFields({ values, errors, onChange, categories }) {
         hint="Base price; a size can add an extra amount"
         required
       />
-      <FormField label="Brand" value={values.brand} onChange={set('brand')} maxLength={120} />
+      <FormField
+        as="select"
+        label="Brand"
+        value={values.brand}
+        onChange={set('brand')}
+        hint={
+          <>
+            Shown under “Our brands”. <Link to="/brands">Manage brands</Link>
+          </>
+        }
+      >
+        <option value="">No brand</option>
+        {unknownBrand && <option value={values.brand}>{values.brand}</option>}
+        {brandNames.map((name) => (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        ))}
+      </FormField>
       <FormField
         label="Material"
         value={values.material}
@@ -60,13 +82,11 @@ export function ProductFields({ values, errors, onChange, categories }) {
         maxLength={120}
       />
       <div className="form-grid__wide">
-        <FormField
-          label="Image link"
-          type="url"
-          value={values.primary_image}
-          onChange={set('primary_image')}
+        <ImageUploader
+          main={values.primary_image}
+          extras={values.gallery_images}
           error={errors.primary_image}
-          hint="https:// address of the main photo"
+          onChange={(images) => onChange({ ...values, ...images })}
         />
       </div>
       <div className="form-grid__wide">
@@ -91,6 +111,17 @@ export function ProductFields({ values, errors, onChange, categories }) {
         <input type="checkbox" checked={values.is_final_sale} onChange={set('is_final_sale')} />
         Final sale: cannot be returned or exchanged
       </label>
+      <fieldset className="form-grid__wide sections-field">
+        <legend className="field__label">Home page sections</legend>
+        <label className="checkbox">
+          <input type="checkbox" checked={values.is_new_arrival} onChange={set('is_new_arrival')} />
+          Show in “New arrivals”
+        </label>
+        <label className="checkbox">
+          <input type="checkbox" checked={values.is_popular} onChange={set('is_popular')} />
+          Show in “Popular now”
+        </label>
+      </fieldset>
     </div>
   );
 }

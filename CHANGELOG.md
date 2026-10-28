@@ -22,6 +22,10 @@ All notable changes to the admin console. Format:
 - axe-core accessibility tests for every screen and dialog (#151)
 - Playwright suite for the critical flows and a nightly staging workflow (#152)
 - README for a fresh machine, CSP and cache headers, reproducible Docker build (#153)
+- Product photos: upload a main photo and up to three more, make any the main one or remove
+  it; "New arrivals" and "Popular now" choices for the shop's home page; brand chosen from a
+  list; Brands page to add, edit, hide and delete brands with logos; PDF invoice on each paid
+  order (#179)
 
 ### Changed
 
