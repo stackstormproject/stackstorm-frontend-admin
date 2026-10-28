@@ -26,6 +26,8 @@ All notable changes to the admin console. Format:
   it; "New arrivals" and "Popular now" choices for the shop's home page; brand chosen from a
   list; Brands page to add, edit, hide and delete brands with logos; PDF invoice on each paid
   order (#179)
+- Change an order's status from the order list: a "Change to…" menu beside each status offers
+  only the allowed next statuses and confirms in the same dialog as the order page (#184)
 
 ### Changed
 
