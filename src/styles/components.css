@@ -205,6 +205,7 @@ legend {
 
 .card__header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
@@ -343,6 +344,7 @@ legend {
 
 .table a {
   font-weight: 600;
+  white-space: nowrap;
   text-decoration: none;
 }
 
