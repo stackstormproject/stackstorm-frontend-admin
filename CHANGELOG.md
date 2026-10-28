@@ -28,6 +28,8 @@ All notable changes to the admin console. Format:
 - Linting uses the team's Airbnb ESLint config instead of oxlint; `npm run verify` runs the
   same gates as CI (#141)
 - Every page reads live data; nothing falls back to built-in sample data (#143)
+- Light console: white cards on a pale page with a royal-blue sidebar, gold marker on the
+  current page, blue actions and a blue revenue chart (#178)
 
 ### Removed
 

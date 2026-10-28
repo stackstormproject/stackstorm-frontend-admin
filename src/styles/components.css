@@ -62,7 +62,7 @@
 }
 
 .btn--danger:hover:not(:disabled) {
-  background: #b91c1c;
+  background: #991b1b;
   color: #fff;
 }
 
@@ -196,6 +196,7 @@ legend {
   border-radius: var(--radius-lg);
   padding: var(--space-5);
   min-width: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .card--flush {
@@ -478,7 +479,7 @@ legend {
   align-items: center;
   justify-content: center;
   padding: var(--space-4);
-  background: rgba(3, 6, 12, 0.72);
+  background: rgba(15, 23, 42, 0.5);
 }
 
 .dialog {
@@ -592,17 +593,17 @@ legend {
 }
 
 .callout--warning {
-  border-color: rgba(251, 191, 36, 0.4);
+  border-color: #fcd34d;
   background: var(--warning-soft);
 }
 
 .callout--danger {
-  border-color: rgba(248, 113, 113, 0.4);
+  border-color: #fca5a5;
   background: var(--danger-soft);
 }
 
 .callout--info {
-  border-color: rgba(56, 189, 248, 0.35);
+  border-color: #93c5fd;
   background: var(--info-soft);
 }
 
