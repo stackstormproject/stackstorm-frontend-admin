@@ -9,14 +9,8 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { StatusChangeDialog } from '../components/orders/StatusChangeDialog';
-import { deliveryLabel, formatDate, formatDateTime, formatMoney, humanize } from '../lib/format';
-
-const ACTION_LABELS = {
-  shipped: 'Mark as shipped',
-  delivered: 'Mark as delivered',
-  cancelled: 'Cancel order',
-  processing: 'Start processing',
-};
+import { actionLabel, announceStatusChange } from '../lib/orderActions';
+import { deliveryLabel, formatDate, formatDateTime, formatMoney } from '../lib/format';
 
 const formatAddress = (address) =>
   address
@@ -57,18 +51,8 @@ export default function OrderDetailPage() {
   const handleChanged = (result) => {
     setTarget(null);
     order.reload();
-    toast.success(`${data.invoice_number} is now ${humanize(result.status).toLowerCase()}`);
-    if (result.refund?.refunded) {
-      toast.success(`Refunded ${formatMoney(result.refund.amount)} to the customer`);
-    } else if (result.refund?.error) {
-      toast.error(result.refund.error);
-    }
+    announceStatusChange(toast, data.invoice_number, result);
   };
-
-  const actionLabel = (status) =>
-    status === 'delivered' && data.shipping_option === 'pickup'
-      ? 'Mark as collected'
-      : ACTION_LABELS[status] || humanize(status);
 
   // #179: the same PDF invoice the customer downloads.
   const downloadInvoice = async () => {
@@ -110,7 +94,7 @@ export default function OrderDetailPage() {
               className={`btn ${status === 'cancelled' ? 'btn--secondary' : 'btn--primary'}`}
               onClick={() => setTarget(status)}
             >
-              {actionLabel(status)}
+              {actionLabel(status, data)}
             </button>
           )),
         ].filter(Boolean)}
