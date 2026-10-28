@@ -1,289 +1,162 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Package,
-  AlertTriangle,
-  Boxes,
-  Clock,
-  RefreshCw,
-  Sparkles,
-  Layers,
-  Plus,
-} from 'lucide-react';
-import InventoryTable from '../components/inventory/InventoryTable';
-import StockAdjustmentModal from '../components/inventory/StockAdjustmentModal';
-import ProductModal from '../components/catalog/ProductModal';
-import { inventoryApi, FALLBACK_INVENTORY } from '../api/inventory.api';
-import { adminProductsApi } from '../api/adminProducts.api';
-import './InventoryPage.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { listInventory } from '../api/inventory';
+import { useResource } from '../hooks/useResource';
+import { useListParams } from '../hooks/useListParams';
+import { useToast } from '../state/ToastContext';
+import { PageHeader } from '../components/ui/PageHeader';
+import { SearchForm } from '../components/ui/SearchForm';
+import { Pagination } from '../components/ui/Pagination';
+import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
+import { AdjustStockDialog } from '../components/inventory/AdjustStockDialog';
+import { StockHistoryDialog } from '../components/inventory/StockHistoryDialog';
 
-export default function InventoryPage({ onNavigateToCatalog }) {
-  const [products, setProducts] = useState(FALLBACK_INVENTORY);
-  const [isLoading, setIsLoading] = useState(false);
-  const [lowStockOnly, setLowStockOnly] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+const PAGE_SIZE = 25;
 
-  // Stock Adjustment Modal State
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedVariant, setSelectedVariant] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export default function InventoryPage() {
+  const { filters, page, setFilters, setPage } = useListParams(['search', 'low']);
+  const lowOnly = filters.low === 'true';
+  const inventory = useResource(
+    () =>
+      listInventory({ search: filters.search, low: lowOnly || undefined, page, limit: PAGE_SIZE }),
+    [filters.search, lowOnly, page]
+  );
+  const [adjusting, setAdjusting] = useState(null);
+  const [history, setHistory] = useState(null);
+  const toast = useToast();
+  const threshold = inventory.data?.low_stock_threshold;
 
-  // Add Product Modal State
-  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-
-  const fetchInventory = async () => {
-    setIsLoading(true);
-    try {
-      const data = await inventoryApi.getProducts();
-      if (Array.isArray(data)) {
-        setProducts(data);
-      }
-    } catch {
-      // Fallback already in state
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchInventory();
-  }, []);
-
-  const handleOpenAdjustModal = (product, variant) => {
-    setSelectedProduct(product);
-    setSelectedVariant(variant);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseAdjustModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
-    setSelectedVariant(null);
-  };
-
-  const handleStockAdjustmentSubmit = async ({
-    sku,
-    delta,
-    reason,
-    notes,
-    newStockLevel,
-    variantId,
-    productId,
-  }) => {
-    // 1. Optimistic in-place state update without full page reload (AC4)
-    setProducts((prevProducts) =>
-      prevProducts.map((prod) => {
-        if (prod.id !== productId && !prod.variants.some((v) => v.sku === sku)) {
-          return prod;
-        }
-
-        const updatedVariants = prod.variants.map((v) => {
-          if (v.sku === sku || v.id === variantId) {
-            const nextStock = Math.max(0, (v.stock_quantity || 0) + delta);
-            return {
-              ...v,
-              stock_quantity: nextStock,
-            };
-          }
-          return v;
-        });
-
-        return {
-          ...prod,
-          variants: updatedVariants,
-        };
-      })
+  const handleAdjusted = (updated, delta) => {
+    setAdjusting(null);
+    inventory.setData((data) => ({
+      ...data,
+      items: data.items.map((item) => (item.variant_id === updated.variant_id ? updated : item)),
+    }));
+    toast.success(
+      `${updated.sku}: ${delta > 0 ? `added ${delta}` : `removed ${-delta}`}, ${updated.stock_quantity} on hand`
     );
-
-    // 2. Dispatch to backend API POST /api/v1/inventory/adjust
-    await inventoryApi.adjustStock({ sku, delta, reason, notes });
-
-    // 3. User feedback
-    const formattedDelta = delta > 0 ? `+${delta}` : `${delta}`;
-    setToastMessage(
-      `Stock updated: SKU ${sku} (${formattedDelta} units). Audit recorded: "${reason}".`
-    );
-    setTimeout(() => setToastMessage(''), 4500);
   };
-
-  const handleAddNewProductSubmit = async (payload) => {
-    try {
-      await adminProductsApi.createProduct(payload);
-      setToastMessage(`Product "${payload.name}" created successfully and added to catalog.`);
-      setTimeout(() => setToastMessage(''), 4500);
-      fetchInventory();
-    } catch {
-      // Optimistic local update
-      const newInventoryItem = {
-        id: Date.now(),
-        title: payload.name,
-        category: payload.category || 'Apparel',
-        sku_prefix: (payload.category || 'SKU').substring(0, 3).toUpperCase(),
-        thumbnail:
-          payload.primaryImage ||
-          'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=150&q=80',
-        variants: (payload.variants || []).map((v, i) => ({
-          id: Date.now() + i,
-          sku: v.sku,
-          color: v.color || 'Natural',
-          size: v.size || 'One Size',
-          stock_quantity: Number(v.stockQuantity) || 0,
-          reserved_quantity: 0,
-        })),
-      };
-      setProducts((prev) => [newInventoryItem, ...prev]);
-      setToastMessage(`Product "${payload.name}" added to inventory catalog.`);
-      setTimeout(() => setToastMessage(''), 4500);
-    }
-  };
-
-  // Compute Aggregate Inventory Telemetry
-  let totalSkus = 0;
-  let lowStockSkus = 0;
-  let totalOnHandUnits = 0;
-  let totalReservedUnits = 0;
-
-  products.forEach((prod) => {
-    (prod.variants || []).forEach((v) => {
-      totalSkus += 1;
-      const onHand = Number(v.stock_quantity || 0);
-      const reserved = Number(v.reserved_quantity || 0);
-      const available = Math.max(0, onHand - reserved);
-
-      totalOnHandUnits += onHand;
-      totalReservedUnits += reserved;
-      if (available < 5) {
-        lowStockSkus += 1;
-      }
-    });
-  });
 
   return (
-    <div className="inventory-page-container" data-testid="inventory-page">
-      {/* Toast Feedback */}
-      {toastMessage && (
-        <div className="inventory-toast" role="alert" data-testid="inventory-toast">
-          <Sparkles size={14} />
-          <span>{toastMessage}</span>
-        </div>
+    <>
+      <PageHeader
+        eyebrow="Catalogue"
+        title="Stock"
+        description={`Available = on hand minus units held in active checkouts (15-minute holds).${
+          threshold !== undefined ? ` Low stock means ${threshold} or fewer available.` : ''
+        }`}
+      />
+      <div className="toolbar">
+        <SearchForm
+          label="stock"
+          placeholder="Product name or SKU"
+          value={filters.search}
+          onSearch={(search) => setFilters({ search })}
+        />
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={lowOnly}
+            onChange={(event) => setFilters({ low: event.target.checked ? 'true' : '' })}
+          />
+          Low stock only
+        </label>
+      </div>
+
+      <section className="card card--flush" aria-label="Stock list">
+        {inventory.loading && <LoadingState label="Loading stock" />}
+        {inventory.error && <ErrorState error={inventory.error} onRetry={inventory.reload} />}
+        {inventory.data && inventory.data.items.length === 0 && (
+          <EmptyState title={lowOnly ? 'Nothing is low on stock' : 'No sizes match'} />
+        )}
+        {inventory.data && inventory.data.items.length > 0 && (
+          <>
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Size</th>
+                    <th scope="col" className="num">
+                      On hand
+                    </th>
+                    <th scope="col" className="num">
+                      Held
+                    </th>
+                    <th scope="col" className="num">
+                      Available
+                    </th>
+                    <th scope="col">
+                      <span className="visually-hidden">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {inventory.data.items.map((item) => (
+                    <tr key={item.variant_id}>
+                      <td>
+                        <Link to={`/products/${item.product_id}`}>{item.product_name}</Link>
+                        <span className="cell-sub mono">{item.sku}</span>
+                      </td>
+                      <td className="nowrap">
+                        {item.size}
+                        {item.color ? ` · ${item.color}` : ''}
+                      </td>
+                      <td className="num">{item.stock_quantity}</td>
+                      <td className="num">{item.reserved_quantity}</td>
+                      <td className="num">
+                        {item.is_low ? (
+                          <span
+                            className={`badge ${item.available === 0 ? 'badge--danger' : 'badge--warning'}`}
+                          >
+                            {item.available === 0 ? 'Out' : `Low: ${item.available}`}
+                          </span>
+                        ) : (
+                          item.available
+                        )}
+                      </td>
+                      <td>
+                        <div className="btn-row btn-row--end">
+                          <button
+                            type="button"
+                            className="btn btn--secondary btn--small"
+                            aria-label={`Adjust stock for ${item.sku}`}
+                            onClick={() => setAdjusting(item)}
+                          >
+                            Adjust
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn--ghost btn--small"
+                            aria-label={`Stock history for ${item.sku}`}
+                            onClick={() => setHistory(item)}
+                          >
+                            History
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Pagination
+              pagination={inventory.data.pagination}
+              onPageChange={setPage}
+              noun="sizes"
+            />
+          </>
+        )}
+      </section>
+
+      {adjusting && (
+        <AdjustStockDialog
+          item={adjusting}
+          onClose={() => setAdjusting(null)}
+          onAdjusted={handleAdjusted}
+        />
       )}
-
-      {/* Header Bar */}
-      <div className="inventory-header">
-        <div>
-          <div className="inventory-kicker">
-            <span className="inventory-kicker-badge">Central Warehouse Operations</span>
-            <span className="inventory-kicker-tag">Dickwella Atelier Fulfillment Center</span>
-          </div>
-          <h1 className="inventory-title">Inventory & SKU Restock Matrix</h1>
-          <p className="inventory-subtitle">
-            Audit physical apparel stock, monitor 15-minute checkout reservations, and execute
-            compliant restock adjustments.
-          </p>
-        </div>
-
-        <div className="inventory-header-actions">
-          <button
-            type="button"
-            className="inventory-refresh-btn"
-            onClick={fetchInventory}
-            disabled={isLoading}
-            title="Reload live inventory data"
-            data-testid="refresh-inventory-btn"
-          >
-            <RefreshCw size={14} className={isLoading ? 'spinning' : ''} />
-            <span>{isLoading ? 'Syncing...' : 'Sync Warehouse'}</span>
-          </button>
-
-          <button
-            type="button"
-            className="inventory-add-product-btn"
-            onClick={() => setIsAddProductOpen(true)}
-            data-testid="open-add-product-modal-btn"
-          >
-            <Plus size={14} />
-            <span>Add New Product</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Aggregate KPI Telemetry Strip */}
-      <div className="inventory-kpi-grid">
-        <div className="inv-kpi-card">
-          <div className="inv-kpi-header">
-            <span className="inv-kpi-label">SKU Variants Monitored</span>
-            <div className="inv-kpi-icon icon-primary">
-              <Boxes size={18} />
-            </div>
-          </div>
-          <div className="inv-kpi-val" data-testid="kpi-total-skus">
-            {totalSkus} SKUs
-          </div>
-          <span className="inv-kpi-sub">Across {products.length} Garment Styles</span>
-        </div>
-
-        <div className="inv-kpi-card">
-          <div className="inv-kpi-header">
-            <span className="inv-kpi-label">Critical Low-Stock Alerts</span>
-            <div className="inv-kpi-icon icon-danger">
-              <AlertTriangle size={18} />
-            </div>
-          </div>
-          <div className="inv-kpi-val text-danger" data-testid="kpi-low-stock-skus">
-            {lowStockSkus} SKUs
-          </div>
-          <span className="inv-kpi-sub">Available stock &lt; 5 units</span>
-        </div>
-
-        <div className="inv-kpi-card">
-          <div className="inv-kpi-header">
-            <span className="inv-kpi-label">Total Units On-Hand</span>
-            <div className="inv-kpi-icon icon-success">
-              <Package size={18} />
-            </div>
-          </div>
-          <div className="inv-kpi-val text-success" data-testid="kpi-onhand-units">
-            {totalOnHandUnits} Units
-          </div>
-          <span className="inv-kpi-sub">Physical warehouse stock</span>
-        </div>
-
-        <div className="inv-kpi-card">
-          <div className="inv-kpi-header">
-            <span className="inv-kpi-label">Active Checkout Holds</span>
-            <div className="inv-kpi-icon icon-warning">
-              <Clock size={18} />
-            </div>
-          </div>
-          <div className="inv-kpi-val text-warning" data-testid="kpi-reserved-units">
-            {totalReservedUnits} Reserved
-          </div>
-          <span className="inv-kpi-sub">15-minute temporary lock</span>
-        </div>
-      </div>
-
-      {/* Hierarchical Inventory & SKU Matrix Table */}
-      <InventoryTable
-        products={products}
-        onAdjustStock={handleOpenAdjustModal}
-        lowStockOnly={lowStockOnly}
-        onToggleLowStockOnly={() => setLowStockOnly((prev) => !prev)}
-      />
-
-      {/* Stock Adjustment Modal */}
-      <StockAdjustmentModal
-        isOpen={isModalOpen}
-        onClose={handleCloseAdjustModal}
-        product={selectedProduct}
-        variant={selectedVariant}
-        onSubmit={handleStockAdjustmentSubmit}
-      />
-
-      {/* Add New Product Modal */}
-      <ProductModal
-        isOpen={isAddProductOpen}
-        onClose={() => setIsAddProductOpen(false)}
-        onSubmit={handleAddNewProductSubmit}
-      />
-    </div>
+      {history && <StockHistoryDialog item={history} onClose={() => setHistory(null)} />}
+    </>
   );
 }

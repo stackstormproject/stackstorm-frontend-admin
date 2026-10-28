@@ -1,11 +1,21 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './styles/admin-tokens.css';
-import './styles/admin-global.css';
-import App from './App.jsx';
+import { createBrowserRouter } from 'react-router-dom';
+import App from './App';
+import { routes } from './routes';
+import './styles/tokens.css';
+import './styles/base.css';
+import './styles/components.css';
+import './styles/layout.css';
+import './styles/dashboard.css';
+import './styles/detail.css';
+import './styles/catalog.css';
+import './styles/support.css';
+
+const router = createBrowserRouter(routes);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <App router={router} />
   </StrictMode>
 );
