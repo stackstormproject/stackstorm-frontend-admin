@@ -1,0 +1,68 @@
+/* Admin console design tokens (team palette from the original admin-tokens.css:
+   dark operations surfaces, sky-blue actions, Ceylon gold brand accent). */
+:root {
+  color-scheme: dark;
+
+  --bg: #0b0f19;
+  --bg-alt: #0f172a;
+  --surface: #151d2f;
+  --surface-raised: #192338;
+  --surface-hover: #1e293b;
+  --border: #24344d;
+  --border-strong: #334766;
+
+  --text: #f8fafc;
+  --text-muted: #a7b4c8;
+  --text-faint: #8193ab;
+
+  --primary: #38bdf8;
+  --primary-hover: #7dd3fc;
+  --primary-ink: #04121c;
+  --primary-soft: rgba(56, 189, 248, 0.12);
+  --accent: #d4af37;
+  --accent-soft: rgba(212, 175, 55, 0.14);
+
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.14);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.14);
+  --danger: #f87171;
+  --danger-strong: #dc2626;
+  --danger-soft: rgba(248, 113, 113, 0.14);
+  --info: #38bdf8;
+  --info-soft: rgba(56, 189, 248, 0.14);
+  --neutral-soft: rgba(167, 180, 200, 0.12);
+
+  --font-heading: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.55);
+
+  --sidebar-width: 248px;
+  --content-max: 1280px;
+  --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
