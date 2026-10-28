@@ -604,3 +604,17 @@ legend {
   border-color: rgba(56, 189, 248, 0.35);
   background: var(--info-soft);
 }
+
+/* ---------- Search ---------- */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.search-form__row {
+  display: flex;
+  gap: var(--space-2);
+}
