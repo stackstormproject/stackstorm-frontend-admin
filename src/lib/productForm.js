@@ -9,7 +9,11 @@ export const LIMITS = Object.freeze({
   variantsMax: 30,
 });
 
-const URL_PATTERN = /^https?:\/\/\S+$/i;
+// An image is an http(s) link or a file uploaded to the backend (/api/v1/media/...).
+export const IMAGE_PATTERN = /^(https?:\/\/\S+|\/api\/v1\/media\/[\w./-]+)$/i;
+export const MAX_EXTRA_IMAGES = 3;
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+export const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 export const emptyProduct = () => ({
   name: '',
@@ -20,7 +24,10 @@ export const emptyProduct = () => ({
   description: '',
   care_instructions: '',
   primary_image: '',
+  gallery_images: [],
   is_final_sale: false,
+  is_new_arrival: false,
+  is_popular: false,
 });
 
 export const emptyVariant = () => ({
@@ -40,7 +47,10 @@ export const productToForm = (product) => ({
   description: product.description || '',
   care_instructions: product.care_instructions || '',
   primary_image: product.primary_image || '',
+  gallery_images: product.gallery_images || [],
   is_final_sale: Boolean(product.is_final_sale),
+  is_new_arrival: Boolean(product.is_new_arrival),
+  is_popular: Boolean(product.is_popular),
 });
 
 const isMoney = (value, { allowZero }) => {
@@ -60,7 +70,10 @@ export const validateProduct = (values) => {
     errors.price = 'Enter a price in rupees, for example 4500.';
   }
   const image = values.primary_image.trim();
-  if (image && !URL_PATTERN.test(image)) errors.primary_image = 'Use a full https:// image link.';
+  if (image && !IMAGE_PATTERN.test(image)) errors.primary_image = 'Upload the photo again.';
+  if (!image && values.gallery_images.length) {
+    errors.primary_image = 'Add a main photo before the extra photos.';
+  }
   return errors;
 };
 
@@ -102,7 +115,10 @@ export const productPayload = (values) => ({
   description: values.description.trim() || null,
   care_instructions: values.care_instructions.trim() || null,
   primary_image: values.primary_image.trim() || null,
+  gallery_images: values.gallery_images.slice(0, MAX_EXTRA_IMAGES),
   is_final_sale: values.is_final_sale,
+  is_new_arrival: values.is_new_arrival,
+  is_popular: values.is_popular,
 });
 
 export const variantPayload = (variant, { withStock = true } = {}) => ({
@@ -122,3 +138,10 @@ export const categoryGroups = (tree = []) =>
       label: category.id === parent.id ? `${parent.name} (general)` : category.name,
     })),
   }));
+
+/** Why a picked file cannot be uploaded, or null when it can. */
+export const imageFileProblem = (file) => {
+  if (!IMAGE_TYPES.includes(file.type)) return `${file.name} is not a JPEG, PNG or WebP photo.`;
+  if (file.size > MAX_IMAGE_BYTES) return `${file.name} is larger than 5 MB.`;
+  return null;
+};

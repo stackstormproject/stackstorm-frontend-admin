@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { focusFirstError } from '../lib/focus';
-import { createProduct, listCategories } from '../api/products';
+import { createProduct, listBrands, listCategories } from '../api/products';
 import { useResource } from '../hooks/useResource';
 import { useToast } from '../state/ToastContext';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -21,6 +21,7 @@ export default function ProductNewPage() {
   const navigate = useNavigate();
   const toast = useToast();
   const categories = useResource(listCategories, []);
+  const brands = useResource(() => listBrands().catch(() => []), []);
   const [values, setValues] = useState(emptyProduct);
   const [variants, setVariants] = useState(() => [emptyVariant()]);
   const [errors, setErrors] = useState({});
@@ -77,6 +78,7 @@ export default function ProductNewPage() {
             errors={errors}
             onChange={setValues}
             categories={categoryGroups(categories.data || [])}
+            brands={brands.data || []}
           />
         </section>
         <section className="card" aria-labelledby="sizes-title">

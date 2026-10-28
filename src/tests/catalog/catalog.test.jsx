@@ -140,7 +140,10 @@ describe('new product', () => {
       description: null,
       care_instructions: null,
       primary_image: null,
+      gallery_images: [],
       is_final_sale: true,
+      is_new_arrival: false,
+      is_popular: false,
       variants: [{ size: 'M', color: 'Sand', additional_price: 0, stock_quantity: 8 }],
     });
     expect(
@@ -403,6 +406,6 @@ describe('product form rules', () => {
         price: '100',
         primary_image: 'ftp://x',
       })
-    ).toEqual({ primary_image: 'Use a full https:// image link.' });
+    ).toEqual({ primary_image: 'Upload the photo again.' });
   });
 });

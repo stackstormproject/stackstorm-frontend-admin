@@ -27,3 +27,25 @@ export const deleteVariant = (productId, variantId) =>
 
 /** GET /categories -> top-level categories with `children` */
 export const listCategories = () => http.get('/categories');
+
+/**
+ * POST /upload/images (multipart, field "images", JPEG/PNG/WebP up to 5 MB each) -> { urls }.
+ * Without S3 the backend stores files itself and returns /api/v1/media/... links (#179).
+ */
+export const uploadImages = (files) => {
+  const form = new FormData();
+  [...files].forEach((file) => form.append('images', file));
+  return http.post('/upload/images', form, { headers: { 'Content-Type': 'multipart/form-data' } });
+};
+
+/** GET /admin/brands -> every brand with its product count (#179) */
+export const listBrands = () => http.get('/admin/brands');
+
+/** POST /admin/brands with { name, tagline, logo_url, is_featured, sort_order } */
+export const createBrand = (brand) => http.post('/admin/brands', brand);
+
+/** PUT /admin/brands/:id; renaming also renames the brand on its products */
+export const updateBrand = (id, fields) => http.put(`/admin/brands/${id}`, fields);
+
+/** DELETE /admin/brands/:id; products keep their brand name */
+export const deleteBrand = (id) => http.delete(`/admin/brands/${id}`);

@@ -12,6 +12,7 @@ import ReturnsPage from './pages/ReturnsPage';
 import ReturnDetailPage from './pages/ReturnDetailPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductNewPage from './pages/ProductNewPage';
+import BrandsPage from './pages/BrandsPage';
 import ProductEditPage from './pages/ProductEditPage';
 import InventoryPage from './pages/InventoryPage';
 import CustomersPage from './pages/CustomersPage';
@@ -48,6 +49,7 @@ export const routes = [
       { path: 'products', element: managersOnly(<ProductsPage />) },
       { path: 'products/new', element: managersOnly(<ProductNewPage />) },
       { path: 'products/:productId', element: managersOnly(<ProductEditPage />) },
+      { path: 'brands', element: managersOnly(<BrandsPage />) },
       { path: 'inventory', element: managersOnly(<InventoryPage />) },
       { path: 'customers', element: managersOnly(<CustomersPage />) },
       { path: 'customers/:customerId', element: managersOnly(<CustomerDetailPage />) },
