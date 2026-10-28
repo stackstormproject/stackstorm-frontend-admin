@@ -604,3 +604,57 @@ legend {
   border-color: rgba(56, 189, 248, 0.35);
   background: var(--info-soft);
 }
+
+/* ---------- Search ---------- */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.search-form__row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ---------- Radio choices ---------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-sm);
+}
+
+.choice:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.choice input {
+  margin-top: 3px;
+  accent-color: var(--primary);
+}
+
+.choice__hint {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted);
+}

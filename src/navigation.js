@@ -1,4 +1,4 @@
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Undo2 } from 'lucide-react';
 import { MANAGER_ROLES, SUPPORT_ROLES } from './lib/roles';
 
 /**
@@ -11,7 +11,14 @@ export const NAV_GROUPS = [
     roles: MANAGER_ROLES,
     items: [{ to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
   },
-  { heading: 'Sales', roles: MANAGER_ROLES, items: [] },
+  {
+    heading: 'Sales',
+    roles: MANAGER_ROLES,
+    items: [
+      { to: '/orders', label: 'Orders', icon: ShoppingBag },
+      { to: '/returns', label: 'Returns', icon: Undo2 },
+    ],
+  },
   { heading: 'Catalogue', roles: MANAGER_ROLES, items: [] },
   { heading: 'Customers', roles: SUPPORT_ROLES, items: [] },
 ];
