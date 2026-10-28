@@ -9,6 +9,7 @@ import {
 import { hasRole, homePathFor, MANAGER_ROLES, SUPPORT_ROLES, ROLE_LABELS } from '../../lib/roles';
 import {
   formatMoney,
+  formatMoneyWhole,
   formatNumber,
   formatDate,
   formatDateTime,
@@ -82,6 +83,8 @@ describe('format', () => {
   it('should format rupees with two decimals', () => {
     expect(formatMoney(4650)).toMatch(/4,650\.00/);
     expect(formatMoney(undefined)).toMatch(/0\.00/);
+    expect(formatMoneyWhole(5049.6)).toMatch(/5,050$/);
+    expect(formatMoneyWhole(null)).toMatch(/0$/);
   });
 
   it('should format numbers and dates and fall back to a dash', () => {
