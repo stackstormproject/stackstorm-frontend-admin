@@ -28,3 +28,10 @@ export const updateOrderStatus = (id, { status, trackingNumber }) =>
     status,
     ...(trackingNumber ? { tracking_number: trackingNumber } : {}),
   });
+
+/** GET /admin/orders/:id/invoice -> the PDF invoice as a Blob; 409 while unpaid (#179) */
+export const getInvoice = (id) =>
+  http.get(`/admin/orders/${id}/invoice`, {
+    responseType: 'blob',
+    headers: { Accept: 'application/pdf' },
+  });

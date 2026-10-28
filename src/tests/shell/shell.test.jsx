@@ -201,7 +201,16 @@ describe('shell and roles', () => {
       within(nav)
         .getAllByRole('link')
         .map((link) => link.textContent)
-    ).toEqual(['Dashboard', 'Orders', 'Returns', 'Products', 'Stock', 'Customers', 'Live support']);
+    ).toEqual([
+      'Dashboard',
+      'Orders',
+      'Returns',
+      'Products',
+      'Brands',
+      'Stock',
+      'Customers',
+      'Live support',
+    ]);
   });
 });
 

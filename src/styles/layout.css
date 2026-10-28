@@ -3,6 +3,8 @@
   display: grid;
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   min-height: 100vh;
+  /* Keeps the sidebar column blue below the sticky sidebar on long pages. */
+  background: linear-gradient(90deg, #172f73 var(--sidebar-width), var(--bg) 0);
 }
 
 .sidebar {
@@ -187,6 +189,7 @@
 @media (max-width: 960px) {
   .shell {
     grid-template-columns: minmax(0, 1fr);
+    background: var(--bg);
   }
 
   .topbar {

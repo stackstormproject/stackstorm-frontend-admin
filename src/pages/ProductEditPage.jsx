@@ -5,6 +5,7 @@ import {
   deleteProduct,
   deleteVariant,
   getProduct,
+  listBrands,
   listCategories,
   updateProduct,
 } from '../api/products';
@@ -20,7 +21,7 @@ import { categoryGroups, productPayload, productToForm, validateProduct } from '
 import { formatDateTime, formatMoney } from '../lib/format';
 import { focusFirstError } from '../lib/focus';
 
-function DetailsForm({ product, categories, onSaved }) {
+function DetailsForm({ product, categories, brands, onSaved }) {
   const [values, setValues] = useState(() => productToForm(product));
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState(null);
@@ -59,7 +60,13 @@ function DetailsForm({ product, categories, onSaved }) {
           {formError}
         </p>
       )}
-      <ProductFields values={values} errors={errors} onChange={setValues} categories={categories} />
+      <ProductFields
+        values={values}
+        errors={errors}
+        onChange={setValues}
+        categories={categories}
+        brands={brands}
+      />
       <div className="btn-row btn-row--end">
         <button type="submit" className="btn btn--primary" disabled={busy}>
           {busy ? 'Saving…' : 'Save details'}
@@ -75,6 +82,8 @@ export default function ProductEditPage() {
   const toast = useToast();
   const product = useResource(() => getProduct(productId), [productId]);
   const categories = useResource(listCategories, []);
+  // The brand list only fills the brand menu; the form still works without it.
+  const brands = useResource(() => listBrands().catch(() => []), []);
   const [variantDialog, setVariantDialog] = useState(null); // { variant } or { variant: null }
   const [confirm, setConfirm] = useState(null);
 
@@ -173,6 +182,7 @@ export default function ProductEditPage() {
         <DetailsForm
           product={data}
           categories={categoryGroups(categories.data || [])}
+          brands={brands.data || []}
           onSaved={product.reload}
         />
 
