@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listOrders, ORDER_STATUSES } from '../api/orders';
 import { useResource } from '../hooks/useResource';
@@ -8,6 +9,9 @@ import { FormField } from '../components/ui/FormField';
 import { Pagination } from '../components/ui/Pagination';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
+import { StatusChangeDialog } from '../components/orders/StatusChangeDialog';
+import { useToast } from '../state/ToastContext';
+import { actionLabel, announceStatusChange } from '../lib/orderActions';
 import { deliveryLabel, formatDateTime, formatMoney, humanize } from '../lib/format';
 
 const PAGE_SIZE = 20;
@@ -19,13 +23,22 @@ export default function OrdersPage() {
     [filters.status, filters.search, page]
   );
   const filtered = Boolean(filters.status || filters.search);
+  // #184: change an order's status straight from the list; the dialog confirms it.
+  const [change, setChange] = useState(null);
+  const toast = useToast();
+
+  const handleChanged = (result) => {
+    announceStatusChange(toast, change.order.invoice_number, result);
+    setChange(null);
+    orders.reload();
+  };
 
   return (
     <>
       <PageHeader
         eyebrow="Sales"
         title="Orders"
-        description="Newest first. Open an order to ship, deliver or cancel it."
+        description="Newest first. Change a status from the list, or open an order for its details."
       />
       <div className="toolbar">
         <SearchForm
@@ -106,7 +119,26 @@ export default function OrdersPage() {
                         )}
                       </td>
                       <td>
-                        <StatusBadge status={order.status} />
+                        <div className="status-cell">
+                          <StatusBadge status={order.status} />
+                          {order.allowed_statuses?.length > 0 && (
+                            <select
+                              className="status-select"
+                              aria-label={`Change status of ${order.invoice_number}`}
+                              value=""
+                              onChange={(event) => setChange({ order, target: event.target.value })}
+                            >
+                              <option value="" disabled>
+                                Change to…
+                              </option>
+                              {order.allowed_statuses.map((status) => (
+                                <option key={status} value={status}>
+                                  {actionLabel(status, order)}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
                       </td>
                       <td className="num">{order.items_count}</td>
                       <td className="num">{formatMoney(order.total_amount)}</td>
@@ -119,6 +151,15 @@ export default function OrdersPage() {
           </>
         )}
       </section>
+
+      {change && (
+        <StatusChangeDialog
+          order={change.order}
+          target={change.target}
+          onClose={() => setChange(null)}
+          onChanged={handleChanged}
+        />
+      )}
     </>
   );
 }
