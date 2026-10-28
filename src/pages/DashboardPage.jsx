@@ -1,253 +1,201 @@
-import React, { useState, useEffect } from 'react';
-import {
-  DollarSign,
-  ShoppingBag,
-  TrendingUp,
-  Users,
-  AlertTriangle,
-  Headphones,
-  RefreshCw,
-  Layers,
-  Sparkles,
-} from 'lucide-react';
-import KpiCard from '../components/dashboard/KpiCard';
-import RevenueTrendChart from '../components/dashboard/RevenueTrendChart';
-import RecentOrdersTable from '../components/dashboard/RecentOrdersTable';
-import { adminAnalyticsApi, FALLBACK_ANALYTICS } from '../api/adminAnalytics.api';
-import './DashboardPage.css';
+import { Link, useSearchParams } from 'react-router-dom';
+import { getOverview, getSalesTrend } from '../api/analytics';
+import { useResource } from '../hooks/useResource';
+import { PageHeader } from '../components/ui/PageHeader';
+import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
+import { StatusBadge } from '../components/ui/StatusBadge';
+import { StatTile } from '../components/dashboard/StatTile';
+import { RevenueChart } from '../components/dashboard/RevenueChart';
+import { formatDate, formatMoney, formatMoneyWhole, formatNumber } from '../lib/format';
 
-export default function DashboardPage({ isBackendHealthy = true, gatewayMessage = '' }) {
-  const [metrics, setMetrics] = useState(FALLBACK_ANALYTICS.metrics);
-  const [salesTrend, setSalesTrend] = useState(FALLBACK_ANALYTICS.salesTrend);
-  const [orders, setOrders] = useState(FALLBACK_ANALYTICS.recentOrders);
-  const [isLoading, setIsLoading] = useState(false);
-  const [lastRefreshed, setLastRefreshed] = useState(new Date().toLocaleTimeString());
-  const [toastMessage, setToastMessage] = useState('');
+const RANGES = [7, 30, 90];
 
-  const [errorState, setErrorState] = useState(null);
+function SalesTrend() {
+  const [params, setParams] = useSearchParams();
+  const days = RANGES.includes(Number(params.get('days'))) ? Number(params.get('days')) : 30;
+  const trend = useResource(() => getSalesTrend(days), [days]);
 
-  const loadDashboardData = async () => {
-    setIsLoading(true);
-    setErrorState(null);
-    try {
-      const [metricsData, trendData, ordersData] = await Promise.all([
-        adminAnalyticsApi.getOverview(),
-        adminAnalyticsApi.getSalesTrend(30),
-        adminAnalyticsApi.getRecentOrders(10),
-      ]);
-
-      if (metricsData) {
-        setMetrics((prev) => ({ ...prev, ...metricsData }));
-      }
-      if (trendData) {
-        setSalesTrend(trendData);
-      }
-      if (ordersData && Array.isArray(ordersData)) {
-        setOrders(ordersData);
-      }
-      setLastRefreshed(new Date().toLocaleTimeString());
-    } catch (err) {
-      setErrorState(err.message || 'Failed to sync live telemetry from PostgreSQL.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
-
-  const handleUpdateOrderStatus = async (orderId, newStatus) => {
-    // Optimistically update orders in table
-    setOrders((prev) =>
-      prev.map((ord) => (ord.id === orderId ? { ...ord, status: newStatus } : ord))
-    );
-
-    await adminAnalyticsApi.updateOrderStatus(orderId, newStatus);
-    setToastMessage(`Order #${orderId} successfully transitioned to "${newStatus.toUpperCase()}"`);
-    setTimeout(() => setToastMessage(''), 4000);
+  const pickRange = (value) => {
+    const next = new URLSearchParams(params);
+    next.set('days', String(value));
+    setParams(next, { replace: true });
   };
 
   return (
-    <div className="dashboard-page-container" data-testid="dashboard-page">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="dashboard-toast" role="alert">
-          <Sparkles size={14} />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
-      {/* Hero Header */}
-      <div className="dashboard-header">
+    <section className="card" aria-labelledby="trend-title">
+      <div className="card__header">
         <div>
-          <div className="dashboard-kicker">
-            <span className="kicker-pill">Dickwella Fashion Corner Operations</span>
-            <span className="kicker-time">Telemetry updated at {lastRefreshed}</span>
-          </div>
-          <h1 className="dashboard-title">Executive Operations Dashboard</h1>
-          <p className="dashboard-subtitle">
-            Real-time retail sales telemetry, fulfillment velocity, and gross revenue metrics.
-          </p>
+          <h2 id="trend-title">Paid revenue per day</h2>
+          {trend.data && (
+            <p className="muted">
+              {formatMoney(trend.data.totals.revenue)} from {trend.data.totals.orders} paid orders
+              in the last {days} days
+            </p>
+          )}
         </div>
-
-        <div className="dashboard-header-actions">
-          <button
-            onClick={loadDashboardData}
-            disabled={isLoading}
-            className="refresh-btn"
-            title="Reload telemetry metrics"
-            data-testid="refresh-metrics-btn"
-          >
-            <RefreshCw size={14} className={isLoading ? 'spinning' : ''} />
-            <span>{isLoading ? 'Updating...' : 'Refresh Data'}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Sync Warning Alert */}
-      {errorState && (
-        <div
-          className="dashboard-sync-alert"
-          role="alert"
-          data-testid="telemetry-error-alert"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            background: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
-            borderRadius: '8px',
-            color: '#f87171',
-            marginBottom: '20px',
-            fontSize: '0.875rem',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <AlertTriangle size={16} />
-            <span>Live telemetry warning: {errorState}</span>
-          </div>
-          <button
-            onClick={loadDashboardData}
-            style={{
-              background: 'transparent',
-              border: '1px solid #f87171',
-              color: '#f87171',
-              padding: '4px 10px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '0.75rem',
-            }}
-          >
-            Retry Telemetry
-          </button>
-        </div>
-      )}
-
-      {/* 4 Primary Executive Retail KPI Cards */}
-      <div className="kpi-grid">
-        <KpiCard
-          title="Total Monthly Revenue"
-          value={metrics.totalRevenueFormatted || 'LKR 0.00'}
-          trend={metrics.totalRevenueGrowth ?? 0}
-          trendLabel="from last month"
-          icon={DollarSign}
-          variant="primary"
-          dataTestId="kpi-total-revenue"
-        />
-
-        <KpiCard
-          title="Active Orders Fulfilled"
-          value={`${metrics.monthlyOrders ?? 0} Orders`}
-          trend={metrics.monthlyOrdersGrowth ?? 0}
-          trendLabel={`${metrics.monthlyOrders ?? 0} orders processed`}
-          icon={ShoppingBag}
-          variant="success"
-          dataTestId="kpi-monthly-orders"
-        />
-
-        <KpiCard
-          title="Average Order Value (AOV)"
-          value={metrics.averageOrderValueFormatted || 'LKR 0.00'}
-          trend={metrics.aovGrowth ?? 0}
-          trendLabel="vs previous period"
-          icon={TrendingUp}
-          variant="accent"
-          dataTestId="kpi-aov"
-        />
-
-        <KpiCard
-          title="Active Customers"
-          value={`${metrics.activeCustomers ?? 0} Customers`}
-          trend={metrics.activeCustomersGrowth ?? 0}
-          trendLabel="Registered retail buyers"
-          icon={Users}
-          variant="primary"
-          dataTestId="kpi-active-customers"
-        />
-      </div>
-
-      {/* Secondary Operational Monitoring Strip */}
-      <div className="kpi-secondary-grid">
-        <KpiCard
-          title="Low-Stock SKU Alerts"
-          value={`${metrics.lowStockCount ?? 0} Variants`}
-          trend={0}
-          trendLabel="Available stock <= 5 units"
-          icon={AlertTriangle}
-          variant="danger"
-          dataTestId="kpi-low-stock"
-        />
-
-        <KpiCard
-          title="Live Support Queue"
-          value={`${metrics.supportQueueCount ?? 0} Active Chats`}
-          trend={0}
-          trendLabel="Real-time support sessions"
-          icon={Headphones}
-          variant="warning"
-          dataTestId="kpi-support-queue"
-        />
-      </div>
-
-      {/* Revenue Trend Chart across Daily, Weekly, Monthly */}
-      <RevenueTrendChart trendData={salesTrend} isLoading={isLoading} />
-
-      {/* Recent Orders Table with Fulfillment Actions */}
-      <RecentOrdersTable orders={orders} onUpdateStatus={handleUpdateOrderStatus} />
-
-      {/* Architecture & Port Telemetry Box */}
-      <div className="telemetry-box">
-        <div className="telemetry-header">
-          <Layers size={18} color="var(--admin-primary)" />
-          <h3 className="telemetry-title">Control Room Architecture & Design Tokens</h3>
-          <span className="badge badge-success">STORM-FE-017 Verified</span>
-        </div>
-        <div className="telemetry-grid">
-          <div className="telemetry-pill">
-            <span className="telemetry-label">Background Surface</span>
-            <span className="telemetry-val">#0B0F19 (Deep Obsidian)</span>
-          </div>
-          <div className="telemetry-pill">
-            <span className="telemetry-label">Primary Highlight</span>
-            <span className="telemetry-val primary-color">#38BDF8 (Sky Blue)</span>
-          </div>
-          <div className="telemetry-pill">
-            <span className="telemetry-label">Vite Admin Console</span>
-            <span className="telemetry-val accent-color">Active (Strict)</span>
-          </div>
-          <div className="telemetry-pill">
-            <span className="telemetry-label">Backend Reverse Proxy</span>
-            <span
-              className="telemetry-val"
-              style={{ color: isBackendHealthy ? 'var(--admin-success)' : 'var(--admin-warning)' }}
+        <div className="segmented" role="group" aria-label="Date range">
+          {RANGES.map((value) => (
+            <button
+              key={value}
+              type="button"
+              className="segmented__option"
+              aria-pressed={days === value}
+              onClick={() => pickRange(value)}
             >
-              {gatewayMessage || 'Backend Online'}
-            </span>
-          </div>
+              {value} days
+            </button>
+          ))}
         </div>
       </div>
-    </div>
+      {trend.loading && <LoadingState label="Loading sales" />}
+      {trend.error && <ErrorState error={trend.error} onRetry={trend.reload} />}
+      {trend.data && <RevenueChart series={trend.data.series} />}
+    </section>
+  );
+}
+
+export default function DashboardPage() {
+  const overview = useResource(getOverview, []);
+
+  return (
+    <>
+      <PageHeader
+        eyebrow="Overview"
+        title="Dashboard"
+        description="Revenue counts paid orders only (confirmed, processing, shipped, delivered). Unpaid and cancelled orders are excluded."
+      />
+      {overview.loading && <LoadingState label="Loading the dashboard" />}
+      {overview.error && <ErrorState error={overview.error} onRetry={overview.reload} />}
+      {overview.data && <Overview data={overview.data} />}
+    </>
+  );
+}
+
+function Overview({ data }) {
+  const { metrics, top_products: topProducts, recent_orders: recentOrders } = data;
+  return (
+    <>
+      <section className="stats" aria-label="Key figures">
+        <StatTile label="Revenue (paid)" value={formatMoneyWhole(metrics.total_revenue)} />
+        <StatTile label="Paid orders" value={formatNumber(metrics.paid_orders)} to="/orders" />
+        <StatTile label="Average order" value={formatMoneyWhole(metrics.average_order_value)} />
+        <StatTile
+          label="Active customers"
+          value={formatNumber(metrics.active_customers)}
+          to="/customers"
+        />
+      </section>
+
+      <h2 className="section-title">Needs attention</h2>
+      <div className="stats stats--attention">
+        <StatTile
+          label="Awaiting payment"
+          value={formatNumber(metrics.awaiting_payment)}
+          hint="Unpaid holds expire after 15 minutes"
+          to="/orders?status=payment_pending"
+        />
+        <StatTile
+          label="Open returns"
+          value={formatNumber(metrics.open_returns)}
+          hint={`Return rate ${metrics.return_rate_percentage}% of paid orders`}
+          to="/returns"
+          tone={metrics.open_returns > 0 ? 'warning' : undefined}
+        />
+        <StatTile
+          label="Low-stock variants"
+          value={formatNumber(metrics.low_stock_count)}
+          hint={`${metrics.low_stock_threshold} or fewer available`}
+          to="/inventory?low=true"
+          tone={metrics.low_stock_count > 0 ? 'warning' : undefined}
+        />
+        <StatTile
+          label="Support queue"
+          value={formatNumber(metrics.support_queue_count)}
+          hint="Customers waiting for an agent"
+          to="/support"
+          tone={metrics.support_queue_count > 0 ? 'warning' : undefined}
+        />
+      </div>
+
+      <SalesTrend />
+
+      <div className="dashboard-grid">
+        <section className="card card--flush" aria-labelledby="recent-title">
+          <div className="card__header">
+            <h2 id="recent-title">Recent orders</h2>
+            <Link to="/orders">All orders</Link>
+          </div>
+          {recentOrders.length === 0 ? (
+            <EmptyState title="No orders yet" />
+          ) : (
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Order</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" className="num">
+                      Total
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentOrders.map((order) => (
+                    <tr key={order.id}>
+                      <td>
+                        <Link to={`/orders/${order.id}`}>{order.invoice_number}</Link>
+                        <span className="cell-sub">{formatDate(order.order_date)}</span>
+                      </td>
+                      <td>{order.customer_name}</td>
+                      <td>
+                        <StatusBadge status={order.status} />
+                      </td>
+                      <td className="num">{formatMoney(order.total_amount)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
+        <section className="card card--flush" aria-labelledby="top-title">
+          <div className="card__header">
+            <h2 id="top-title">Best sellers</h2>
+          </div>
+          {topProducts.length === 0 ? (
+            <EmptyState title="No paid sales yet" />
+          ) : (
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col" className="num">
+                      Units
+                    </th>
+                    <th scope="col" className="num">
+                      Revenue
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topProducts.map((product) => (
+                    <tr key={product.product_id}>
+                      <td>
+                        <Link to={`/products/${product.product_id}`}>{product.title}</Link>
+                      </td>
+                      <td className="num">{formatNumber(product.units_sold)}</td>
+                      <td className="num">{formatMoney(product.revenue)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      </div>
+    </>
   );
 }

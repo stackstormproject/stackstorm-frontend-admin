@@ -29,9 +29,23 @@ const createStorage = () => {
 Object.defineProperty(globalThis, 'localStorage', { value: createStorage(), configurable: true });
 Object.defineProperty(globalThis, 'sessionStorage', { value: createStorage(), configurable: true });
 
+// Node 24 (the CI runtime) builds Request with its own fetch, which rejects jsdom's
+// AbortSignal. React Router creates a Request for every navigation, so without this every
+// redirect and link fails in tests while passing on Node 22. Tests never abort a
+// navigation, so the signal is dropped before it reaches Node's Request.
+const NodeRequest = globalThis.Request;
+globalThis.Request = class Request extends NodeRequest {
+  constructor(input, init = {}) {
+    const { signal, ...rest } = init;
+    super(input, rest);
+  }
+};
+
 // jsdom does not implement these browser APIs used by the UI.
 window.HTMLElement.prototype.scrollIntoView = () => {};
 window.scrollTo = () => {};
+// axe-core probes canvas for icon fonts; jsdom has no canvas.
+window.HTMLCanvasElement.prototype.getContext = () => null;
 
 afterEach(() => {
   cleanup();
