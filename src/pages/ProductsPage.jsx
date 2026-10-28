@@ -130,6 +130,16 @@ export default function ProductsPage() {
                       <td>
                         <StatusBadge status={product.is_active ? 'active' : 'archived'} />
                         {product.is_final_sale && <span className="cell-sub">Final sale</span>}
+                        {(product.is_new_arrival || product.is_popular) && (
+                          <span className="cell-sub">
+                            {[
+                              product.is_new_arrival && 'New arrivals',
+                              product.is_popular && 'Popular',
+                            ]
+                              .filter(Boolean)
+                              .join(', ')}
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))}

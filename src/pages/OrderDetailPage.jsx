@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getOrder } from '../api/orders';
+import { FileDown } from 'lucide-react';
+import { getInvoice, getOrder } from '../api/orders';
+import { saveBlob } from '../lib/download';
 import { useResource } from '../hooks/useResource';
 import { useToast } from '../state/ToastContext';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -34,6 +36,7 @@ export default function OrderDetailPage() {
   const { orderId } = useParams();
   const order = useResource(() => getOrder(orderId), [orderId]);
   const [target, setTarget] = useState(null);
+  const [downloading, setDownloading] = useState(false);
   const toast = useToast();
 
   if (order.loading && !order.data) return <LoadingState label="Loading the order" />;
@@ -67,22 +70,50 @@ export default function OrderDetailPage() {
       ? 'Mark as collected'
       : ACTION_LABELS[status] || humanize(status);
 
+  // #179: the same PDF invoice the customer downloads.
+  const downloadInvoice = async () => {
+    setDownloading(true);
+    try {
+      saveBlob(await getInvoice(data.id), `${data.invoice_number}.pdf`);
+    } catch (err) {
+      toast.error(
+        err.status === 409 ? 'The invoice is ready once the order is paid.' : err.message
+      );
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <>
       <PageHeader
         back={{ to: '/orders', label: 'All orders' }}
         eyebrow={`Placed ${formatDateTime(data.order_date)}`}
         title={data.invoice_number}
-        actions={data.allowed_statuses.map((status) => (
-          <button
-            key={status}
-            type="button"
-            className={`btn ${status === 'cancelled' ? 'btn--secondary' : 'btn--primary'}`}
-            onClick={() => setTarget(status)}
-          >
-            {actionLabel(status)}
-          </button>
-        ))}
+        actions={[
+          data.status !== 'payment_pending' && (
+            <button
+              key="invoice"
+              type="button"
+              className="btn btn--secondary"
+              disabled={downloading}
+              onClick={downloadInvoice}
+            >
+              <FileDown size={16} aria-hidden="true" />
+              {downloading ? 'Preparing…' : 'Invoice (PDF)'}
+            </button>
+          ),
+          ...data.allowed_statuses.map((status) => (
+            <button
+              key={status}
+              type="button"
+              className={`btn ${status === 'cancelled' ? 'btn--secondary' : 'btn--primary'}`}
+              onClick={() => setTarget(status)}
+            >
+              {actionLabel(status)}
+            </button>
+          )),
+        ].filter(Boolean)}
       />
       <p className="order-status">
         Status <StatusBadge status={data.status} />
