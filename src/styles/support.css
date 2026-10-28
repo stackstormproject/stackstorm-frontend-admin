@@ -169,7 +169,7 @@
 
 .message--agent .message__text {
   background: var(--primary-soft);
-  border-color: rgba(56, 189, 248, 0.35);
+  border-color: #93c5fd;
 }
 
 .message--bot .message__text {

@@ -1,37 +1,49 @@
-/* Admin console design tokens (team palette from the original admin-tokens.css:
-   dark operations surfaces, sky-blue actions, Ceylon gold brand accent). */
+/* Admin console design tokens (#178): a light working area with white cards, a royal-blue
+   sidebar, blue actions and the shop's Ceylon gold as the brand accent. */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --bg: #0b0f19;
-  --bg-alt: #0f172a;
-  --surface: #151d2f;
-  --surface-raised: #192338;
-  --surface-hover: #1e293b;
-  --border: #24344d;
-  --border-strong: #334766;
+  /* Light working area (#178): white cards on a pale page, ink text */
+  --bg: #f4f6fb;
+  --bg-alt: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #f8fafc;
+  --surface-hover: #eef2f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
 
-  --text: #f8fafc;
-  --text-muted: #a7b4c8;
-  --text-faint: #8193ab;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #64748b;
 
-  --primary: #38bdf8;
-  --primary-hover: #7dd3fc;
-  --primary-ink: #04121c;
-  --primary-soft: rgba(56, 189, 248, 0.12);
-  --accent: #d4af37;
-  --accent-soft: rgba(212, 175, 55, 0.14);
+  --primary: #1d4ed8;
+  --primary-hover: #1e40af;
+  --primary-ink: #ffffff;
+  --primary-soft: rgba(29, 78, 216, 0.1);
+  --accent: #8a6a12;
+  --accent-soft: rgba(212, 175, 55, 0.18);
 
-  --success: #34d399;
-  --success-soft: rgba(52, 211, 153, 0.14);
-  --warning: #fbbf24;
-  --warning-soft: rgba(251, 191, 36, 0.14);
-  --danger: #f87171;
-  --danger-strong: #dc2626;
-  --danger-soft: rgba(248, 113, 113, 0.14);
-  --info: #38bdf8;
-  --info-soft: rgba(56, 189, 248, 0.14);
-  --neutral-soft: rgba(167, 180, 200, 0.12);
+  --success: #047857;
+  --success-soft: #ecfdf5;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --danger: #b91c1c;
+  --danger-strong: #b91c1c;
+  --danger-soft: #fef2f2;
+  --info: #1d4ed8;
+  --info-soft: #eff6ff;
+  --neutral-soft: #f1f5f9;
+
+  /* The blue sidebar */
+  --sidebar-bg: linear-gradient(180deg, #1e3a8a 0%, #172f73 100%);
+  --sidebar-solid: #1e3a8a;
+  --sidebar-text: #ffffff;
+  --sidebar-muted: #c7d4f5;
+  --sidebar-faint: #9fb3e8;
+  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-active: rgba(255, 255, 255, 0.16);
+  --sidebar-line: rgba(255, 255, 255, 0.14);
+  --gold: #d4af37;
 
   --font-heading: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -58,9 +70,10 @@
   --radius-lg: 14px;
   --radius-full: 999px;
 
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);
-  --focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.55);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 18px 40px rgba(15, 23, 42, 0.18);
+  --focus-ring: 0 0 0 3px rgba(29, 78, 216, 0.4);
 
   --sidebar-width: 248px;
   --content-max: 1280px;
