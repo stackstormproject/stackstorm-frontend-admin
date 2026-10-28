@@ -11,8 +11,18 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg-alt);
-  border-right: 1px solid var(--border);
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  /* Inside the sidebar the shared tokens switch to their on-blue values. */
+  --text: var(--sidebar-text);
+  --text-muted: var(--sidebar-muted);
+  --text-faint: var(--sidebar-faint);
+  --surface-hover: var(--sidebar-hover);
+  --border: var(--sidebar-line);
+  --bg-alt: var(--sidebar-solid);
+  --accent-soft: rgba(212, 175, 55, 0.22);
+  --accent: var(--gold);
+  --focus-ring: 0 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .brand {
@@ -79,6 +89,7 @@
 }
 
 .nav__link {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -96,8 +107,20 @@
 }
 
 .nav__link.active {
-  background: var(--primary-soft);
-  color: var(--primary);
+  background: var(--sidebar-active);
+  color: var(--sidebar-text);
+  font-weight: 600;
+}
+
+.nav__link.active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--gold);
 }
 
 .nav__link svg {
@@ -148,6 +171,7 @@
 .main {
   min-width: 0;
   padding: var(--space-8) var(--space-8) var(--space-10);
+  background: var(--bg);
 }
 
 .main__inner {
@@ -174,8 +198,14 @@
     justify-content: space-between;
     gap: var(--space-3);
     padding: var(--space-2) var(--space-4);
-    background: var(--bg-alt);
-    border-bottom: 1px solid var(--border);
+    background: var(--sidebar-solid);
+    color: var(--sidebar-text);
+    --text: var(--sidebar-text);
+    --text-muted: var(--sidebar-muted);
+    --surface-hover: var(--sidebar-hover);
+    --border: var(--sidebar-line);
+    --bg-alt: var(--sidebar-solid);
+    --accent: var(--gold);
   }
 
   .topbar .brand {
@@ -205,7 +235,7 @@
     position: fixed;
     inset: 0;
     z-index: 35;
-    background: rgba(3, 6, 12, 0.6);
+    background: rgba(15, 23, 42, 0.45);
     border: 0;
   }
 
@@ -220,9 +250,11 @@
   display: grid;
   place-items: center;
   padding: var(--space-6) var(--space-4);
-  background:
-    radial-gradient(60rem 30rem at 85% -10%, rgba(56, 189, 248, 0.08), transparent 60%),
-    radial-gradient(40rem 24rem at -10% 110%, rgba(212, 175, 55, 0.08), transparent 60%), var(--bg);
+  background: linear-gradient(160deg, #1e3a8a 0%, #172f73 38%, transparent 38.2%), var(--bg);
+}
+
+.login__panel .card {
+  box-shadow: var(--shadow-lg);
 }
 
 .login__panel {
@@ -234,6 +266,10 @@
 
 .login__panel .brand {
   padding: 0;
+  --text: #ffffff;
+  --text-muted: #c7d4f5;
+  --accent: var(--gold);
+  --bg-alt: var(--sidebar-solid);
 }
 
 .login__form {

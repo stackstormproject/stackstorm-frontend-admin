@@ -69,11 +69,11 @@
   }
 }
 
-/* ---------- Chart (validated: #2b9fd6 in the lightness band and >= 3:1 on --surface) ---------- */
+/* ---------- Chart (#2563eb is >= 3:1 on the white --surface) ---------- */
 .chart {
   position: relative;
-  --chart-series: #2b9fd6;
-  --chart-series-hover: #38bdf8;
+  --chart-series: #2563eb;
+  --chart-series-hover: #1e40af;
 }
 
 .chart__scroll {
