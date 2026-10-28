@@ -9,6 +9,9 @@ import OrdersPage from './pages/OrdersPage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import ReturnsPage from './pages/ReturnsPage';
 import ReturnDetailPage from './pages/ReturnDetailPage';
+import ProductsPage from './pages/ProductsPage';
+import ProductNewPage from './pages/ProductNewPage';
+import ProductEditPage from './pages/ProductEditPage';
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
 
@@ -32,6 +35,9 @@ export const routes = [
       { path: 'orders/:orderId', element: managersOnly(<OrderDetailPage />) },
       { path: 'returns', element: managersOnly(<ReturnsPage />) },
       { path: 'returns/:returnId', element: managersOnly(<ReturnDetailPage />) },
+      { path: 'products', element: managersOnly(<ProductsPage />) },
+      { path: 'products/new', element: managersOnly(<ProductNewPage />) },
+      { path: 'products/:productId', element: managersOnly(<ProductEditPage />) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
