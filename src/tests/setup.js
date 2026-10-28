@@ -44,6 +44,8 @@ globalThis.Request = class Request extends NodeRequest {
 // jsdom does not implement these browser APIs used by the UI.
 window.HTMLElement.prototype.scrollIntoView = () => {};
 window.scrollTo = () => {};
+// axe-core probes canvas for icon fonts; jsdom has no canvas.
+window.HTMLCanvasElement.prototype.getContext = () => null;
 
 afterEach(() => {
   cleanup();
