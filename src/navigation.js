@@ -3,6 +3,7 @@ import {
   Headset,
   LayoutDashboard,
   Package,
+  Percent,
   ShoppingBag,
   Tags,
   Undo2,
@@ -36,6 +37,11 @@ export const NAV_GROUPS = [
       { to: '/brands', label: 'Brands', icon: Tags },
       { to: '/inventory', label: 'Stock', icon: Boxes },
     ],
+  },
+  {
+    heading: 'Marketing',
+    roles: MANAGER_ROLES,
+    items: [{ to: '/promo-codes', label: 'Promo codes', icon: Percent }],
   },
   {
     heading: 'Customers',
