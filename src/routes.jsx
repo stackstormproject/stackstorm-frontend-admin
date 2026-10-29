@@ -17,6 +17,7 @@ import ProductEditPage from './pages/ProductEditPage';
 import InventoryPage from './pages/InventoryPage';
 import CustomersPage from './pages/CustomersPage';
 import CustomerDetailPage from './pages/CustomerDetailPage';
+import BannersPage from './pages/BannersPage';
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
 
@@ -53,6 +54,7 @@ export const routes = [
       { path: 'inventory', element: managersOnly(<InventoryPage />) },
       { path: 'customers', element: managersOnly(<CustomersPage />) },
       { path: 'customers/:customerId', element: managersOnly(<CustomerDetailPage />) },
+      { path: 'banners', element: managersOnly(<BannersPage />) },
       {
         path: 'support',
         // Loaded on demand: socket.io is only needed by the support console.
