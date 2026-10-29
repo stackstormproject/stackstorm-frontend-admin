@@ -144,6 +144,8 @@ describe('new product', () => {
       is_final_sale: true,
       is_new_arrival: false,
       is_popular: false,
+      on_sale: false,
+      discount_percentage: null,
       variants: [{ size: 'M', color: 'Sand', additional_price: 0, stock_quantity: 8 }],
     });
     expect(
