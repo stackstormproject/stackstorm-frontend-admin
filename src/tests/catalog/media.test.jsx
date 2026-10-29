@@ -161,6 +161,77 @@ describe('product form with photos, sections and brand', () => {
     );
   });
 
+  it('should put a product on sale with a discount percentage (#203)', async () => {
+    const user = userEvent.setup();
+    const product = {
+      id: 14,
+      name: 'Galle Fort Linen Shirt',
+      price: 5200,
+      category_id: 12,
+      is_active: true,
+      primary_image: '/api/v1/media/products/a.jpg',
+      gallery_images: [],
+      on_sale: false,
+      discount_percentage: null,
+      variants: [{ id: 30, size: 'M', available: 3, stock_quantity: 3, reserved_quantity: 0 }],
+    };
+    productsApi.listCategories.mockResolvedValue([]);
+    productsApi.getProduct.mockResolvedValue(product);
+    productsApi.updateProduct.mockResolvedValue(product);
+    productsApi.listBrands.mockResolvedValue([]);
+    renderApp('/products/14');
+
+    await screen.findByLabelText('Product name');
+    await user.click(screen.getByLabelText('On sale'));
+    await user.type(screen.getByLabelText('Discount percentage'), '20');
+    await user.click(screen.getByRole('button', { name: 'Save details' }));
+
+    await waitFor(() =>
+      expect(productsApi.updateProduct).toHaveBeenCalledWith(
+        14,
+        expect.objectContaining({ on_sale: true, discount_percentage: 20 })
+      )
+    );
+  });
+
+  it('should refuse an out-of-range discount and clear it when sale is unticked', async () => {
+    const user = userEvent.setup();
+    const product = {
+      id: 14,
+      name: 'Galle Fort Linen Shirt',
+      price: 5200,
+      category_id: 12,
+      is_active: true,
+      on_sale: true,
+      discount_percentage: 20,
+      variants: [{ id: 30, size: 'M', available: 3, stock_quantity: 3, reserved_quantity: 0 }],
+    };
+    productsApi.listCategories.mockResolvedValue([]);
+    productsApi.getProduct.mockResolvedValue(product);
+    productsApi.updateProduct.mockResolvedValue(product);
+    productsApi.listBrands.mockResolvedValue([]);
+    renderApp('/products/14');
+
+    const discount = await screen.findByLabelText('Discount percentage');
+    expect(discount).toHaveValue(20);
+    await user.clear(discount);
+    await user.type(discount, '95');
+    await user.click(screen.getByRole('button', { name: 'Save details' }));
+    expect(await screen.findByText('Enter a discount of 1-90%.')).toBeInTheDocument();
+    expect(productsApi.updateProduct).not.toHaveBeenCalled();
+
+    await user.click(screen.getByLabelText('On sale'));
+    expect(screen.queryByLabelText('Discount percentage')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Save details' }));
+
+    await waitFor(() =>
+      expect(productsApi.updateProduct).toHaveBeenCalledWith(
+        14,
+        expect.objectContaining({ on_sale: false, discount_percentage: null })
+      )
+    );
+  });
+
   it('should ask for a main photo before extra photos', async () => {
     const { validateProduct, emptyProduct } = await import('../../lib/productForm');
     expect(

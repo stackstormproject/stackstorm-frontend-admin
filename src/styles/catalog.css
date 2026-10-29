@@ -170,6 +170,26 @@
   margin-bottom: var(--space-2);
 }
 
+/* Sale toggle on the product form (#203) */
+.sale-field {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3) var(--space-6);
+}
+
+.sale-field legend {
+  width: 100%;
+  margin-bottom: var(--space-2);
+}
+
+.sale-field .field {
+  min-width: 220px;
+}
+
 /* Brands page */
 .logo-field {
   display: flex;
