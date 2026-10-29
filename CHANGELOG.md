@@ -28,6 +28,9 @@ All notable changes to the admin console. Format:
   order (#179)
 - Change an order's status from the order list: a "Change to…" menu beside each status offers
   only the allowed next statuses and confirms in the same dialog as the order page (#184)
+- A "Banners" page under a new "Marketing" section manages the shop's three home page hero
+  banners by slot: title, subtitle, image, button text/link and active state, or cleared back
+  to the default slide (#204)
 
 ### Changed
 
