@@ -28,6 +28,9 @@ All notable changes to the admin console. Format:
   order (#179)
 - Change an order's status from the order list: a "Change to…" menu beside each status offers
   only the allowed next statuses and confirms in the same dialog as the order page (#184)
+- A "Promo codes" page under the "Marketing" section creates, edits, enables/disables and
+  deletes codes with a discount type/value, minimum order amount, maximum discount, validity
+  dates and a usage limit, and shows how many times each has been used (#205)
 
 ### Changed
 

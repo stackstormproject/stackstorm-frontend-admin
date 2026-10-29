@@ -208,6 +208,7 @@ describe('shell and roles', () => {
       'Products',
       'Brands',
       'Stock',
+      'Promo codes',
       'Customers',
       'Live support',
     ]);
