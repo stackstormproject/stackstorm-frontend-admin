@@ -4,6 +4,7 @@ import {
   Image,
   LayoutDashboard,
   Package,
+  Percent,
   ShoppingBag,
   Tags,
   Undo2,
@@ -41,7 +42,10 @@ export const NAV_GROUPS = [
   {
     heading: 'Marketing',
     roles: MANAGER_ROLES,
-    items: [{ to: '/banners', label: 'Banners', icon: Image }],
+    items: [
+      { to: '/promo-codes', label: 'Promo codes', icon: Percent },
+      { to: '/banners', label: 'Banners', icon: Image },
+    ],
   },
   {
     heading: 'Customers',
