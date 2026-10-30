@@ -118,7 +118,12 @@ export default function ProductsPage() {
                         </div>
                       </td>
                       <td>{product.category_name || '—'}</td>
-                      <td className="num">{formatMoney(product.price)}</td>
+                      <td className="num">
+                        {formatMoney(product.price)}
+                        {product.on_sale && (
+                          <span className="cell-sub">-{product.discount_percentage}%</span>
+                        )}
+                      </td>
                       <td className="num">{product.variants.length}</td>
                       <td className="num">
                         {product.total_available === 0 ? (
