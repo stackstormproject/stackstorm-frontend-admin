@@ -5,7 +5,9 @@ import { Search } from 'lucide-react';
 export function SearchForm({ label, placeholder, value, onSearch }) {
   const id = useId();
   const [text, setText] = useState(value);
-  useEffect(() => setText(value), [value]);
+  useEffect(() => {
+    setText(value);
+  }, [value]);
 
   return (
     <form
