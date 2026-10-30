@@ -1,6 +1,7 @@
 import {
   Boxes,
   Headset,
+  Image,
   LayoutDashboard,
   Package,
   ShoppingBag,
@@ -36,6 +37,11 @@ export const NAV_GROUPS = [
       { to: '/brands', label: 'Brands', icon: Tags },
       { to: '/inventory', label: 'Stock', icon: Boxes },
     ],
+  },
+  {
+    heading: 'Marketing',
+    roles: MANAGER_ROLES,
+    items: [{ to: '/banners', label: 'Banners', icon: Image }],
   },
   {
     heading: 'Customers',
