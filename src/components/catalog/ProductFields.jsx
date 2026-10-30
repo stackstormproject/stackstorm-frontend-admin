@@ -5,6 +5,14 @@ import { LIMITS } from '../../lib/productForm';
 
 /** The product's own fields, shared by the create and edit pages. */
 export function ProductFields({ values, errors, onChange, categories, brands = [] }) {
+  const toggleOnSale = (event) => {
+    const onSale = event.target.checked;
+    onChange({
+      ...values,
+      on_sale: onSale,
+      discount_percentage: onSale ? values.discount_percentage : '',
+    });
+  };
   const brandNames = brands.map((b) => b.name);
   const unknownBrand = values.brand && !brandNames.includes(values.brand);
   const set = (field) => (event) =>
@@ -111,6 +119,28 @@ export function ProductFields({ values, errors, onChange, categories, brands = [
         <input type="checkbox" checked={values.is_final_sale} onChange={set('is_final_sale')} />
         Final sale: cannot be returned or exchanged
       </label>
+      <fieldset className="form-grid__wide sale-field">
+        <legend className="field__label">Sale (#203)</legend>
+        <label className="checkbox">
+          <input type="checkbox" checked={values.on_sale} onChange={toggleOnSale} />
+          On sale
+        </label>
+        {values.on_sale && (
+          <FormField
+            label="Discount percentage"
+            type="number"
+            inputMode="decimal"
+            min="1"
+            max="90"
+            step="0.01"
+            value={values.discount_percentage}
+            onChange={set('discount_percentage')}
+            error={errors.discount_percentage}
+            hint="Applied to the base price; appears in the shop's “Sale” section."
+            required
+          />
+        )}
+      </fieldset>
       <fieldset className="form-grid__wide sections-field">
         <legend className="field__label">Home page sections</legend>
         <label className="checkbox">
