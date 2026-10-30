@@ -1,6 +1,7 @@
 import {
   Boxes,
   Headset,
+  Image,
   LayoutDashboard,
   Package,
   Percent,
@@ -41,7 +42,11 @@ export const NAV_GROUPS = [
   {
     heading: 'Marketing',
     roles: MANAGER_ROLES,
+ feature/205-promo-code-manager
     items: [{ to: '/promo-codes', label: 'Promo codes', icon: Percent }],
+
+    items: [{ to: '/banners', label: 'Banners', icon: Image }],
+ develop
   },
   {
     heading: 'Customers',

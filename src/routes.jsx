@@ -17,7 +17,11 @@ import ProductEditPage from './pages/ProductEditPage';
 import InventoryPage from './pages/InventoryPage';
 import CustomersPage from './pages/CustomersPage';
 import CustomerDetailPage from './pages/CustomerDetailPage';
+ feature/205-promo-code-manager
 import PromoCodesPage from './pages/PromoCodesPage';
+
+import BannersPage from './pages/BannersPage';
+ develop
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
 
@@ -54,7 +58,11 @@ export const routes = [
       { path: 'inventory', element: managersOnly(<InventoryPage />) },
       { path: 'customers', element: managersOnly(<CustomersPage />) },
       { path: 'customers/:customerId', element: managersOnly(<CustomerDetailPage />) },
+ feature/205-promo-code-manager
       { path: 'promo-codes', element: managersOnly(<PromoCodesPage />) },
+
+      { path: 'banners', element: managersOnly(<BannersPage />) },
+ develop
       {
         path: 'support',
         // Loaded on demand: socket.io is only needed by the support console.

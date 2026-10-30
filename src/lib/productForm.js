@@ -28,6 +28,8 @@ export const emptyProduct = () => ({
   is_final_sale: false,
   is_new_arrival: false,
   is_popular: false,
+  on_sale: false,
+  discount_percentage: '',
 });
 
 export const emptyVariant = () => ({
@@ -51,6 +53,9 @@ export const productToForm = (product) => ({
   is_final_sale: Boolean(product.is_final_sale),
   is_new_arrival: Boolean(product.is_new_arrival),
   is_popular: Boolean(product.is_popular),
+  on_sale: Boolean(product.on_sale),
+  discount_percentage:
+    product.discount_percentage != null ? String(product.discount_percentage) : '',
 });
 
 const isMoney = (value, { allowZero }) => {
@@ -73,6 +78,13 @@ export const validateProduct = (values) => {
   if (image && !IMAGE_PATTERN.test(image)) errors.primary_image = 'Upload the photo again.';
   if (!image && values.gallery_images.length) {
     errors.primary_image = 'Add a main photo before the extra photos.';
+  }
+  // #203: same 1-90 range as adminProduct.service's sale validation.
+  if (values.on_sale) {
+    const pct = Number(values.discount_percentage);
+    if (!Number.isFinite(pct) || pct <= 0 || pct > 90) {
+      errors.discount_percentage = 'Enter a discount of 1-90%.';
+    }
   }
   return errors;
 };
@@ -119,6 +131,8 @@ export const productPayload = (values) => ({
   is_final_sale: values.is_final_sale,
   is_new_arrival: values.is_new_arrival,
   is_popular: values.is_popular,
+  on_sale: values.on_sale,
+  discount_percentage: values.on_sale ? Number(values.discount_percentage) : null,
 });
 
 export const variantPayload = (variant, { withStock = true } = {}) => ({
