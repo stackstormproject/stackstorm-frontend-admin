@@ -42,7 +42,10 @@ globalThis.Request = class Request extends NodeRequest {
 };
 
 // jsdom does not implement these browser APIs used by the UI.
-window.HTMLElement.prototype.scrollIntoView = () => {};
+// Real Chrome does not return undefined from scrollIntoView() (confirmed empirically), so a
+// non-function return here catches any `useEffect(() => el.scrollIntoView(...), deps)` that
+// would throw "destroy is not a function" in production React but not in jsdom (#15).
+window.HTMLElement.prototype.scrollIntoView = () => ({});
 window.scrollTo = () => {};
 // axe-core probes canvas for icon fonts; jsdom has no canvas.
 window.HTMLCanvasElement.prototype.getContext = () => null;
