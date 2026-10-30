@@ -28,6 +28,8 @@ All notable changes to the admin console. Format:
   order (#179)
 - Change an order's status from the order list: a "Change to…" menu beside each status offers
   only the allowed next statuses and confirms in the same dialog as the order page (#184)
+- An "On sale" toggle on the product form with a 1-90% discount percentage, shown as a badge
+  next to the price on the products list (#203)
 
 ### Changed
 
