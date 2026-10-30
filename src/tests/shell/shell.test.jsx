@@ -208,11 +208,8 @@ describe('shell and roles', () => {
       'Products',
       'Brands',
       'Stock',
- feature/205-promo-code-manager
       'Promo codes',
-
       'Banners',
- develop
       'Customers',
       'Live support',
     ]);
