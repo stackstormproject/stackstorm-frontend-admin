@@ -17,6 +17,7 @@ import ProductEditPage from './pages/ProductEditPage';
 import InventoryPage from './pages/InventoryPage';
 import CustomersPage from './pages/CustomersPage';
 import CustomerDetailPage from './pages/CustomerDetailPage';
+import PromoCodesPage from './pages/PromoCodesPage';
 import BannersPage from './pages/BannersPage';
 
 const managersOnly = (element) => <RequireRole roles={MANAGER_ROLES}>{element}</RequireRole>;
@@ -54,6 +55,7 @@ export const routes = [
       { path: 'inventory', element: managersOnly(<InventoryPage />) },
       { path: 'customers', element: managersOnly(<CustomersPage />) },
       { path: 'customers/:customerId', element: managersOnly(<CustomerDetailPage />) },
+      { path: 'promo-codes', element: managersOnly(<PromoCodesPage />) },
       { path: 'banners', element: managersOnly(<BannersPage />) },
       {
         path: 'support',
