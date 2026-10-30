@@ -8,7 +8,9 @@ const MAX_MESSAGE = 1000;
 
 function MessageList({ messages }) {
   const endRef = useRef(null);
-  useEffect(() => endRef.current?.scrollIntoView({ block: 'end' }), [messages.length]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ block: 'end' });
+  }, [messages.length]);
   return (
     <ol className="messages" aria-label="Messages">
       {messages.map((message) => (
