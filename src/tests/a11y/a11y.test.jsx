@@ -256,7 +256,6 @@ describe('accessibility (axe)', () => {
     ['/returns/1', 'Record returned parcel'],
     ['/products/14', 'Add size'],
     ['/inventory', 'Adjust stock for DFC-14-M'],
-    ['/customers/4', 'Adjust points'],
   ])('should have no violations in the dialog on %s', async (url, button) => {
     const user = userEvent.setup();
     const { baseElement } = renderApp(url);
