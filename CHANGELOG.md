@@ -50,6 +50,8 @@ All notable changes to the admin console. Format:
 - Calls to routes the backend does not serve (`/loyalty/*`, `/inventory/adjust`,
   `PATCH /admin/returns/:id/*`, `POST /products`) (#142)
 - The committed coverage report (#141)
+- The "Adjust points" dialog on a customer's record; points and tier are now shown
+  read-only, matching the removal of admin loyalty adjustments on the backend (#11)
 
 ### Fixed
 
