@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getCustomer } from '../api/customers';
 import { useResource } from '../hooks/useResource';
-import { useToast } from '../state/ToastContext';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
-import { PointsDialog } from '../components/customers/PointsDialog';
 import { formatDate, formatDateTime, formatMoney, formatNumber, humanize } from '../lib/format';
 
 const formatAddress = (address) =>
@@ -17,8 +14,6 @@ const formatAddress = (address) =>
 export default function CustomerDetailPage() {
   const { customerId } = useParams();
   const customer = useResource(() => getCustomer(customerId), [customerId]);
-  const [adjusting, setAdjusting] = useState(false);
-  const toast = useToast();
 
   if (customer.loading && !customer.data) return <LoadingState label="Loading the customer" />;
   if (customer.error) {
@@ -42,11 +37,6 @@ export default function CustomerDetailPage() {
         back={{ to: '/customers', label: 'All customers' }}
         eyebrow={`Customer since ${formatDate(data.registered_at)}`}
         title={data.name}
-        actions={
-          <button type="button" className="btn btn--primary" onClick={() => setAdjusting(true)}>
-            Adjust points
-          </button>
-        }
       />
 
       <div className="stats">
@@ -187,20 +177,6 @@ export default function CustomerDetailPage() {
           </section>
         </div>
       </div>
-
-      {adjusting && (
-        <PointsDialog
-          customer={data}
-          onClose={() => setAdjusting(false)}
-          onAdjusted={(updated, change) => {
-            setAdjusting(false);
-            customer.setData(updated);
-            toast.success(
-              `${change > 0 ? 'Added' : 'Removed'} ${formatNumber(Math.abs(change))} points. Balance ${formatNumber(updated.points)}`
-            );
-          }}
-        />
-      )}
     </>
   );
 }
