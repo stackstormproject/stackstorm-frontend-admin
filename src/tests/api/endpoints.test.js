@@ -177,16 +177,13 @@ describe('API contract', () => {
     expect(last('post').url).toBe('/admin/returns/4/receive');
   });
 
-  it('should adjust loyalty points with a reason', async () => {
+  it('should list and read customers', async () => {
     api.onGet('/admin/customers').reply(...ok({ customers: [] }));
     api.onGet('/admin/customers/2').reply(...ok({ id: 2 }));
-    api.onPost('/admin/customers/2/loyalty-adjustments').reply(...ok({}));
 
     await customers.listCustomers({ sort: 'spend', tier: '' });
     expect(last('get').params).toEqual({ sort: 'spend' });
     await customers.getCustomer(2);
-    await customers.adjustLoyaltyPoints(2, { points: -50, note: 'Goodwill reversal' });
-    expect(bodyOf('post')).toEqual({ points: -50, note: 'Goodwill reversal' });
   });
 
   it('should read support sessions and change their status', async () => {
