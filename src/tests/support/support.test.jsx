@@ -215,6 +215,21 @@ describe('support console', () => {
 
     expect(socket.disconnect).toHaveBeenCalled();
   });
+
+  it('should not crash the page if the chat library throws while disconnecting (#15)', async () => {
+    // Reported crash: "Unexpected Application Error! destroy is not a function" when leaving
+    // /support - thrown from inside socket.disconnect()'s own cleanup internals, during the
+    // page's unmount effect. The library's failure must not become a page-level error screen.
+    socket.disconnect.mockImplementation(() => {
+      throw new TypeError('destroy is not a function');
+    });
+    supportApi.listSupportSessions.mockResolvedValue([]);
+    const { unmount } = renderApp('/support', { admin: ADMINS.agent });
+    await screen.findByText('Nobody is waiting.');
+
+    expect(() => unmount()).not.toThrow();
+    expect(socket.disconnect).toHaveBeenCalled();
+  });
 });
 
 describe('support message helpers', () => {

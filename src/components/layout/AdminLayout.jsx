@@ -22,7 +22,9 @@ export default function AdminLayout() {
   const groups = navigationFor(admin.role);
 
   // Close the narrow-screen drawer after navigating.
-  useEffect(() => setDrawerOpen(false), [location.pathname]);
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [location.pathname]);
 
   // Escape closes the drawer.
   useEffect(() => {
