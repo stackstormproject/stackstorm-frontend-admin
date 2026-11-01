@@ -40,14 +40,14 @@
   color: var(--text);
 }
 
-/* The brand mark: a gold loom shuttle, the one decorative element in the console. */
 .brand__mark {
   flex: none;
   width: 34px;
   height: 34px;
   border-radius: var(--radius-sm);
-  background:
-    linear-gradient(135deg, transparent 42%, var(--bg-alt) 42% 58%, transparent 58%), var(--accent);
+  background: #fff;
+  object-fit: contain;
+  padding: 2px;
 }
 
 .brand__name {
