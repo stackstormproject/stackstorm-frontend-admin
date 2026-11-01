@@ -83,7 +83,15 @@ export default function SupportPage() {
   useEffect(() => {
     const socket = createSupportSocket({ onEvent: handleEvent, onStatus: setConnection });
     socketRef.current = socket;
-    return () => socket.disconnect();
+    return () => {
+      // #15: a teardown error here must never take down the whole page - the operator has
+      // already navigated away, so the socket going away uncleanly isn't worth an error screen.
+      try {
+        socket.disconnect();
+      } catch {
+        // already disconnecting/disconnected
+      }
+    };
   }, [handleEvent]);
 
   // A typing indicator that never got its "stopped" event clears itself.
