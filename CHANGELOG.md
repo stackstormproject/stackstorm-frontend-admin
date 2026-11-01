@@ -60,11 +60,8 @@ All notable changes to the admin console. Format:
 - Live support could crash the whole page ("destroy is not a function") when leaving the
   console while the chat socket was mid-teardown; a failure there is now contained instead of
   taking down the page (#15)
- fix/1-brand-logo
 - The shop's real logo now replaces the placeholder brand mark in the sidebar and sign-in
   page (#1)
-
- develop
 
 ### Security
 
