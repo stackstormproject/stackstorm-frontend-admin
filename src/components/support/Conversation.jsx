@@ -9,6 +9,9 @@ const MAX_MESSAGE = 1000;
 function MessageList({ messages }) {
   const endRef = useRef(null);
   useEffect(() => {
+    // #15: never let the browser's return value from scrollIntoView() become the effect's
+    // cleanup function - if it's ever non-undefined, React throws "destroy is not a function"
+    // when this component unmounts.
     endRef.current?.scrollIntoView({ block: 'end' });
   }, [messages.length]);
   return (

@@ -29,7 +29,9 @@ function DetailsForm({ product, categories, brands, onSaved }) {
   const toast = useToast();
 
   // Pick up server changes (e.g. after archiving) without losing the form identity.
-  useEffect(() => setValues(productToForm(product)), [product]);
+  useEffect(() => {
+    setValues(productToForm(product));
+  }, [product]);
 
   const submit = async (event) => {
     event.preventDefault();
