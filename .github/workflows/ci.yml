@@ -18,9 +18,8 @@ on:
 concurrency:
   group: frontend-admin-ci-${{ github.ref }}
   cancel-in-progress: false
-  queue: max
 
 jobs:
   frontend-ci:
-    uses: stackstormproject/infra/.github/workflows/frontend-ci.yml@v1
+    uses: stackstormproject/infra/.github/workflows/frontend-ci.yml@main
     secrets: inherit
