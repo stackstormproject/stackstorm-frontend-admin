@@ -1,0 +1,81 @@
+/* Admin console design tokens (#178): a light working area with white cards, a royal-blue
+   sidebar, blue actions and the shop's Ceylon gold as the brand accent. */
+:root {
+  color-scheme: light;
+
+  /* Light working area (#178): white cards on a pale page, ink text */
+  --bg: #f4f6fb;
+  --bg-alt: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #f8fafc;
+  --surface-hover: #eef2f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #64748b;
+
+  --primary: #1d4ed8;
+  --primary-hover: #1e40af;
+  --primary-ink: #ffffff;
+  --primary-soft: rgba(29, 78, 216, 0.1);
+  --accent: #8a6a12;
+  --accent-soft: rgba(212, 175, 55, 0.18);
+
+  --success: #047857;
+  --success-soft: #ecfdf5;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --danger: #b91c1c;
+  --danger-strong: #b91c1c;
+  --danger-soft: #fef2f2;
+  --info: #1d4ed8;
+  --info-soft: #eff6ff;
+  --neutral-soft: #f1f5f9;
+
+  /* The blue sidebar */
+  --sidebar-bg: linear-gradient(180deg, #1e3a8a 0%, #172f73 100%);
+  --sidebar-solid: #1e3a8a;
+  --sidebar-text: #ffffff;
+  --sidebar-muted: #c7d4f5;
+  --sidebar-faint: #9fb3e8;
+  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-active: rgba(255, 255, 255, 0.16);
+  --sidebar-line: rgba(255, 255, 255, 0.14);
+  --gold: #d4af37;
+
+  --font-heading: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 18px 40px rgba(15, 23, 42, 0.18);
+  --focus-ring: 0 0 0 3px rgba(29, 78, 216, 0.4);
+
+  --sidebar-width: 248px;
+  --content-max: 1280px;
+  --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}

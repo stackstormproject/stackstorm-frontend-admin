@@ -1,0 +1,26 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - 'feature/**'
+      - 'fix/**'
+      - 'hotfix/**'
+      - 'release/**'
+      - 'chore/**'
+  pull_request:
+    branches:
+      - develop
+      - main
+
+concurrency:
+  group: frontend-admin-ci-${{ github.ref }}
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  frontend-ci:
+    uses: stackstormproject/infra/.github/workflows/frontend-ci.yml@v1
+    secrets: inherit
