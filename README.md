@@ -39,29 +39,32 @@ available for your role".
 
 ## Run it on a fresh machine
 
-\```bash
+```bash
+
 # 1. Backend (in another terminal) - see the backend README for details
+
 git clone https://github.com/stackstormproject/infra.git && cd infra && docker compose up -d && cd ..
 git clone https://github.com/stackstormproject/backend.git && cd backend
-cp .env.example .env            # set JWT_SECRET, SEED_ADMIN_PASSWORD, SEED_CUSTOMER_PASSWORD
+cp .env.example .env # set JWT_SECRET, SEED_ADMIN_PASSWORD, SEED_CUSTOMER_PASSWORD
 npm ci && npx sequelize-cli db:migrate && npm run db:seed && npm run dev
 
 # 2. Admin console
+
 git clone https://github.com/stackstormproject/stackstorm-frontend-admin.git
 cd stackstorm-frontend-admin
-cp .env.example .env.local      # defaults work locally
+cp .env.example .env.local # defaults work locally
 npm ci
-npm run dev                     # http://localhost:5174 (proxies /api and /socket.io to :5000)
-\```
+npm run dev # http://localhost:5174 (proxies /api and /socket.io to :5000)
+```
 
 Sign in with a seeded staff account. Locally, the password is the `SEED_ADMIN_PASSWORD` you
 set in the backend `.env`. On the live deployment (https://admin.stackstorm.live/), use the
 demo password below:
 
 | Account                 | Role          | Demo password (live deployment) |
-| ----------------------- | ------------- | -------------------------------- |
-| `admin@stackstorm.lk`   | super_admin   | `NewPassword123`                 |
-| `support@stackstorm.lk` | support_agent | `NewPassword123`                 |
+| ----------------------- | ------------- | ------------------------------- |
+| `admin@stackstorm.lk`   | super_admin   | `NewPassword123`                |
+| `support@stackstorm.lk` | support_agent | `NewPassword123`                |
 
 These are seed/demo credentials for grading and review, not a production secret, and no
 password is otherwise stored in this repository.
@@ -123,19 +126,19 @@ E2E only: `E2E_ADMIN_PASSWORD` (required), `E2E_BASE_URL`, `E2E_API_URL`,
   refund, product and stock, return with refund, live chat with a real shopper socket.
   Runs nightly against staging (`.github/workflows/e2e.yml`)
 
-\```bash
+```bash
 E2E_ADMIN_PASSWORD='<SEED_ADMIN_PASSWORD>' npm run test:e2e
-\```
+```
 
 The order flows pay through the backend's mock payment provider, so run them against an API
 without a live Stripe key.
 
 ## Docker
 
-\```bash
+```bash
 docker build -t stackstorm-admin .
-docker run --rm stackstorm-admin nginx -t     # validate the nginx config
-\```
+docker run --rm stackstorm-admin nginx -t # validate the nginx config
+```
 
 nginx serves the bundle, proxies `/api` and `/socket.io` to the `backend` service, sends
 security headers (CSP with no third-party scripts, `frame-ancestors 'none'`, `noindex`) and
